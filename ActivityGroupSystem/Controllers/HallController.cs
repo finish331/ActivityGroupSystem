@@ -11,8 +11,16 @@ using ActivityGroupSystem.Models;
 
 namespace ActivityGroupSystem.Controllers
 {
-    public class HomeController : Controller
+    public class HallController : Controller
     {
+        private AvtivityHandler avtivityHandler;
+        private MemberHandler memberHandler;
+        public HallController()
+        {
+            avtivityHandler = new AvtivityHandler();
+            memberHandler = new MemberHandler();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -50,7 +58,8 @@ namespace ActivityGroupSystem.Controllers
 
             //Pass data to the view
             ViewBag.CurrentUser = userId;
-            ViewBag.Test = timestampList.OrderByDescending(x => x);
+            //ViewBag.Test = timestampList.OrderByDescending(x => x);
+            ViewBag.Test = timestampList;
             return View();
         }
 
