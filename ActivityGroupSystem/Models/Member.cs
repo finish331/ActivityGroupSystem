@@ -13,12 +13,23 @@ namespace ActivityGroupSystem.Models
         private List<string> _blackList = new List<string>();
         private List<string> _invitedList = new List<string>();
 
+        /*Willie Start*/
         public string MemberId
         {
             get
             {
-                return memberId;
+                return _memberId;
             }
         }
+
+        public List<string> BlackList
+        {
+            get
+            {
+                return _blackList;
+            }
+        }
+
+        /*Willie End*/
     }
 }
