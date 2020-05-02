@@ -13,12 +13,12 @@ namespace ActivityGroupSystem.Controllers
 {
     public class HallController : Controller
     {
-        private AvtivityHandler avtivityHandler;
-        private MemberHandler memberHandler;
+        private AvtivityHandler _avtivityHandler;
+        private MemberHandler _memberHandler;
         public HallController()
         {
-            avtivityHandler = new AvtivityHandler();
-            memberHandler = new MemberHandler();
+            _avtivityHandler = new AvtivityHandler();
+            _memberHandler = new MemberHandler();
         }
 
         public ActionResult Index()
@@ -69,5 +69,17 @@ namespace ActivityGroupSystem.Controllers
 
             return View();
         }
+
+        /*Willie Start*/
+        public void enterJoinedActivity(string memberId, string activityId)
+        {
+            Activity activity = _avtivityHandler.enterJoinedActivity(memberId, activityId);
+            if (activity != null)
+            {
+                // return activity;
+            }
+
+        }
+        /*Willie End*/
     }
 }

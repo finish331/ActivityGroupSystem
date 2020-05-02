@@ -7,6 +7,6 @@ namespace ActivityGroupSystem.Models
 {
     public class MemberHandler
     {
-        private List<Member> memberList = new List<Member>();
+        private List<Member> _memberList = new List<Member>();
     }
 }

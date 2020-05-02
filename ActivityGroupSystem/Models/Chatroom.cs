@@ -7,6 +7,6 @@ namespace ActivityGroupSystem.Models
 {
     public class Chatroom
     {
-        private List<Message> messageList = new List<Message>();
+        private List<Message> _messageList = new List<Message>();
     }
 }

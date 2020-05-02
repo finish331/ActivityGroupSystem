@@ -7,10 +7,18 @@ namespace ActivityGroupSystem.Models
 {
     public class Member
     {
-        private string memberId;
-        private string memberName;
-        private List<string> friendList = new List<string>();
-        private List<string> blackList = new List<string>();
-        private List<string> invitedList = new List<string>();
+        private string _memberId;
+        private string _memberName;
+        private List<string> _friendList = new List<string>();
+        private List<string> _blackList = new List<string>();
+        private List<string> _invitedList = new List<string>();
+
+        public string MemberId
+        {
+            get
+            {
+                return memberId;
+            }
+        }
     }
 }

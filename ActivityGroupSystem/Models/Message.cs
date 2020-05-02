@@ -7,7 +7,7 @@ namespace ActivityGroupSystem.Models
 {
     public class Message
     {
-        private string memberId;
-        private string message;
+        private string _memberId;
+        private string _message;
     }
 }
