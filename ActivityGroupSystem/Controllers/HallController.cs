@@ -32,20 +32,38 @@ namespace ActivityGroupSystem.Controllers
 
             List<string> a = new List<string>();
             List<string> b = null;
-            a.Add("1");
-            a.Add("2");
-            a.Add("3");
-            a.Add("4");
-            b = a.ToList();
-            b.Remove("4");
-
-            for (int i = 0; i < a.Count; i++)
+            string abc = "testWord";
+            if (abc.Contains("tW"))
             {
-                if (a[i] == b[i])
+                a.Add("1");
+            }
+            if (b != null)
+            {
+                a.Add("1");
+            }
+
+            if (b == null)
+            {
+                a.Add("1");
+                a.Add("2");
+                a.Add("3");
+                a.Add("4");
+                b = a.ToList();
+                b.Remove("4");
+            }
+
+
+            if (b != null)
+            {
+                for (int i = 0; i < a.Count; i++)
                 {
-                    a.RemoveAt(i);
+                    if (a[i] == b[i])
+                    {
+                        a.RemoveAt(i);
+                    }
                 }
             }
+
 
             //Simulate test user data and login timestamp
             var userId = "12345";
@@ -105,9 +123,22 @@ namespace ActivityGroupSystem.Controllers
             //return chatroomMessage;
         }
 
-        public void sendMessage(string memberId, string activityId, string message)
+        public void SendMessage(string memberId, string activityId, string message)
         {
             _activityHandler.SendMessage(memberId, activityId, message);
+        }
+
+        public void SearchMemberInfo(string keyWord)
+        {
+            List<Member> searchResult = _memberHandler.SearchMemberInfo(keyWord);
+        }
+
+        public void BlackMember(string memberId, string blackMemberId)
+        {
+            if (_memberHandler.BlackMember(memberId, blackMemberId))
+            {
+                //True才新增資料庫
+            }
         }
         /*Willie End*/
     }

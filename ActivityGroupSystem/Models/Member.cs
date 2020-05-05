@@ -14,11 +14,33 @@ namespace ActivityGroupSystem.Models
         private List<string> _invitedList = new List<string>();
 
         /*Willie Start*/
+
+        public bool BlackMember(string blackMemberId)
+        {
+            foreach (string originBlack in _blackList)
+            {
+                if (originBlack == blackMemberId)
+                {
+                    return false;
+                }
+            }
+            _blackList.Add(blackMemberId);
+            return true;
+        }
+
         public string MemberId
         {
             get
             {
                 return _memberId;
+            }
+        }
+
+        public string MemberName
+        {
+            get
+            {
+                return _memberName;
             }
         }
 
