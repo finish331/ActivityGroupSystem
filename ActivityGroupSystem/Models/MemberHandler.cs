@@ -48,6 +48,18 @@ namespace ActivityGroupSystem.Models
             }
             return false;
         }
+
+        public bool AddFriend(string myMemberId, string friendId)
+        {
+            foreach (Member member in _memberList)
+            {
+                if (member.MemberId == friendId)
+                {
+                    return member.AddFriend(myMemberId);
+                }
+            }
+            return false;
+        }
         /*Willie End*/
 
         /* Ting Start */

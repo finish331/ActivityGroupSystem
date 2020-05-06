@@ -55,6 +55,29 @@ namespace ActivityGroupSystem.Models
             Activity activity = FindActivity(activityId);
             activity.SendMessage(memberId, messageContent);
         }
+
+        public List<Activity> InputAcivityKeyWord(string keyWord)
+        {
+            List<Activity> relatedActivity = new List<Activity>();
+            foreach (Activity activity in _activityList)
+            {
+                if (activity.ActivityId.Contains(keyWord) || activity.ActivityName.Contains(keyWord))
+                {
+                    relatedActivity.Add(activity);
+                }
+            }
+            return relatedActivity;
+        }
+
+        public bool KickOutPariticipant(string memberId, string activityId)
+        {
+            Activity activity = FindActivity(activityId);
+            if(activity != null)
+            {
+                return activity.KickOutPariticipant(memberId);
+            }
+            return false;
+        }
         /*Willie End*/
 
         /* Ting Start */

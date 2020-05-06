@@ -143,6 +143,31 @@ namespace ActivityGroupSystem.Controllers
                 //True才新增資料庫
             }
         }
+
+        public List<Activity> InputAcivityKeyWord(string keyWord)
+        {
+            return _activityHandler.InputAcivityKeyWord(keyWord);
+        }
+
+        public bool KickOutPariticipant(string memberId, string activityId)
+        {
+            return _activityHandler.KickOutPariticipant(memberId, activityId);
+        }
+
+        public bool AddFriend (string myMemberId, string friendId)
+        {
+            bool result = _memberHandler.AddFriend(myMemberId, friendId);
+            if (result)
+            {
+                //新增至資料庫
+                return true;
+            }
+            else
+            {
+                //不新增
+                return false;
+            }
+        }
         /*Willie End*/
 
         /* Ting Start */

@@ -50,6 +50,19 @@ namespace ActivityGroupSystem.Models
             _chatroom.SendMessage(memberId, messageContent);
         }
 
+        public bool KickOutPariticipant(string memberId)
+        {
+            foreach (string participantId in _participantList)
+            {
+                if (participantId == memberId)
+                {
+                    _participantList.Remove(participantId);
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         public string ActivityId
         {

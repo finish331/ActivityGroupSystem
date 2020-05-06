@@ -28,6 +28,19 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
+        public bool AddFriend(string memberId)
+        {
+            foreach (string friendId in _friendsList)
+            {
+                if (friendId == memberId)
+                {
+                    return false;
+                }
+            }
+            _friendsList.Add(memberId);
+            return true;
+        }
+
         public string MemberId
         {
             get
