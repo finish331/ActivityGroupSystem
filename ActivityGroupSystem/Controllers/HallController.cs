@@ -187,5 +187,89 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
         /* Ting End */
+
+        /*Hsu start*/
+        public void CreateNewMember(Dictionary<string, string> memberInfo)
+        {
+            if (_memberHandler.CreateNewMember(memberInfo))
+            {
+                _databaseSystem.InsertMember(memberInfo);
+            }
+        }
+
+        public void LoadAllActivity()
+        {
+            List<string> activityList = _activityHandler.LoadAllActivity();
+        }
+
+        public void JoinActivity(string memberId, string activityId)
+        {
+            if (_activityHandler.JoinActivity(memberId, activityId))
+            {
+                //存進firebase
+            }
+        }
+
+        public void SaveActivity(string activityId, Dictionary<string, string> newData)
+        {
+            if (_activityHandler.SaveActivity(activityId, newData))
+            {
+                //存進firebase
+            }
+        }
+
+        public void LoadAllFriendInvitation(string memberId)
+        {
+            List<string> friendInvitation = _memberHandler.LoadAllFriendInvitation(memberId);
+
+        }
+
+        public void ReplyInvitation(string memberId, string inviterId)
+        {
+            //同意
+            _memberHandler.AgreeInvitation(memberId, inviterId);
+            //拒絕
+            _memberHandler.RejectInvitation(memberId, inviterId);
+        }
+
+        public ActionResult Logout()
+        {
+            if (Response.Cookies["userName"].Value != null)
+            {
+                Response.Cookies["userName"].Expires = DateTime.Now.AddDays(-1);
+            }
+            return Index();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(FormCollection post)
+        {
+            string account = post["account"];
+            string password = post["password"];
+
+            //驗證帳號密碼
+            if (_databaseSystem.CheckAccount(account, password))
+            {
+                Response.Cookies["userName"].Value = account;
+                Response.Redirect("Index");
+                return new EmptyResult();
+            }
+            else
+            {
+                ViewBag.Msg = "登入失敗...";
+                return View();
+            }
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+        /*Hsu end*/
     }
 }

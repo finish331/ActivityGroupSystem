@@ -91,5 +91,53 @@ namespace ActivityGroupSystem.Models
             _homeownerId = newOwnerId;
         }
         /* Ting End */
+
+        /*Hsu start*/
+        /*public string ActivityName
+        {
+            get
+            {
+                return _activityData["name"];
+            }
+        }*/
+
+        public bool AddNewParticipant(string memberId)
+        {
+            foreach (string participant in _participantList)
+            {
+                if (participant == memberId)
+                {
+                    return false;
+                }
+            }
+            _participantList.Add(memberId);
+            return true;
+        }
+
+        public bool IsExist(string activityId)
+        {
+            return _activityId == activityId;
+        }
+
+        public bool UpdateActivity(Dictionary<string, string> newData)
+        {
+            try
+            {
+                _activityId = newData["id"];
+                _activityName = newData["name"];
+                _homeownerId = newData["ownerId"];
+
+                /*foreach (KeyValuePair<string, string> pair in newData)
+                {
+                    
+                }*/
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        /*Hsu end*/
     }
 }

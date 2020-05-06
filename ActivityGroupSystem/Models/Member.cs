@@ -11,6 +11,7 @@ namespace ActivityGroupSystem.Models
         private string _memberName;
         private List<string> _friendsList;
         private List<string> _blackList;
+        private List<string> _friendInvitation;
         private Dictionary<string, string> _invitedList; // { 活動ID, 所有邀請人姓名(間隔用',') }
 
         /*Willie Start*/
@@ -114,5 +115,41 @@ namespace ActivityGroupSystem.Models
             }
         }
         /* Ting End */
+
+        /*Hsu start*/
+        public Member(Dictionary<string, string> memberInfo)
+        {
+            _memberId = memberInfo["id"];
+            _memberName = memberInfo["name"];
+            _friendsList = new List<string>();
+            _blackList = new List<string>();
+            _invitedList = new Dictionary<string, string>();
+            _friendInvitation = new List<string>();
+            /*foreach (KeyValuePair<string, string> pair in _memberData)
+            {
+                _memberData.Add(pair.Key, pair.Value);
+            }*/
+        }
+
+        public bool IsExist(string memberId)
+        {
+            return _memberId == memberId;
+        }
+
+        public List<string> LoadAllFriendInvitation()
+        {
+            return _friendInvitation;
+        }
+
+        public void InsertFriendList(string memberId)
+        {
+            _friendsList.Add(memberId);
+        }
+
+        public void DeleteFriendInvitation(string memberId)
+        {
+            _friendInvitation.Remove(memberId);
+        }
+        /*Hsu end*/
     }
 }
