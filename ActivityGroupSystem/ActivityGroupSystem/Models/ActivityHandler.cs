@@ -8,15 +8,8 @@ namespace ActivityGroupSystem.Models
     public class ActivityHandler
     {
         private List<Activity> _activityList = new List<Activity>();
-        private int _activityCount;
-
-        public ActivityHandler()
-        {
-            _activityList = new List<Activity>();
-            _activityCount = 0;
-        }
-
         /*Willie Start*/
+
         public Activity FindActivity(string activityId)
         {
             foreach (Activity activity in _activityList)
@@ -56,13 +49,5 @@ namespace ActivityGroupSystem.Models
             activity.SendMessage(memberId, messageContent);
         }
         /*Willie End*/
-
-        public void CreateActivity(Dictionary<string, string> activityInfo)
-        {
-            activityInfo.Add("id", (_activityCount + 1).ToString());
-            Activity newActivity = new Activity(activityInfo);
-            _activityList.Add(newActivity);
-            _activityCount++;
-        }
     }
 }

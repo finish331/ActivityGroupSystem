@@ -15,13 +15,10 @@ namespace ActivityGroupSystem.Controllers
     {
         private ActivityHandler _activityHandler;
         private MemberHandler _memberHandler;
-        private DatabaseSystem _databaseSystem;
-
         public HallController()
         {
             _activityHandler = new ActivityHandler();
             _memberHandler = new MemberHandler();
-            _databaseSystem = new DatabaseSystem();
         }
 
         public ActionResult Index()
@@ -144,11 +141,5 @@ namespace ActivityGroupSystem.Controllers
             }
         }
         /*Willie End*/
-
-        public bool CreateActivity(Dictionary<string, string> activityInfo)
-        {
-            _activityHandler.CreateActivity(activityInfo);
-            return _databaseSystem.InsertActivity(activityInfo);
-        }
     }
 }

@@ -7,9 +7,5 @@ namespace ActivityGroupSystem.Models
 {
     public class DatabaseSystem
     {
-        public bool InsertActivity(Dictionary<string, string> activityInfo)
-        {
-            return true;
-        }
     }
 }

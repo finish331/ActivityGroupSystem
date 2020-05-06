@@ -7,7 +7,7 @@ namespace ActivityGroupSystem.Models
 {
     public class Activity
     {
-        private List<string> _participantList;
+        private List<string> _participantList = new List<string>();
         private string _activityId;
         private string _activityName;
         private string _homeownerId;
@@ -76,14 +76,5 @@ namespace ActivityGroupSystem.Models
             }
         }
         /*Willie End*/
-
-        public Activity(Dictionary<string, string> activityInfo)
-        {
-            _participantList = new List<string>();
-            _activityId = activityInfo["id"];
-            _activityName = activityInfo["name"];
-            _homeownerId = activityInfo["ownerId"];
-            _chatroom = new Chatroom();
-        }
     }
 }
