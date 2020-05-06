@@ -23,5 +23,19 @@ namespace ActivityGroupSystem.Models
             return true;
         }
         /* Ting End */
+
+        /*Hsu start*/
+        public bool CheckAccount(string id, string passwd)
+        {
+
+            return true;
+        }
+
+        public bool InsertMember(Dictionary<string, string> newData)
+        {
+
+            return true;
+        }
+        /*Hsu end*/
     }
 }

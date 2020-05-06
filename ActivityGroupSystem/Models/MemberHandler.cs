@@ -129,5 +129,59 @@ namespace ActivityGroupSystem.Models
                 return null;
         }
         /* Ting End */
+
+        /*Hsu start*/
+        public bool CreateNewMember(Dictionary<string, string> memberInfo)
+        {
+            foreach (Member member in _memberList)
+            {
+                if (member.IsExist(memberInfo["id"]))
+                {
+                    return false;
+                }
+            }
+            _memberList.Add(new Member(memberInfo));
+            return true;
+        }
+
+        public List<string> LoadAllFriendInvitation(string memberId)
+        {
+            foreach (Member member in _memberList)
+            {
+                if (member.IsExist(memberId))
+                {
+                    return member.LoadAllFriendInvitation();
+                }
+            }
+            return null;
+        }
+
+        public void AgreeInvitation(string memberId, string inviterId)
+        {
+            foreach (Member member in _memberList)
+            {
+                if (member.IsExist(memberId))
+                {
+                    member.InsertFriendList(inviterId);
+                    member.DeleteFriendInvitation(inviterId);
+                }
+                if (member.IsExist(inviterId))
+                {
+                    member.InsertFriendList(memberId);
+                }
+            }
+        }
+
+        public void RejectInvitation(string memberId, string inviterId)
+        {
+            foreach (Member member in _memberList)
+            {
+                if (member.IsExist(memberId))
+                {
+                    member.DeleteFriendInvitation(inviterId);
+                }
+            }
+        }
+        /*Hsu end*/
     }
 }

@@ -1,9 +1,31 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    var account = "123";
+    var welcomeMessage = "";
+    if (Request.Cookies["userName"] == null)
+    {
+        welcomeMessage = "訪客請登入";
+    }
+    else
+    {
+        welcomeMessage = "歡迎登入:" + Request.Cookies["userName"].Value;
+    }
 }
 
+<script>
+    function Logout() //test
+    {
+        var cookies = document.cookie;
+        if (cookies != null) {
+            document.cookie = 'userName=; max-age=1; path=/';
+            alert(document.cookie);
+            location.href = "Index";
+        }
+    }
+</script>
+
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
+    <h1>@welcomeMessage</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
@@ -29,3 +51,7 @@
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
+<div class="row">
+    <asp:button type="button" class="btn btn-warning" onclick="Logout()">登出</asp:button>
+</div>
+

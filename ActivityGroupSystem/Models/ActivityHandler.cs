@@ -120,5 +120,42 @@ namespace ActivityGroupSystem.Models
                 return null;
         }
         /* Ting End */
+
+        /*Hsu start*/
+        public List<string> LoadAllActivity()
+        {
+            List<string> allActivity = new List<string>();
+
+            foreach (Activity activity in _activityList)
+            {
+                allActivity.Add(activity.ActivityName);
+            }
+            return allActivity;
+        }
+
+        public bool JoinActivity(string memberId, string activityId)
+        {
+            foreach (Activity activity in _activityList)
+            {
+                if (activity.IsExist(activityId))
+                {
+                    return activity.AddNewParticipant(memberId);
+                }
+            }
+            return false;
+        }
+
+        public bool SaveActivity(string activityId, Dictionary<string, string> newData)
+        {
+            foreach (Activity activity in _activityList)
+            {
+                if (activity.IsExist(activityId))
+                {
+                    return activity.UpdateActivity(newData);
+                }
+            }
+            return false;
+        }
+        /*Hsu end*/
     }
 }
