@@ -15,10 +15,13 @@ namespace ActivityGroupSystem.Controllers
     {
         private ActivityHandler _activityHandler;
         private MemberHandler _memberHandler;
+        private DatabaseSystem _databaseSystem;
+
         public HallController()
         {
             _activityHandler = new ActivityHandler();
             _memberHandler = new MemberHandler();
+            _databaseSystem = new DatabaseSystem();
         }
 
         public ActionResult Index()
@@ -141,5 +144,48 @@ namespace ActivityGroupSystem.Controllers
             }
         }
         /*Willie End*/
+
+        /* Ting Start */
+        public bool CreateActivity(Dictionary<string, string> activityInfo)
+        {
+            _activityHandler.CreateActivity(activityInfo);
+            return _databaseSystem.InsertActivity(activityInfo);
+        }
+
+        public Dictionary<string, string> LoadUserData(string memberId)
+        {
+            return _memberHandler.LoadUserData(memberId);
+        }
+
+        public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
+        {
+            return _memberHandler.UpdateUserData(memberId, newData) && _databaseSystem.UpdateMember(memberId, newData);
+        }
+
+        public List<string> GetAllParticipants(string activityId)
+        {
+            return _activityHandler.GetAllParticipants(activityId);
+        }
+
+        public bool transferHomeowner(string activityId, string newOwnerId)
+        {
+            return _activityHandler.transferHomeowner(activityId, newOwnerId);
+        }
+
+        public List<string> GetFriendsList(string memberId)
+        {
+            return _memberHandler.GetFriendsList(memberId);
+        }
+
+        public bool InviteFriend(string userName, string friendId, string activityId)
+        {
+            return _memberHandler.InviteMember(userName, friendId, activityId);
+        }
+
+        public bool DeleteFriend(string memberId, string targetId)
+        {
+            return _memberHandler.DeleteFriend(memberId, targetId);
+        }
+        /* Ting End */
     }
 }

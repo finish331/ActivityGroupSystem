@@ -7,9 +7,16 @@ namespace ActivityGroupSystem.Models
 {
     public class ActivityHandler
     {
-        private List<Activity> _activityList = new List<Activity>();
-        /*Willie Start*/
+        private List<Activity> _activityList;
+        private int _activityCount;
 
+        public ActivityHandler()
+        {
+            _activityList = new List<Activity>();
+            _activityCount = 0;
+        }
+
+        /*Willie Start*/
         public Activity FindActivity(string activityId)
         {
             foreach (Activity activity in _activityList)
@@ -49,5 +56,46 @@ namespace ActivityGroupSystem.Models
             activity.SendMessage(memberId, messageContent);
         }
         /*Willie End*/
+
+        /* Ting Start */
+        public void CreateActivity(Dictionary<string, string> activityInfo)
+        {
+            activityInfo.Add("id", (_activityCount + 1).ToString());
+            Activity newActivity = new Activity(activityInfo);
+            _activityList.Add(newActivity);
+            _activityCount++;
+        }
+
+        public List<string> GetAllParticipants(string activityId)
+        {
+            Activity activity = GetActivityById(activityId);
+            if (activity != null)
+            {
+                return activity.ParticipantList;
+            }
+            else
+                return null;
+        }
+
+        public bool transferHomeowner(string activityId, string newOwnerId)
+        {
+            Activity activity = GetActivityById(activityId);
+            if (activity != null)
+            {
+                activity.transferHomeowner(newOwnerId);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private Activity GetActivityById(string id)
+        {
+            if (_activityList.Exists(activity => activity.ActivityId == id))
+                return _activityList.Find(activity => activity.ActivityId == id);
+            else
+                return null;
+        }
+        /* Ting End */
     }
 }

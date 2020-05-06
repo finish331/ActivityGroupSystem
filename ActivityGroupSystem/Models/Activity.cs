@@ -7,14 +7,13 @@ namespace ActivityGroupSystem.Models
 {
     public class Activity
     {
-        private List<string> _participantList = new List<string>();
+        private List<string> _participantList;
         private string _activityId;
         private string _activityName;
         private string _homeownerId;
         private Chatroom _chatroom;
 
-        /*Willie Start*/
-        
+        /*Willie Start*/      
         public bool IsMemberInActivity(string memberId)
         {
             for (int i = 0; i < _participantList.Count; i++)
@@ -76,5 +75,21 @@ namespace ActivityGroupSystem.Models
             }
         }
         /*Willie End*/
+
+        /* Ting Start */
+        public Activity(Dictionary<string, string> activityInfo)
+        {
+            _participantList = new List<string>();
+            _activityId = activityInfo["id"];
+            _activityName = activityInfo["name"];
+            _homeownerId = activityInfo["ownerId"];
+            _chatroom = new Chatroom();
+        }
+
+        public void transferHomeowner(string newOwnerId)
+        {
+            _homeownerId = newOwnerId;
+        }
+        /* Ting End */
     }
 }

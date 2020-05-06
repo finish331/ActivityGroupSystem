@@ -48,7 +48,74 @@ namespace ActivityGroupSystem.Models
             }
             return false;
         }
-
         /*Willie End*/
+
+        /* Ting Start */
+        public Dictionary<string, string> LoadUserData(string memberId)
+        {
+            Member member = GetMemberById(memberId);
+            if (member != null)
+            {
+                return member.GetData();
+            }
+            else
+                return null;
+        }
+
+        public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
+        {
+            Member member = GetMemberById(memberId);
+            if (member != null)
+            {
+                member.UpdataData(newData);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public List<string> GetFriendsList(string memberId)
+        {
+            Member member = GetMemberById(memberId);
+            if (member != null)
+            {
+                return member.FriendsList;
+            }
+            else
+                return null;
+        }
+
+        public bool InviteMember(string inviterName, string memberId, string activityId)
+        {
+            Member member = GetMemberById(memberId);
+            if (member != null)
+            {
+                member.Invited(inviterName, activityId);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool DeleteFriend(string memberId, string targetId)
+        {
+            Member member = GetMemberById(memberId);
+            if (member != null)
+            {
+                member.DeleteFriend(targetId);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private Member GetMemberById(string id)
+        {
+            if (_memberList.Exists(member => member.MemberId == id))
+                return _memberList.Find(member => member.MemberId == id);
+            else
+                return null;
+        }
+        /* Ting End */
     }
 }
