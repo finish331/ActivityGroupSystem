@@ -13,13 +13,18 @@
 }
 
 <script>
+
+    $(document).ready(function () {
+        $("#logout_button").kendoButton();
+
+    })
     function Logout() //test
     {
         var cookies = document.cookie;
         if (cookies != null) {
             document.cookie = 'userName=; max-age=1; path=/';
             alert(document.cookie);
-            location.href = "Index";
+            //location.href = "Index";
         }
     }
 </script>
@@ -52,6 +57,49 @@
     </div>
 </div>
 <div class="row">
-    <asp:button type="button" class="btn btn-warning" onclick="Logout()">登出</asp:button>
+    <button type="button" class="btn btn-warning" id="logout_button" onclick="Logout()">登出</button>
 </div>
+
+<div class="form-horizontal" id="detail_form">
+    <table style="border-collapse:separate; border-spacing:0px 10px; font-size:20px;">
+        <tr>
+            <th class="col-md-4">書名</th>
+            <td class="col-md-10">
+                <label id="detail_book_name"></label>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-4">作者</th>
+            <td class="col-md-10">
+                <label id="detail_book_author"></label>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-4">出版商</th>
+            <td class="col-md-10">
+                <label id="detail_book_publisher"></label>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-4">內容簡介</th>
+            <td class="col-md-10">
+                <label id="detail_book_note"></label>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-4">購書日期</th>
+            <td class="col-md-10">
+                <label id="detail_book_bought_date" typeof="date"></label>
+            </td>
+        </tr>
+        <tr>
+            <th class="col-md-4">圖書類別</th>
+            <td class="col-md-10">
+                <label id="detail_book_category"></label>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="~/Scripts/index.js"></script>
 
