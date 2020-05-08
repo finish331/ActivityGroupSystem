@@ -259,11 +259,12 @@ namespace ActivityGroupSystem.Controllers
 
         public ActionResult Logout()
         {
-            if (Response.Cookies["userName"].Value != null)
+            if (Request.Cookies["userName"] != null)
             {
                 Response.Cookies["userName"].Expires = DateTime.Now.AddDays(-1);
+                Response.Redirect("Index");
             }
-            return Index();
+            return new EmptyResult();
         }
 
         public ActionResult Login()

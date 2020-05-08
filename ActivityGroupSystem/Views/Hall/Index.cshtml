@@ -22,9 +22,9 @@
     {
         var cookies = document.cookie;
         if (cookies != null) {
-            document.cookie = 'userName=; max-age=1; path=/';
-            alert(document.cookie);
-            //location.href = "Index";
+            document.cookie = 'userName=; max-age=0; path=/';
+            //alert(document.cookie);
+            location.href = "Index";
         }
     }
 </script>
@@ -57,7 +57,7 @@
     </div>
 </div>
 <div class="row">
-    <button type="button" class="btn btn-warning" id="logout_button" onclick="Logout()">登出</button>
+    <asp:button type="button" class="btn btn-warning" id="logout_button" >@Html.ActionLink("登出", "Logout", "Hall")</asp:button>
 </div>
 
 <div class="form-horizontal" id="detail_form">
