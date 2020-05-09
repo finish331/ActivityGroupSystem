@@ -9,7 +9,10 @@ namespace ActivityGroupSystem.Models
     {
         private string _memberId;
         private string _memberName;
-        private string _password;
+        private string _memberPassword;
+        private string _memberSexuality;
+        private string _memberBirthday;
+        private string _memberPhone;
         private List<string> _friendsList;
         private List<string> _blackList;
         private List<string> _friendInvitation;
@@ -71,11 +74,11 @@ namespace ActivityGroupSystem.Models
         {
             get
             {
-                return _password;
+                return _memberPassword;
             }
             set
             {
-                _password = value;
+                _memberPassword = value;
             }
         }
 
@@ -99,9 +102,17 @@ namespace ActivityGroupSystem.Models
         public Dictionary<string, string> GetData()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add("id", _memberId);
-            data.Add("name", _memberName);
-
+            data.Add("MemberId", _memberId);
+            data.Add("MemberName", _memberName);
+            data.Add("Password", _memberPassword);
+            data.Add("Sexuality", _memberSexuality);
+            data.Add("Birthday", _memberBirthday);
+            data.Add("Phone", _memberPhone);
+            
+            /*_friendsList = new List<string>();
+            _blackList = new List<string>();
+            _invitedList = new Dictionary<string, string>();
+            _friendInvitation = new List<string>();*/
             return data;
         }
 
@@ -153,8 +164,12 @@ namespace ActivityGroupSystem.Models
         /*Hsu start*/
         public Member(Dictionary<string, string> memberInfo)
         {
-            _memberId = memberInfo["id"];
-            _memberName = memberInfo["name"];
+            _memberId = memberInfo["MemberId"];
+            _memberName = memberInfo["MemberName"];
+            _memberPassword = memberInfo["Password"];
+            _memberSexuality = memberInfo["Sexuality"];
+            _memberBirthday = memberInfo["Birthday"];
+            _memberPhone = memberInfo["Phone"];
             _friendsList = new List<string>();
             _blackList = new List<string>();
             _invitedList = new Dictionary<string, string>();

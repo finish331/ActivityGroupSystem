@@ -1,35 +1,56 @@
 ﻿@{
-     ViewBag.Title = "Register";
+    ViewBag.Title = "Register";
 
 }
 
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
 
-<form style="margin-left:10px;" method="post" action="">
+<div class="row">
+    <button type="reset" id="logout_button">清除</button>
+</div>
+
+<form style="margin-left:20px; margin-bottom:20px" id="register_form" method="post" >
     <h1>請輸入使用者資料</h1>
     <div>
         <span style="color:red">@ViewBag.Msg</span>
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">帳號</label>
-        <input type="text" class="form-control" id="Account" name="account" placeholder="輸入帳號" value="">
+        <input type="text" class="form-control" id="Id" name="MemberId" placeholder="輸入帳號" value="@ViewBag.MemberId">
         <small id="emailHelp" class="form-text text-muted">請輸入英數字</small>
     </div>
     <div class="form-group">
         <label for="exampleInputPassword1">新的密碼</label>
-        <input type="password" class="form-control" id="Password1" name="password1" placeholder="輸入密碼" value="">
+        <input type="password" class="form-control" id="Password" name="Password" placeholder="輸入密碼" value="">
     </div>
     <div class="form-group">
         <label for="exampleInputPassword1">再次確認</label>
         <input type="password" class="form-control" id="Password2" name="password2" placeholder="輸入密碼" value="">
     </div>
     <div class="form-group">
-        <label for="Address">地址</label>
-        <input type="text" class="form-control" id="Address" name="address" placeholder="輸入地址" value="">
+        <label for="Name">姓名</label>
+        <input type="text" class="form-control" id="Name" name="MemberName" placeholder="輸入姓名" value="">
     </div>
-    <button type="submit" class="btn btn-primary">確定</button>
-    <button type="reset" class="btn btn-warning">清除</button>
+    <div class="form-group">
+        <label for="Phoone">電話</label>
+        <input type="text" class="form-control" id="Phone" name="Phone" placeholder="輸入電話" value="">
+    </div>
+    <div class="form-group">
+        <label for="Sexuality">性別</label>
+        <select style="width:200px;" class="form-control" id="Sexuality" name="Sexuality" placeholder="性別">
+            <option>男</option>
+            <option>女</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="Birthday">生日</label>
+        <input style="width:200px;" class="form-control" id="Datepicker" name="Birthday" value="10/10/2011" title="birthday" />
+    </div>
+    <button type="submit" class="btn btn-primary" id="confirm">確定</button>
+    <button type="reset" class="btn btn-warning" id="reset">清除</button>
 </form>
+
+<script src="~/Scripts/register.js"></script>
 
 

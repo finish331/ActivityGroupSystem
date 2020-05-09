@@ -292,6 +292,7 @@ namespace ActivityGroupSystem.Controllers
         {
             if (_activityHandler.JoinActivity(memberId, activityId))
             {
+                _databaseSystem.InsertList(activityId, memberId, "Activity", "ParticipantList");
                 //存進firebase
             }
         }
@@ -300,6 +301,7 @@ namespace ActivityGroupSystem.Controllers
         {
             if (_activityHandler.SaveActivity(activityId, newData))
             {
+                _databaseSystem.UpdateActivity(activityId, newData);
                 //存進firebase
             }
         }
@@ -314,6 +316,8 @@ namespace ActivityGroupSystem.Controllers
         {
             //同意
             _memberHandler.AgreeInvitation(memberId, inviterId);
+            _databaseSystem.InsertList(memberId, inviterId, "Member", "FriendList");
+            _databaseSystem.InsertList(inviterId, memberId, "Member", "FriendList");
             //拒絕
             _memberHandler.RejectInvitation(memberId, inviterId);
         }
@@ -326,6 +330,7 @@ namespace ActivityGroupSystem.Controllers
                 //mycookie.Expires = DateTime.Now.AddDays(-1);
                 //Response.SetCookie(mycookie);
                 Response.Cookies["userName"].Expires = DateTime.Now.AddDays(-1);
+
                 //ViewBag.IsLogin = false;
                 Response.Redirect("Index");
             }
@@ -338,13 +343,13 @@ namespace ActivityGroupSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(FormCollection post)
+        public async Task<ActionResult> Login(FormCollection post)
         {
             string account = post["account"];
             string password = post["password"];
 
             //驗證帳號密碼
-            if (_databaseSystem.CheckAccount(account, password))
+            if (await _databaseSystem.CheckAccount(account, password))
             {
                 Response.Cookies["userName"].Value = account;
                 Response.Redirect("Index");
@@ -362,6 +367,52 @@ namespace ActivityGroupSystem.Controllers
         {
             return View();
         }
-        /*Hsu end*/
+
+        [HttpPost]
+        public async Task<ActionResult> Register(FormCollection post)
+        {
+            
+            if (string.IsNullOrWhiteSpace(post["password"]) || post["password"] != post["password2"])
+            {
+                ViewBag.Msg = "密碼輸入錯誤";
+                return View();
+            }
+            else
+            {
+                Dictionary<string, string> memberInfo = new Dictionary<string, string>();
+                foreach (var key in post)
+                {
+                    if (key.ToString() == "password2" || key.ToString() == "Sexuality_input") continue;
+                    memberInfo.Add(key.ToString(), post[key.ToString()]);
+                }
+                if (_memberHandler.CreateNewMember(memberInfo))
+                {
+                    _databaseSystem.InsertMember(memberInfo);
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Msg = "帳號已使用...";
+                    return View();
+                }
+            }
+        }
+
+        public ActionResult MemberInfo()
+        {
+            Dictionary<string, string> memberInfo = new Dictionary<string, string>();
+            return View();
+        }
+
+        public async Task<ActionResult> test()
+        {
+            var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
+            var memberListData = await firebaseClient.Child("Member").Child("member1").Child("MemberName").OnceSingleAsync<string>();
+
+            
+            ViewBag.test = memberListData;
+            
+            return View("index");
+        }
     }
 }

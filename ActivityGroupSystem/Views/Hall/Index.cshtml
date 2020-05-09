@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    var account = "123";
+    var account = ViewBag.test;
     var welcomeMessage = "";
     if (Request.Cookies["userName"] == null)
     {
