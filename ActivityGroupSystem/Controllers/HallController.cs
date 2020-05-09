@@ -301,6 +301,42 @@ namespace ActivityGroupSystem.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Register(FormCollection post)
+        {
+            
+            if (string.IsNullOrWhiteSpace(post["password"]) || post["password"] != post["password2"])
+            {
+                ViewBag.Msg = "密碼輸入錯誤";
+                return View();
+            }
+            else
+            {
+                Dictionary<string, string> memberInfo = new Dictionary<string, string>();
+                foreach (var key in post)
+                {
+                    if (key.ToString() == "password2" || key.ToString() == "Sexuality_input") continue;
+                    memberInfo.Add(key.ToString(), post[key.ToString()]);
+                }
+                if (_memberHandler.CreateNewMember(memberInfo))
+                {
+                    _databaseSystem.InsertMember(memberInfo);
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Msg = "帳號已使用...";
+                    return View();
+                }
+            }
+        }
+
+        public ActionResult MemberInfo()
+        {
+            Dictionary<string, string> memberInfo = new Dictionary<string, string>();
+            return View();
+        }
+
         public async Task<ActionResult> test()
         {
             var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");

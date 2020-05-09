@@ -14,10 +14,10 @@
 
 <script>
 
-    $(document).ready(function () {
+    /*$(document).ready(function () {
         $("#logout_button").kendoButton();
 
-    })
+    })*/
     function Logout() //test
     {
         var cookies = document.cookie;
@@ -57,9 +57,12 @@
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>
-<div class="row">
+<ol class="row">
     <li>@Html.ActionLink("登出", "Logout", "Hall")</li>
-    <li>@Html.ActionLink("Test", "test", "Hall")</li>
+    <li>@Html.ActionLink("memberInfo", "MemberInfo", "Hall")</li>
+</ol>
+<div class="row">
+    <button type="reset"  id="logout_button">清除</button>
 </div>
 
 <div class="form-horizontal" id="detail_form">
