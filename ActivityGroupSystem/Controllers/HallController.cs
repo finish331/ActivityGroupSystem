@@ -250,6 +250,26 @@ namespace ActivityGroupSystem.Controllers
         {
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
+
+        public ActionResult Room()
+        {
+            return View();
+        }
+
+        public ActionResult ManageRoom()
+        {
+            return View();
+        }
+
+        public ActionResult ViewPartcipants()
+        {
+            return View();
+        }
+
+        public ActionResult Invite()
+        {
+            return View();
+        }
         /* Ting End */
 
         /*Hsu start*/

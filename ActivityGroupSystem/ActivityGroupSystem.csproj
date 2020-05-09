@@ -284,6 +284,10 @@
     <Content Include="Views\Hall\Index.cshtml" />
     <Content Include="Views\Hall\Login.cshtml" />
     <Content Include="Views\Hall\Register.cshtml" />
+    <Content Include="Views\Hall\Room.cshtml" />
+    <Content Include="Views\Hall\ManageRoom.cshtml" />
+    <Content Include="Views\Hall\ViewPartcipants.cshtml" />
+    <Content Include="Views\Hall\Invite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
