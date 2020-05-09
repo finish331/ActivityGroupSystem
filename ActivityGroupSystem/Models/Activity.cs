@@ -70,6 +70,10 @@ namespace ActivityGroupSystem.Models
             {
                 return _activityId;
             }
+            set
+            {
+                _activityId = value;
+            }
         }
 
         public string ActivityName
@@ -77,6 +81,22 @@ namespace ActivityGroupSystem.Models
             get
             {
                 return _activityName;
+            }
+            set
+            {
+                _activityName = value;
+            }
+        }
+
+        public string HomeOwnerId
+        {
+            get
+            {
+                return _homeownerId;
+            }
+            set
+            {
+                _homeownerId = value;
             }
         }
 

@@ -11,6 +11,11 @@ namespace ActivityGroupSystem.Models
 
         /*Willie Start*/
 
+        public MemberHandler(List<Member> memberList)
+        {
+            _memberList = memberList;
+        }
+
         public List<string> GetBlackList(string memberId)
         {
             List<string> result = null;

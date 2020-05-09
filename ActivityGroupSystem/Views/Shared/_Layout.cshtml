@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var Test = "登入";
+    var Test2 = "Login";
+    var welcomeMessage = "";
+    if (Request.Cookies["userName"] == null)
+    {
+        welcomeMessage = "HI，您尚未登入";
+    }
+    else
+    {
+        Test = "登出";
+        Test2 = "Logout";
+        welcomeMessage = "HI，" + Request.Cookies["userName"].Value;
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -30,7 +45,10 @@
                     <li>@Html.ActionLink("關於", "About", "Hall")</li>
                     <li>@Html.ActionLink("連絡人", "Contact", "Hall")</li>
                     <li>@Html.ActionLink("註冊", "Register", "Hall")</li>
-                    <li>@Html.ActionLink("登入", "Login", "Hall")</li>
+                </ul>
+                <ul class="nav navbar-nav" style="float:right;">
+                    <li style="color:white; position:absolute; top:32%; left:72%">@welcomeMessage</li>
+                    <li>@Html.ActionLink(Test, Test2, "Hall")</li>
                 </ul>
             </div>
         </div>

@@ -19,9 +19,27 @@ namespace ActivityGroupSystem.Controllers
 
         public HallController()
         {
-            _activityHandler = new ActivityHandler();
-            _memberHandler = new MemberHandler();
             _databaseSystem = new DatabaseSystem();
+            InitializationMember();
+            InitializationActivity();
+        }
+
+        public async Task InitializationMember()
+        {
+            var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
+            var memberData = await firebaseClient.Child("Member").OnceAsync<Member>();
+            List<Member> memberList = new List<Member>();
+
+            foreach (var tempData in memberData)
+            {
+                memberList.Add(tempData.Object);
+            }
+            _memberHandler = new MemberHandler(memberList);
+        }
+        public async Task InitializationActivity()
+        {
+            //List<Activity> data = await _databaseSystem.InitializationActivityData();
+            _activityHandler = new ActivityHandler();
         }
 
         public ActionResult Index()
@@ -29,9 +47,29 @@ namespace ActivityGroupSystem.Controllers
             return View();
         }
 
+        [HttpPost()]
+        public JsonResult GetAllActivity()
+        {
+            Dictionary<string, string> myDic = new Dictionary<string, string>() {
+                { "id", "1" }, { "name", "Test活動" }, { "ownerId", "123" }
+            };
+            Activity activity1 = new Activity(myDic);
+            myDic = new Dictionary<string, string>() {
+                { "id", "2" }, { "name", "Test活動2" }, { "ownerId", "456" }
+            };
+            Activity activity2 = new Activity(myDic);
+
+            List<Activity> allActivity = new List<Activity>();
+            allActivity.Add(activity1);
+            allActivity.Add(activity2);
+            return Json(allActivity);
+        }
+
         public async Task<ActionResult> About()
         {
             ViewBag.Message = "Your application description page.";
+
+            //List<string> test = _memberHandler.GetBlackList("1");
 
             List<string> a = new List<string>();
             List<string> b = null;
@@ -259,11 +297,16 @@ namespace ActivityGroupSystem.Controllers
 
         public ActionResult Logout()
         {
-            if (Response.Cookies["userName"].Value != null)
+            if (Request.Cookies["userName"] != null)
             {
+                //HttpCookie mycookie = new HttpCookie("userName");
+                //mycookie.Expires = DateTime.Now.AddDays(-1);
+                //Response.SetCookie(mycookie);
                 Response.Cookies["userName"].Expires = DateTime.Now.AddDays(-1);
+                //ViewBag.IsLogin = false;
+                Response.Redirect("Index");
             }
-            return Index();
+            return new EmptyResult();
         }
 
         public ActionResult Login()
@@ -282,6 +325,7 @@ namespace ActivityGroupSystem.Controllers
             {
                 Response.Cookies["userName"].Value = account;
                 Response.Redirect("Index");
+                ViewBag.IsLogin = true;
                 return new EmptyResult();
             }
             else

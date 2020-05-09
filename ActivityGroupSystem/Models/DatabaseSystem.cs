@@ -1,12 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using Firebase.Database;
+using Firebase.Database.Query;
 
 namespace ActivityGroupSystem.Models
 {
     public class DatabaseSystem
     {
+        FirebaseClient _firebaseClient;
+        /*Willie Start*/
+        public DatabaseSystem()
+        {
+            _firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
+        }
+        public async Task<List<Member>> InitializationMemberData()
+        {
+            var memberData = await  _firebaseClient.Child("Member").OnceAsync<Member>();
+            List<Member> memberList = new List<Member>();
+
+            foreach (var tempData in memberData)
+            {
+                memberList.Add(tempData.Object);
+            }
+
+            return memberList;
+        }
+
+        //public async Task<List<Activity>> InitializationActivityData()
+        //{
+        //    var activityData = await _firebaseClient.Child("Activity").OnceAsync<Activity>();
+        //    List<Activity> activityList = new List<Activity>();
+
+        //    foreach (var tempData in activityData)
+        //    {
+        //        activityList.Add(tempData.Object);
+        //    }
+
+        //    return activityList;
+        //}
+
+        /*Willie End*/
         /* Ting Start */
         public bool InsertActivity(Dictionary<string, string> activityInfo)
         {

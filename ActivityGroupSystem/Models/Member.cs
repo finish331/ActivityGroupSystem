@@ -9,6 +9,7 @@ namespace ActivityGroupSystem.Models
     {
         private string _memberId;
         private string _memberName;
+        private string _password;
         private List<string> _friendsList;
         private List<string> _blackList;
         private List<string> _friendInvitation;
@@ -48,6 +49,10 @@ namespace ActivityGroupSystem.Models
             {
                 return _memberId;
             }
+            set
+            {
+                _memberId = value;
+            }
         }
 
         public string MemberName
@@ -55,6 +60,22 @@ namespace ActivityGroupSystem.Models
             get
             {
                 return _memberName;
+            }
+            set
+            {
+                _memberName = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                _password = value;
             }
         }
 
