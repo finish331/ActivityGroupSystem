@@ -160,14 +160,11 @@ namespace ActivityGroupSystem.Models
         {
             foreach (Member member in _memberList)
             {
-                if (member.IsExist(memberId))
+                if (member.IsExist(memberId) && member.IsExist(inviterId))
                 {
                     member.InsertFriendList(inviterId);
-                    member.DeleteFriendInvitation(inviterId);
-                }
-                if (member.IsExist(inviterId))
-                {
                     member.InsertFriendList(memberId);
+                    member.DeleteFriendInvitation(inviterId);
                 }
             }
         }

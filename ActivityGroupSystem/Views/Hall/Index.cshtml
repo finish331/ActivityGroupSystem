@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
-    var account = "123";
+    var account = ViewBag.test;
     var welcomeMessage = "";
     if (Request.Cookies["userName"] == null)
     {
@@ -31,6 +31,7 @@
 
 <div class="jumbotron">
     <h1>@welcomeMessage</h1>
+    <h1>@account</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
@@ -57,7 +58,8 @@
     </div>
 </div>
 <div class="row">
-    <asp:button type="button" class="btn btn-warning" id="logout_button" >@Html.ActionLink("登出", "Logout", "Hall")</asp:button>
+    <li>@Html.ActionLink("登出", "Logout", "Hall")</li>
+    <li>@Html.ActionLink("Test", "test", "Hall")</li>
 </div>
 
 <div class="form-horizontal" id="detail_form">

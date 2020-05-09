@@ -140,10 +140,7 @@ namespace ActivityGroupSystem.Models
                 _activityName = newData["name"];
                 _homeownerId = newData["ownerId"];
 
-                /*foreach (KeyValuePair<string, string> pair in newData)
-                {
-                    
-                }*/
+                
                 return true;
             }
             catch
