@@ -12,97 +12,62 @@
     }
 }
 
-<script>
-
-    /*$(document).ready(function () {
-        $("#logout_button").kendoButton();
-
-    })*/
-    function Logout() //test
-    {
-        var cookies = document.cookie;
-        if (cookies != null) {
-            document.cookie = 'userName=; max-age=0; path=/';
-            //alert(document.cookie);
-            location.href = "Index";
-        }
-    }
-</script>
-
-<div class="jumbotron">
-    <h1>@welcomeMessage</h1>
-    <h1>@account</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div class="form-horizontal">
+    <div class="form-group" style="padding-top:5%">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-10">
+            <button id="btn_create_activity">創建活動</button>
+            <button id="btn_manage_activity">管理活動</button>
+            <button id="btn_view_join_activity">查看已參加活動</button>
+        </div>
+    </div>
+    <div id="activity_grid"></div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
-<ol class="row">
-    <li>@Html.ActionLink("登出", "Logout", "Hall")</li>
-    <li>@Html.ActionLink("memberInfo", "MemberInfo", "Hall")</li>
-</ol>
-<div class="row">
-    <button type="reset"  id="logout_button">清除</button>
-</div>
+@*創建活動window*@
+<div class="form-horizontal" id="insert_form" style="font-size:16px">
+    <table style="border-collapse:separate; border-spacing:0px 10px; font-size:14px;">
+        <tr>
+            <th class="col-md-4">
+                <label class="control-label">活動名稱</label>
+            </th>
+            <td>
+                <input id="add_activity_name" name="add_activity_name" class="form-control" validationMessage="此欄位必填" required />
+                <span class="k-invalid-msg" data-for="add_activity_name"></span>
+            </td>
+        </tr>
 
-<div class="form-horizontal" id="detail_form">
-    <table style="border-collapse:separate; border-spacing:0px 10px; font-size:20px;">
         <tr>
-            <th class="col-md-4">書名</th>
-            <td class="col-md-10">
-                <label id="detail_book_name"></label>
+            <th class="col-md-4">
+                <label class="control-label">活動人數</label>
+            </th>
+            <td>
+                <input id="add_activity_number" name="add_activity_number" class="form-control" validationMessage="此欄位必填" required />
+                <span class="k-invalid-msg" data-for="add_activity_number"></span>
             </td>
         </tr>
+
         <tr>
-            <th class="col-md-4">作者</th>
-            <td class="col-md-10">
-                <label id="detail_book_author"></label>
+            <th class="col-md-4">
+                <label class="control-label">內容簡介</label>
+            </th>
+            <td>
+                <textarea id="add_activity_note" name="add_activity_note" class="form-control" validationMessage="此欄位必填" required></textarea>
+                <span class="k-invalid-msg" data-for="add_activity_note"></span>
             </td>
         </tr>
+
         <tr>
-            <th class="col-md-4">出版商</th>
-            <td class="col-md-10">
-                <label id="detail_book_publisher"></label>
+            <th class="col-md-4">
+                <label class="control-label">活動日期</label>
+            </th>
+            <td>
+                <input id="add_activity_date" name="add_activity_date" type="date" validationMessage="此欄位必填" required />
+                <span class="k-invalid-msg" data-for="add_activity_date"></span>
             </td>
         </tr>
-        <tr>
-            <th class="col-md-4">內容簡介</th>
-            <td class="col-md-10">
-                <label id="detail_book_note"></label>
-            </td>
-        </tr>
-        <tr>
-            <th class="col-md-4">購書日期</th>
-            <td class="col-md-10">
-                <label id="detail_book_bought_date" typeof="date"></label>
-            </td>
-        </tr>
-        <tr>
-            <th class="col-md-4">圖書類別</th>
-            <td class="col-md-10">
-                <label id="detail_book_category"></label>
-            </td>
-        </tr>
+        <button id="btn_add_activity">新增</button>
     </table>
 </div>
 

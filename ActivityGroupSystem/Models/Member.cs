@@ -52,6 +52,10 @@ namespace ActivityGroupSystem.Models
             {
                 return _memberId;
             }
+            set
+            {
+                _memberId = value;
+            }
         }
 
         public string MemberName
@@ -59,6 +63,22 @@ namespace ActivityGroupSystem.Models
             get
             {
                 return _memberName;
+            }
+            set
+            {
+                _memberName = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return _memberPassword;
+            }
+            set
+            {
+                _memberPassword = value;
             }
         }
 
