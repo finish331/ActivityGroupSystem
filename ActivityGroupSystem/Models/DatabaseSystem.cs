@@ -29,18 +29,18 @@ namespace ActivityGroupSystem.Models
             return memberList;
         }
 
-        //public async Task<List<Activity>> InitializationActivityData()
-        //{
-        //    var activityData = await _firebaseClient.Child("Activity").OnceAsync<Activity>();
-        //    List<Activity> activityList = new List<Activity>();
+        public async Task<List<Activity>> InitializationActivityData()
+        {
+            var activityData = await _firebaseClient.Child("Activity").OnceAsync<Activity>();
+            List<Activity> activityList = new List<Activity>();
 
-        //    foreach (var tempData in activityData)
-        //    {
-        //        activityList.Add(tempData.Object);
-        //    }
+            foreach (var tempData in activityData)
+            {
+                activityList.Add(tempData.Object);
+            }
 
-        //    return activityList;
-        //}
+            return activityList;
+        }
 
         /*Willie End*/
         /* Ting Start */

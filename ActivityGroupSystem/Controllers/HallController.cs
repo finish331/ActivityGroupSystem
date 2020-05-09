@@ -48,20 +48,21 @@ namespace ActivityGroupSystem.Controllers
         }
 
         [HttpPost()]
-        public JsonResult GetAllActivity()
+        public async Task<JsonResult> GetAllActivity()
         {
-            Dictionary<string, string> myDic = new Dictionary<string, string>() {
-                { "id", "1" }, { "name", "Test活動" }, { "ownerId", "123" }
-            };
-            Activity activity1 = new Activity(myDic);
-            myDic = new Dictionary<string, string>() {
-                { "id", "2" }, { "name", "Test活動2" }, { "ownerId", "456" }
-            };
-            Activity activity2 = new Activity(myDic);
+            List<Activity> allActivity = await _databaseSystem.InitializationActivityData();
+            return Json(allActivity);
+        }
 
+        [HttpPost()]
+        public async Task<JsonResult> GetAllActivity2()
+        {
             List<Activity> allActivity = new List<Activity>();
-            allActivity.Add(activity1);
-            allActivity.Add(activity2);
+            Activity activity = new Activity();
+            activity.ActivityId = "3";
+            activity.ActivityName = "3";
+            activity.HomeOwnerId = "3";
+            allActivity.Add(activity);
             return Json(allActivity);
         }
 

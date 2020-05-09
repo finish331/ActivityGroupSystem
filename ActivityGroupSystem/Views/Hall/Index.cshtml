@@ -13,47 +13,61 @@
 }
 
 <div class="form-horizontal">
+    <div class="form-group" style="padding-top:5%">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-10">
+            <button id="btn_create_activity">創建活動</button>
+            <button id="btn_manage_activity">管理活動</button>
+            <button id="btn_view_join_activity">查看已參加活動</button>
+        </div>
+    </div>
     <div id="activity_grid"></div>
 </div>
 
-<div class="form-horizontal" id="detail_form">
-    <table style="border-collapse:separate; border-spacing:0px 10px; font-size:20px;">
+@*創建活動window*@
+<div class="form-horizontal" id="insert_form" style="font-size:16px">
+    <table style="border-collapse:separate; border-spacing:0px 10px; font-size:14px;">
         <tr>
-            <th class="col-md-4">書名</th>
-            <td class="col-md-10">
-                <label id="detail_book_name"></label>
+            <th class="col-md-4">
+                <label class="control-label">活動名稱</label>
+            </th>
+            <td>
+                <input id="add_activity_name" name="add_activity_name" class="form-control" validationMessage="此欄位必填" required />
+                <span class="k-invalid-msg" data-for="add_activity_name"></span>
             </td>
         </tr>
+
         <tr>
-            <th class="col-md-4">作者</th>
-            <td class="col-md-10">
-                <label id="detail_book_author"></label>
+            <th class="col-md-4">
+                <label class="control-label">活動人數</label>
+            </th>
+            <td>
+                <input id="add_activity_number" name="add_activity_number" class="form-control" validationMessage="此欄位必填" required />
+                <span class="k-invalid-msg" data-for="add_activity_number"></span>
             </td>
         </tr>
+
         <tr>
-            <th class="col-md-4">出版商</th>
-            <td class="col-md-10">
-                <label id="detail_book_publisher"></label>
+            <th class="col-md-4">
+                <label class="control-label">內容簡介</label>
+            </th>
+            <td>
+                <textarea id="add_activity_note" name="add_activity_note" class="form-control" validationMessage="此欄位必填" required></textarea>
+                <span class="k-invalid-msg" data-for="add_activity_note"></span>
             </td>
         </tr>
+
         <tr>
-            <th class="col-md-4">內容簡介</th>
-            <td class="col-md-10">
-                <label id="detail_book_note"></label>
+            <th class="col-md-4">
+                <label class="control-label">活動日期</label>
+            </th>
+            <td>
+                <input id="add_activity_date" name="add_activity_date" type="date" validationMessage="此欄位必填" required />
+                <span class="k-invalid-msg" data-for="add_activity_date"></span>
             </td>
         </tr>
-        <tr>
-            <th class="col-md-4">購書日期</th>
-            <td class="col-md-10">
-                <label id="detail_book_bought_date" typeof="date"></label>
-            </td>
-        </tr>
-        <tr>
-            <th class="col-md-4">圖書類別</th>
-            <td class="col-md-10">
-                <label id="detail_book_category"></label>
-            </td>
-        </tr>
+        <button id="btn_add_activity">新增</button>
     </table>
 </div>
 

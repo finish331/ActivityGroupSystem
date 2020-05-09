@@ -14,6 +14,12 @@ namespace ActivityGroupSystem.Models
         private Chatroom _chatroom;
 
         /*Willie Start*/      
+
+        public Activity()
+        {
+
+        }
+
         public bool IsMemberInActivity(string memberId)
         {
             for (int i = 0; i < _participantList.Count; i++)
