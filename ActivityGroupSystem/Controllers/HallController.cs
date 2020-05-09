@@ -20,6 +20,7 @@ namespace ActivityGroupSystem.Controllers
         public HallController()
         {
             _databaseSystem = new DatabaseSystem();
+            _activityHandler = new ActivityHandler();
             InitializationMember();
             InitializationActivity();
         }
@@ -28,6 +29,7 @@ namespace ActivityGroupSystem.Controllers
         {
             var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
             var memberData = await firebaseClient.Child("Member").OnceAsync<Member>();
+
             List<Member> memberList = new List<Member>();
 
             foreach (var tempData in memberData)
