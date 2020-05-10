@@ -28,7 +28,7 @@
         dataSource: {
             transport: {
                 read: {
-                    url: "GetAllActivity",
+                    url: "/Hall/GetAllActivity",
                     type: "post",
                     dataType: "json",
                 }
@@ -66,6 +66,7 @@
 
 $("#activity_grid").on("click", ".btn-enter-button", function (e) {
     var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+    window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text(); 
 });
 
 //開啟新增活動window之按鈕動作
@@ -90,7 +91,7 @@ $("#btn_add_activity").click(function () {
 
     if (validator.validate()) {
         $.ajax({
-            url: "CreateActivity",
+            url: "/Hall/CreateActivity",
             dataType: "json",
             data: insertActivityData,
             type: "post"
@@ -106,7 +107,7 @@ $("#btn_add_activity").click(function () {
 $("#btn_manage_activity").click(function () {
     var memberId = $("#label_memberId").text()
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
-        url: "GetManageActivity",
+        url: "/Hall/GetManageActivity",
         type: "post",
         dataType: "json",
         data: { "memberId": memberId }
@@ -116,7 +117,7 @@ $("#btn_manage_activity").click(function () {
 
 $("#btn_cancel").click(function () {
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
-        url: "GetAllActivity",
+        url: "/Hall/GetAllActivity",
         type: "post",
         dataType: "json",
     }
@@ -126,7 +127,7 @@ $("#btn_cancel").click(function () {
 $("#btn_search_activity").click(function () {
     var activityKeyWord = $("#search_activity").val()
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
-        url: "InputAcivityKeyWord",
+        url: "/Hall/InputAcivityKeyWord",
         type: "post",
         dataType: "json",
         data: { keyWord: activityKeyWord }
