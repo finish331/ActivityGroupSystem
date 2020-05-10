@@ -172,6 +172,17 @@ namespace ActivityGroupSystem.Models
         {
             _homeownerId = newOwnerId;
         }
+
+        public bool Leave(string memberId)
+        {
+            if (_participantList.Contains(memberId))
+            {
+                _participantList.Remove(memberId);
+                return true;
+            }
+            else
+                return false;
+        }
         /* Ting End */
 
         /*Hsu start*/

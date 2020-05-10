@@ -1,9 +1,10 @@
 ﻿@{
+    var activityId = ViewData["activity_id"];
     var participants = ViewBag.participants;
     var friends = ViewBag.friends;
     var participants_title = "";
 
-    if (Request.Cookies["userName"] == ViewData["ownerId"])
+    if (Request.Cookies["userName"] == ViewData["owner_id"])
     {
         participants_title = "查看與管理參加者名單";
     }
@@ -23,10 +24,10 @@
         margin-bottom: 15px;
     }
 
-    #info p {
-        display: inline;
-        margin-right: 30px;
-    }
+        #info p {
+            display: inline;
+            margin-right: 30px;
+        }
 
     #menu {
         vertical-align: top;
@@ -56,10 +57,10 @@
         transition-duration: 0.4s;
     }
 
-    #menu button:hover {
-        background-color: #2b90d9;
-        color: white;
-    }
+        #menu button:hover {
+            background-color: #2b90d9;
+            color: white;
+        }
 
     #chatroom {
         vertical-align: top;
@@ -145,12 +146,13 @@
             <td id="menu" class="col-md-3">
                 <h3 id="menu_title">功能選單</h3>
                 <ul>
-                    @if (Request.Cookies["userName"] == ViewData["ownerId"])
+                    @if (Request.Cookies["userName"] == ViewData["owner_id"])
                     {
                         <li><button id="manage_button" type="button">管理活動</button></li>
                     }
+                    <li><button id="manage_button" type="button">管理活動</button></li>
                     <li><button id="view_participants_button" type="button">@participants_title</button></li>
-                    <li><button id="invite_button" type="button">邀請好友</button></li>
+                    <li><button id="invite_friend_button" type="button">邀請好友</button></li>
                     <li><button id="leave_button" type="button">退出活動</button></li>
                 </ul>
             </td>
@@ -165,7 +167,7 @@
                                 <input type="text" id="chat_input" name="chat_input">
                             </td>
                             <td class="col-md-2">
-                                <input type="submit" id="chat_submit" value="送出">
+                                <button id="chat_submit" type="submit">送出</button>
                             </td>
                         </tr>
                     </table>
@@ -184,8 +186,8 @@
     </div>
     <div class="field">
         <label>活動人數:</label>
-        <input type="text" class="input" id="activity_type" name="activity_type" value="" validationMessage="此欄位必填" required>
-        <span class="k-invalid-msg" data-for="activity_type"></span>
+        <input type="text" class="input" id="activity_people" name="activity_people" value="" validationMessage="此欄位必填" required>
+        <span class="k-invalid-msg" data-for="activity_people"></span>
     </div>
     <div class="field">
         <label class="vertical_align_top">內容簡介:</label>
@@ -197,7 +199,7 @@
         <input type="date" class="input" id="activity_date" name="activity_date" value="" validationMessage="此欄位必填" required>
         <span class="k-invalid-msg" data-for="activity_date"></span>
     </div>
-    <button type="submit">更新</button>
+    <button id="update_button" type="submit">更新</button>
 </div>
 
 <!-- 查看與管理參加者名單視窗 -->
@@ -209,10 +211,10 @@
                 <table>
                     <tr>
                         <td class="user_name"><p>@participants[i].MemberId</p></td>
-                        @if (Request.Cookies["userName"] == ViewData["ownerId"] && participants[i].MemberId != Request.Cookies["userName"])
+                        @if (Request.Cookies["userName"] == ViewData["owner_id"] && participants[i].MemberId != Request.Cookies["userName"])
                         {
-                            <td><button>轉移房主</button></td>
-                            <td><button>踢出</button></td>
+                            <td><button id="transfer_button" value="@participants[i].MemberId">轉移房主</button></td>
+                            <td><button id="kick_out_button" value="@participants[i].MemberId">踢出</button></td>
                         }
                     </tr>
                 </table>
@@ -223,8 +225,8 @@
             <table>
                 <tr>
                     <td class="user_name"><p>王小明</p></td>
-                    <td><button>轉移房主</button></td>
-                    <td><button>踢出</button></td>
+                    <td><button id="transfer_button" value="1">轉移房主</button></td>
+                    <td><button id="kick_out_button" value="1">踢出</button></td>
                 </tr>
             </table>
         </li>
@@ -258,7 +260,7 @@
                 <table>
                     <tr>
                         <td class="user_name"><p>@friends[i].MemberId</p></td>
-                        <td><button>邀請</button></td>
+                        <td><button id="invite_button" value="@friends[i].MemberId">邀請</button></td>
                     </tr>
                 </table>
             </li>
@@ -272,7 +274,7 @@
             <table>
                 <tr>
                     <td class="user_name"><p>王小明</p></td>
-                    <td><button>邀請</button></td>
+                    <td><button id="invite_button" value="1">邀請</button></td>
                 </tr>
             </table>
         </li>
@@ -296,4 +298,135 @@
 </div>
 
 <script src="~/Scripts/Room.js"></script>
+<script>
+    // 更新活動資訊
+    $("#update_button").click(function () {
+        var validator = $("#manage_form").kendoValidator().data("kendoValidator");
+
+        var data = {
+            activityId: @activityId,
+            activityName: $("#activity_name").val(),
+            avtivityPeople: $("activity_people").val(),
+            avtivityDescription: $("activity_description").val(),
+            avtivityDate: $("#activity_date").val(),
+        };
+
+        if (validator.validate()) {
+            $.ajax({
+                url: "updateActivity",
+                dataType: "json",
+                data: data,
+                type: "post"
+            }).done(function (data) {
+                alert(data.responseText);
+                ClearView();
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        }
+    });
+
+    // 轉移房主
+    $("#transfer_button").click(function () {
+        var data = {
+            activityId: @activityId,
+            newOwnerId: $("#transfer_button").val(),
+        };
+
+        $.ajax({
+            url: "transferHomeowner",
+            dataType: "json",
+            data: data,
+            type: "post"
+        }).done(function (data) {
+            alert(data.responseText);
+            ClearView();
+        }).fail(function (data) {
+            alert(data.responseText);
+        });
+    });
+
+    // 踢人
+    $("#kick_out_button").click(function () {
+        var data = {
+            activityId: @activityId,
+            targetId: $("#kick_out_button").val(),
+        };
+
+        $.ajax({
+            url: "KickOutPariticipant",
+            dataType: "json",
+            data: data,
+            type: "post"
+        }).done(function (data) {
+            alert(data.responseText);
+            ClearView();
+        }).fail(function (data) {
+            alert(data.responseText);
+        });
+    });
+
+    // 邀請好友
+    $("#invite_button").click(function () {
+        var data = {
+            activityId: @activityId,
+            targetId: $("#invite_button").val(),
+            userName: "test",
+        };
+
+        $.ajax({
+            url: "InviteFriend",
+            dataType: "json",
+            data: data,
+            type: "post"
+        }).done(function (data) {
+            alert(data.responseText);
+            ClearView();
+        }).fail(function (data) {
+            alert(data.responseText);
+        });
+    });
+
+    // 退出活動
+    $("#leave_button").click(function () {
+        var result = confirm("是否確認要退出活動?");
+
+        if (result == true) {
+            var data = {
+                activityId: @activityId,
+                memberId: "test",
+            };
+
+            $.ajax({
+                url: "LeaveActivity",
+                dataType: "json",
+                data: data,
+                type: "post"
+            }).done(function (data) {
+                alert(data.responseText);
+                ClearView();
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        }
+    });
+
+    // 發送聊天訊息
+    $("#chat_submit").click(function () {
+        var data = {
+            memberId: "test",
+            activityId: @activityId,
+            message: $("#chat_input").val(),
+        };
+
+        $.ajax({
+            url: "SendMessage",
+            dataType: "json",
+            data: data,
+            type: "post"
+        }).done(function (data) {
+            // 更新聊天室
+        });
+    });
+</script>
 
