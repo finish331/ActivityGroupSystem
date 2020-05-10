@@ -381,6 +381,10 @@ namespace ActivityGroupSystem.Controllers
                     if (key.ToString() == "password2" || key.ToString() == "Sexuality_input") continue;
                     memberInfo.Add(key.ToString(), post[key.ToString()]);
                 }
+                memberInfo.Add("FriendList", "");
+                memberInfo.Add("BlackList", "");
+                memberInfo.Add("InvitedList", "");
+                memberInfo.Add("FriendInvitation", "");
                 if (_memberHandler.CreateNewMember(memberInfo))
                 {
                     _databaseSystem.InsertMember(memberInfo);
@@ -403,12 +407,17 @@ namespace ActivityGroupSystem.Controllers
         }
 
         [HttpPost()]
-        public async Task<JsonResult> GetFriend()
+        public async Task<JsonResult> GetFriendList()
         {
             await InitializationModel();
-            Member member = _memberHandler.GetMember(Request.Cookies["userName"].Value);
+            List<string> friendList = _memberHandler.GetFriendsList(Request.Cookies["userName"].Value);
+            List<Member> memberList = new List<Member>();
+            foreach (string memberId in friendList)
+            {
+                memberList.Add(_memberHandler.GetMember(memberId));
+            }
             
-            return Json(_memberHandler.GetFriendsList(Request.Cookies["userName"].Value));
+            return Json(memberList);
         }
 
         public async Task<ActionResult> test()

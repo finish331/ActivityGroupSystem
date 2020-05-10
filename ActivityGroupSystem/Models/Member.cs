@@ -181,10 +181,6 @@ namespace ActivityGroupSystem.Models
             _blackList = new List<string>();
             _invitedList = new Dictionary<string, string>();
             _friendInvitation = new List<string>();
-            /*foreach (KeyValuePair<string, string> pair in _memberData)
-            {
-                _memberData.Add(pair.Key, pair.Value);
-            }*/
         }
 
         public bool IsExist(string memberId)

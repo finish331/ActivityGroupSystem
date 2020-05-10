@@ -7,7 +7,7 @@ $(document).ready(function () {
     $("#memberInfo_form").kendoValidator();
 
     $("#memberInfo_form").kendoWindow({
-        width: "500px",
+        width: "600px",
         title: "Member Information",
         visible: false, //設定此介面一開始是否可看見
         actions: ["Minimize", "Maximize", "Close"],
@@ -31,7 +31,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#blackMemberList").kendoGrid({
+    $("#friendList").kendoGrid({
         dataSource: {
             serverPaging: true,
             serverSorting: true,
@@ -41,6 +41,44 @@ $(document).ready(function () {
                     url: "GetFriendList",
                     type: "post",
                     dataType: "json",
+                },
+            },
+        },
+        height: 500,
+        scrollable: {
+            virtual: true
+        },
+        sortable: true,
+        columns: [
+            { hidden: true, field: "MemberId" },
+            { field: "MemberId", title: "Member Id", width: "10%" },
+            { field: "MemberName", title: "Member Name", width: "10%" },
+            {
+                command: {
+                    text: "刪除",
+                    className: "",
+                    click: function (e) {
+                        alert("1");
+                    }
+                },
+                title: " ",
+                width: "5%"
+            }
+        ]
+    });
+    $("#blackMemberList").kendoGrid({
+        dataSource: {
+            serverPaging: true,
+            serverSorting: true,
+            pageSize: 100,
+            transport: {
+                read: {
+                    url: "GetAllActivity",
+                    type: "post",
+                    dataType: "json",
+                },
+                test: function (e) {
+                    alert("1");
                 }
             },
         },
@@ -50,10 +88,60 @@ $(document).ready(function () {
         },
         sortable: true,
         columns: [
-            { field: "MemberName", title: "Member", width: "10%" },
-            
+            { field: "ActivityName", title: "活動名稱", width: "10%" },
+            {
+                command: {
+                    text: "刪除",
+                    className: "test",
+                },
+                title: " ",
+                width: "5%"
+            }
         ]
     });
+    $("#friendInvitation").kendoGrid({
+        dataSource: {
+            serverPaging: true,
+            serverSorting: true,
+            pageSize: 100,
+            transport: {
+                read: {
+                    url: "GetAllActivity",
+                    type: "post",
+                    dataType: "json",
+                },
+            },
+        },
+        height: 500,
+        scrollable: {
+            virtual: true
+        },
+        sortable: true,
+        columns: [
+            { field: "ActivityName", title: "活動名稱", width: "10%" },
+            {
+                command: {
+                    text: "同意",
+                    className: "test",
+                },
+                click: function (e) {
+                    console.log("1");
+                },
+                title: " ",
+                width: "5%"
+            },
+            {
+                command: {
+                    text: "拒絕",
+                    className: "test",
+                },
+                title: " ",
+                width: "5%"
+            }
+        ]
+    });
+
+   
 
     $("#Datepicker").kendoDatePicker();
 });
@@ -67,4 +155,9 @@ $("#checkInfo").click(function () {
     $("#checkInfo_form").data('kendoValidator').hideMessages();
     $("#checkInfo_form").data('kendoWindow').center().open();
 });
+
+function test() //test
+{
+    
+}
 
