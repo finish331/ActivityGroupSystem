@@ -27,7 +27,7 @@
     }).data("kendoWindow");
 
     // 邀請好友視窗
-    $("#invite_button").kendoButton();
+    $("#invite_friend_button").kendoButton();
     $("#invite_form").kendoValidator();
     $("#invite_form").kendoWindow({
         width: "500px",
@@ -48,7 +48,7 @@ $("#view_participants_button").click(function () {
     $("#view_participants_form").data('kendoWindow').center().open();
 });
 
-$("#invite_button").click(function () {
+$("#invite_friend_button").click(function () {
     $("#invite_form").data('kendoValidator').hideMessages();
     $("#invite_form").data('kendoWindow').center().open();
 });
