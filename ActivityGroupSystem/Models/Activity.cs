@@ -11,6 +11,9 @@ namespace ActivityGroupSystem.Models
         private string _activityId;
         private string _activityName;
         private string _homeownerId;
+        private int _numberOfPeople;
+        private string _activityNote;
+        private string _activityDate;
         private Chatroom _chatroom;
 
         /*Willie Start*/      
@@ -91,6 +94,42 @@ namespace ActivityGroupSystem.Models
             set
             {
                 _activityName = value;
+            }
+        }
+
+        public string ActivityDate
+        {
+            get
+            {
+                return _activityDate;
+            }
+            set
+            {
+                _activityDate = value;
+            }
+        }
+
+        public string ActivityNote
+        {
+            get
+            {
+                return _activityNote;
+            }
+            set
+            {
+                _activityNote = value;
+            }
+        }
+
+        public int NumberOfPeople
+        {
+            get
+            {
+                return _numberOfPeople;
+            }
+            set
+            {
+                _numberOfPeople = value;
             }
         }
 

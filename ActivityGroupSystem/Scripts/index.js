@@ -40,9 +40,11 @@ $(document).ready(function () {
         },
         columns: [
             { hidden: true, field: "ActivityId" },
-            { field: "ActivityId", title: "活動代號", width: "10%" },
-            { field: "ActivityName", title: "活動名稱", width: "15%" },
-            { field: "HomeOwnerId", title: "活動房主", width: "8%" },
+            { field: "ActivityName", title: "活動名稱", width: "10%" },
+            { field: "HomeOwnerId", title: "活動房主", width: "6%" },
+            { field: "NumberOfPeople", title: "活動人數", width: "6%" },
+            { field: "ActivityNote", title: "活動內容", width: "15%" },
+            { field: "ActivityDate", title: "活動日期", width: "8%" },
             {
                 command: { text: "參加", className: "" },
                 title: " ",
@@ -51,7 +53,7 @@ $(document).ready(function () {
             {
                 command: {
                     text: "進入",
-                    className: "",
+                    className: "test-enter-button",
                 },
                 title: " ",
                 width: "5%"

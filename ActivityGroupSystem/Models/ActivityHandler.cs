@@ -12,8 +12,29 @@ namespace ActivityGroupSystem.Models
 
         public ActivityHandler()
         {
-            _activityList = new List<Activity>();
-            _activityCount = 0;
+
+        }
+
+        public ActivityHandler(List<Activity> activity)
+        {
+            if(activity != null)
+            {
+                _activityList = activity;
+                _activityCount = _activityList.Count;
+            }
+            else
+            {
+                _activityList = new List<Activity>();
+                _activityCount = 0;
+            }
+        }
+
+        public List<Activity> ActivityList
+        {
+            get
+            {
+                return _activityList;
+            }
         }
 
         /*Willie Start*/

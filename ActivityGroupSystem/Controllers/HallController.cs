@@ -21,27 +21,15 @@ namespace ActivityGroupSystem.Controllers
         {
             _databaseSystem = new DatabaseSystem();
             _activityHandler = new ActivityHandler();
-            InitializationMember();
-            InitializationActivity();
+            InitializationModel();
         }
 
-        public async Task InitializationMember()
+        public async Task InitializationModel()
         {
-            var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            var memberData = await firebaseClient.Child("Member").OnceAsync<Member>();
-
-            List<Member> memberList = new List<Member>();
-
-            foreach (var tempData in memberData)
-            {
-                memberList.Add(tempData.Object);
-            }
-            _memberHandler = new MemberHandler(memberList);
-        }
-        public async Task InitializationActivity()
-        {
-            //List<Activity> data = await _databaseSystem.InitializationActivityData();
-            _activityHandler = new ActivityHandler();
+            List<Activity> activityData = await _databaseSystem.InitializationActivityData();
+            _activityHandler = new ActivityHandler(activityData);
+            List<Member> memberData = await _databaseSystem.InitializationMemberData();
+            _memberHandler = new MemberHandler(memberData);
         }
 
         public ActionResult Index()
@@ -52,8 +40,8 @@ namespace ActivityGroupSystem.Controllers
         [HttpPost()]
         public async Task<JsonResult> GetAllActivity()
         {
-            List<Activity> allActivity = await _databaseSystem.InitializationActivityData();
-            return Json(allActivity);
+            await InitializationModel();
+            return Json(_activityHandler.ActivityList);
         }
 
         [HttpPost()]
@@ -353,7 +341,6 @@ namespace ActivityGroupSystem.Controllers
             {
                 Response.Cookies["userName"].Value = account;
                 Response.Redirect("Index");
-                ViewBag.IsLogin = true;
                 return new EmptyResult();
             }
             else
