@@ -55,7 +55,7 @@
                 <label class="control-label">活動人數</label>
             </th>
             <td>
-                <input id="add_activity_number" name="add_activity_number" class="form-control" validationMessage="此欄位必填" required />
+                <input id="add_activity_number" name="add_activity_number" class="form-control" validationMessage="此欄位必填" onkeyup="value=value.replace(/[^\d]/g,'')" required />
                 <span class="k-invalid-msg" data-for="add_activity_number"></span>
             </td>
         </tr>

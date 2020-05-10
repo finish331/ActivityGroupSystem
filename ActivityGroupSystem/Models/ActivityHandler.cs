@@ -71,6 +71,19 @@ namespace ActivityGroupSystem.Models
             return messageResult;
         }
 
+        public List<Activity> GetManageActivity(string memberId)
+        {
+            List<Activity> result = new List<Activity>();
+            foreach (Activity activity in _activityList)
+            {
+                if (activity.HomeOwnerId == memberId)
+                {
+                    result.Add(activity);
+                }
+            }
+            return result;
+        }
+
         public void SendMessage(string activityId, string memberId, string messageContent)
         {
             Activity activity = FindActivity(activityId);

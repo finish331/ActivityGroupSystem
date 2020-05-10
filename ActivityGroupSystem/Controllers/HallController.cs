@@ -43,15 +43,11 @@ namespace ActivityGroupSystem.Controllers
         }
 
         [HttpPost()]
-        public async Task<JsonResult> GetAllActivity2()
+        public async Task<JsonResult> GetManageActivity(string memberId)
         {
-            List<Activity> allActivity = new List<Activity>();
-            Activity activity = new Activity();
-            activity.ActivityId = "3";
-            activity.ActivityName = "3";
-            activity.HomeOwnerId = "3";
-            allActivity.Add(activity);
-            return Json(allActivity);
+            await InitializationModel();
+            List<Activity> allManageActivity = _activityHandler.GetManageActivity(memberId);
+            return Json(allManageActivity);
         }
 
         public async Task<ActionResult> About()
@@ -171,9 +167,10 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public List<Activity> InputAcivityKeyWord(string keyWord)
+        public async Task<JsonResult> InputAcivityKeyWord(string keyWord)
         {
-            return _activityHandler.InputAcivityKeyWord(keyWord);
+            await InitializationModel();
+            return Json(_activityHandler.InputAcivityKeyWord(keyWord));
         }
 
         /*public bool KickOutPariticipant(string memberId, string activityId)
