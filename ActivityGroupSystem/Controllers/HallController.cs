@@ -153,10 +153,10 @@ namespace ActivityGroupSystem.Controllers
             //return chatroomMessage;
         }
 
-        public void SendMessage(string memberId, string activityId, string message)
+        /*public void SendMessage(string memberId, string activityId, string message)
         {
             _activityHandler.SendMessage(memberId, activityId, message);
-        }
+        }*/
 
         public void SearchMemberInfo(string keyWord)
         {
@@ -176,10 +176,10 @@ namespace ActivityGroupSystem.Controllers
             return _activityHandler.InputAcivityKeyWord(keyWord);
         }
 
-        public bool KickOutPariticipant(string memberId, string activityId)
+        /*public bool KickOutPariticipant(string memberId, string activityId)
         {
             return _activityHandler.KickOutPariticipant(memberId, activityId);
-        }
+        }*/
 
         public bool AddFriend (string myMemberId, string friendId)
         {
@@ -219,20 +219,20 @@ namespace ActivityGroupSystem.Controllers
             return _activityHandler.GetAllParticipants(activityId);
         }
 
-        public bool transferHomeowner(string activityId, string newOwnerId)
+        /*public bool transferHomeowner(string activityId, string newOwnerId)
         {
             return _activityHandler.transferHomeowner(activityId, newOwnerId);
-        }
+        }*/
 
         public List<string> GetFriendsList(string memberId)
         {
             return _memberHandler.GetFriendsList(memberId);
         }
 
-        public bool InviteFriend(string userName, string friendId, string activityId)
+        /*public bool InviteFriend(string userName, string friendId, string activityId)
         {
             return _memberHandler.InviteMember(userName, friendId, activityId);
-        }
+        }*/
 
         public bool DeleteFriend(string memberId, string targetId)
         {
@@ -256,13 +256,86 @@ namespace ActivityGroupSystem.Controllers
                 friendsList.Add(friend);
             }
 
+            ViewData["activity_id"] = activityId;
             ViewData["activity_name"] = activity.ActivityName;
-            ViewData["ownerId"] = activity.HomeOwnerId;
+            ViewData["owner_id"] = activity.HomeOwnerId;
             ViewData["activity_date"] = "2020/5/10";
             ViewData["participants_count"] = activity.ParticipantList.Count;
             ViewBag.participants = participantsList;
             ViewBag.friends = friendsList;
             return View();
+        }
+
+        public ActionResult updateActivity(string activityId, string activityName, string avtivityPeople, string avtivityDescription, string avtivityDate)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            // update
+            return Json(new { success = true, responseText = "更新成功" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult transferHomeowner(string activityId, string newOwnerId)
+        {
+            try
+            {
+                _activityHandler.transferHomeowner(activityId, newOwnerId);
+                return Json(new { success = true, responseText = "轉移成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "轉移失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult KickOutPariticipant(string activityId, string targetId)
+        {
+            try
+            {
+                _activityHandler.KickOutPariticipant(targetId, activityId);
+                return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "踢出失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult InviteFriend(string userName, string activityId, string targetId)
+        {
+            try
+            {
+                _memberHandler.InviteMember(userName, targetId, activityId);
+                return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "邀請失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult LeaveActivity(string activityId, string memberId)
+        {
+            try
+            {
+                _activityHandler.LeaveActivity(activityId, memberId);
+                return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "退出失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult SendMessage(string memberId, string activityId, string message)
+        {
+            try
+            {
+                _activityHandler.SendMessage(memberId, activityId, message);
+                return Json(new { success = true, responseText = "發送成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "發送失敗" }, JsonRequestBehavior.AllowGet);
+            }
         }
         /* Ting End */
 
