@@ -102,9 +102,9 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public void CreateActivity(Dictionary<string, string> activityInfo)
+        public void CreateActivity(Activity activityInfo)
         {
-            activityInfo.Add("id", (_activityCount + 1).ToString());
+            activityInfo.ActivityId = (_activityCount + 1).ToString();
             Activity newActivity = new Activity(activityInfo);
             _activityList.Add(newActivity);
             _activityCount++;

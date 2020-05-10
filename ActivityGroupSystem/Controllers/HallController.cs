@@ -198,10 +198,12 @@ namespace ActivityGroupSystem.Controllers
         /*Willie End*/
 
         /* Ting Start */
-        public bool CreateActivity(Dictionary<string, string> activityInfo)
+        public async Task<JsonResult> CreateActivity(Activity activityInfo)
         {
+            await InitializationModel();
             _activityHandler.CreateActivity(activityInfo);
-            return _databaseSystem.InsertActivity(activityInfo);
+            await _databaseSystem.InsertActivity(activityInfo);
+            return Json(true);
         }
 
         public Member GetMember(string memberId)
@@ -316,14 +318,10 @@ namespace ActivityGroupSystem.Controllers
 
         public ActionResult Logout()
         {
-            if (Request.Cookies["userName"] != null)
+            if (Request.Cookies["MemberId"] != null)
             {
-                //HttpCookie mycookie = new HttpCookie("userName");
-                //mycookie.Expires = DateTime.Now.AddDays(-1);
-                //Response.SetCookie(mycookie);
-                Response.Cookies["userName"].Expires = DateTime.Now.AddDays(-1);
-
-                //ViewBag.IsLogin = false;
+                Response.Cookies["MemberId"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["MemberName"].Expires = DateTime.Now.AddDays(-1);
                 Response.Redirect("Index");
             }
             return new EmptyResult();
@@ -337,13 +335,16 @@ namespace ActivityGroupSystem.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(FormCollection post)
         {
+            await InitializationModel();
             string account = post["account"];
             string password = post["password"];
 
             //驗證帳號密碼
             if (await _databaseSystem.CheckAccount(account, password))
             {
-                Response.Cookies["userName"].Value = account;
+                Member member = _memberHandler.GetMemberById(account);
+                Response.Cookies["MemberName"].Value = member.MemberName;
+                Response.Cookies["MemberId"].Value = member.MemberId;
                 Response.Redirect("Index");
                 return new EmptyResult();
             }

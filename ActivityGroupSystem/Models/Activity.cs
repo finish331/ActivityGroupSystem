@@ -11,7 +11,7 @@ namespace ActivityGroupSystem.Models
         private string _activityId;
         private string _activityName;
         private string _homeownerId;
-        private int _numberOfPeople;
+        private string _numberOfPeople;
         private string _activityNote;
         private string _activityDate;
         private Chatroom _chatroom;
@@ -20,7 +20,8 @@ namespace ActivityGroupSystem.Models
 
         public Activity()
         {
-
+            _participantList = new List<string>();
+            _chatroom = new Chatroom();
         }
 
         public bool IsMemberInActivity(string memberId)
@@ -121,7 +122,7 @@ namespace ActivityGroupSystem.Models
             }
         }
 
-        public int NumberOfPeople
+        public string NumberOfPeople
         {
             get
             {
@@ -155,12 +156,15 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public Activity(Dictionary<string, string> activityInfo)
+        public Activity(Activity activityInfo)
         {
             _participantList = new List<string>();
-            _activityId = activityInfo["id"];
-            _activityName = activityInfo["name"];
-            _homeownerId = activityInfo["ownerId"];
+            _activityId = activityInfo.ActivityId;
+            _activityName = activityInfo.ActivityName;
+            _homeownerId = activityInfo.HomeOwnerId;
+            _activityDate = activityInfo.ActivityDate;
+            _activityNote = activityInfo.ActivityNote;
+            _numberOfPeople = activityInfo.NumberOfPeople;
             _chatroom = new Chatroom();
         }
 
