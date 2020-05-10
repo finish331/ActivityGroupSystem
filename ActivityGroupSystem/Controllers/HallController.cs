@@ -238,11 +238,17 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
 
-        public async Task<ActionResult> Room(string activityId, string userId)
+        public async Task<ActionResult> Room(string activityId, string userId, string isJoin)
         {
             await InitializationModel();
             Activity activity = _activityHandler.FindActivity(activityId);
             Member member = _memberHandler.GetMemberById(userId);
+
+            if (isJoin == "1") // 1代表使用者點擊參加, 0代表使用者點擊進入
+            {
+                _activityHandler.JoinActivity(userId, activityId);
+            }
+
             List<Member> participantsList = new List<Member>();
             List<Member> friendsList = new List<Member>();
             foreach (string memberId in activity.ParticipantList)
@@ -325,16 +331,30 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public ActionResult SendMessage(string memberId, string activityId, string message)
+        public async Task<ActionResult> SendMessage(string memberId, string memberName, string activityId, string messageContent)
         {
             try
             {
-                _activityHandler.SendMessage(memberId, activityId, message);
+                Message message = new Message(memberId, memberName, messageContent);
+                await _databaseSystem.SendMessage(activityId, message);
                 return Json(new { success = true, responseText = "發送成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
             {
                 return Json(new { success = false, responseText = "發送失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public async Task<ActionResult> updateChatroom(string activityId)
+        {
+            try
+            {
+                List<Message> messages = await _databaseSystem.GetChatData(activityId);
+                return Json(new { success = true, responseText = messages }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "連結聊天室失敗" }, JsonRequestBehavior.AllowGet);
             }
         }
         /* Ting End */

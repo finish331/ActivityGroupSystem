@@ -63,6 +63,7 @@ namespace ActivityGroupSystem.Models
                 { "ParticipantList", participantList }
             };
             await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync(tempDictionary);
+            await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync("Chatroom");
             return true;
         }
 
@@ -73,6 +74,25 @@ namespace ActivityGroupSystem.Models
 
         public bool UpdateActivity(string activityId, Dictionary<string, string> newData)
         {
+            return true;
+        }
+
+        public async Task<List<Message>> GetChatData(string activityId)
+        {
+            var messageData = await _firebaseClient.Child("Activity").Child(activityId).Child("Chatroom").OnceAsync<Message>();
+            List<Message> messages = new List<Message>();
+
+            foreach (var tempData in messageData)
+            {
+                messages.Add(tempData.Object);
+            }
+
+            return messages;
+        }
+
+        public async Task<bool> SendMessage(string activityId, Message message)
+        {
+            await _firebaseClient.Child("Activity").Child(activityId).Child("Chatroom").Child(message.Time).PatchAsync<Message>(message);
             return true;
         }
         /* Ting End */
