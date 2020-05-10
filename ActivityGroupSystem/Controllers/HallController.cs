@@ -20,8 +20,6 @@ namespace ActivityGroupSystem.Controllers
         public HallController()
         {
             _databaseSystem = new DatabaseSystem();
-            _activityHandler = new ActivityHandler();
-            InitializationModel();
         }
 
         public async Task InitializationModel()
@@ -206,9 +204,9 @@ namespace ActivityGroupSystem.Controllers
             return _databaseSystem.InsertActivity(activityInfo);
         }
 
-        public Dictionary<string, string> LoadUserData(string memberId)
+        public Member GetMember(string memberId)
         {
-            return _memberHandler.LoadUserData(memberId);
+            return _memberHandler.GetMemberById(memberId);
         }
 
         public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
@@ -241,23 +239,29 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
 
-        public ActionResult Room()
+        public ActionResult Room(string activityId, string userId)
         {
-            return View();
-        }
+            Activity activity = _activityHandler.FindActivity(activityId);
+            Member member = _memberHandler.GetMemberById(userId);
+            List<Member> participantsList = new List<Member>();
+            List<Member> friendsList = new List<Member>();
+            foreach (string memberId in activity.ParticipantList)
+            {
+                Member participant = _memberHandler.GetMemberById(memberId);
+                participantsList.Add(member);
+            }
+            foreach (string memberId in member.FriendsList)
+            {
+                Member friend = _memberHandler.GetMemberById(memberId);
+                friendsList.Add(friend);
+            }
 
-        public ActionResult ManageRoom()
-        {
-            return View();
-        }
-
-        public ActionResult ViewPartcipants()
-        {
-            return View();
-        }
-
-        public ActionResult Invite()
-        {
+            ViewData["activity_name"] = activity.ActivityName;
+            ViewData["ownerId"] = activity.HomeOwnerId;
+            ViewData["activity_date"] = "2020/5/10";
+            ViewData["participants_count"] = activity.ParticipantList.Count;
+            ViewBag.participants = participantsList;
+            ViewBag.friends = friendsList;
             return View();
         }
         /* Ting End */

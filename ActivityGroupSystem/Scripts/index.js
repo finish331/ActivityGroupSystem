@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     debugger;
     $("#logout_button").kendoButton();
     $("#btn_create_activity").kendoButton();
