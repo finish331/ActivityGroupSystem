@@ -20,9 +20,27 @@ namespace ActivityGroupSystem.Controllers
         public HallController()
         {
             _databaseSystem = new DatabaseSystem();
-            _activityHandler = new ActivityHandler();
             InitializationMember();
             InitializationActivity();
+            /*
+            // Romm test
+            _activityHandler = new ActivityHandler();
+            _memberHandler = new MemberHandler(new List<Member>());
+            Dictionary<string, string> test = new Dictionary<string, string>();
+            test.Add("name", "我是大中天");
+            test.Add("ownerId", "123");
+            CreateActivity(test);
+
+            Dictionary<string, string> test2 = new Dictionary<string, string>();
+            test2.Add("MemberId", "1");
+            test2.Add("MemberName", "abc");
+            test2.Add("Password", "123");
+            test2.Add("Sexuality", "");
+            test2.Add("Birthday", "");
+            test2.Add("Phone", "");
+            CreateNewMember(test2);
+            AddFriend("1", "1");
+            */
         }
 
         public async Task InitializationMember()
@@ -218,9 +236,9 @@ namespace ActivityGroupSystem.Controllers
             return _databaseSystem.InsertActivity(activityInfo);
         }
 
-        public Dictionary<string, string> LoadUserData(string memberId)
+        public Member GetMember(string memberId)
         {
-            return _memberHandler.LoadUserData(memberId);
+            return _memberHandler.GetMemberById(memberId);
         }
 
         public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
@@ -253,12 +271,29 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
 
-        public ActionResult Room(string activityId)
+        public ActionResult Room(string activityId, string userId)
         {
             Activity activity = _activityHandler.FindActivity(activityId);
+            Member member = _memberHandler.GetMemberById(userId);
+            List<Member> participantsList = new List<Member>();
+            List<Member> friendsList = new List<Member>();
+            foreach (string memberId in activity.ParticipantList)
+            {
+                Member participant = _memberHandler.GetMemberById(memberId);
+                participantsList.Add(member);
+            }
+            foreach (string memberId in member.FriendsList)
+            {
+                Member friend = _memberHandler.GetMemberById(memberId);
+                friendsList.Add(friend);
+            }
 
+            ViewData["activity_name"] = activity.ActivityName;
+            ViewData["ownerId"] = activity.HomeOwnerId;
             ViewData["activity_date"] = "2020/5/10";
             ViewData["participants_count"] = activity.ParticipantList.Count;
+            ViewBag.participants = participantsList;
+            ViewBag.friends = friendsList;
             return View();
         }
         /* Ting End */

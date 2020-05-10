@@ -92,13 +92,6 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public Member()
-        {
-            _friendsList = new List<string>();
-            _blackList = new List<string>();
-            _invitedList = new Dictionary<string, string>();
-        }
-
         public Dictionary<string, string> GetData()
         {
             Dictionary<string, string> data = new Dictionary<string, string>();

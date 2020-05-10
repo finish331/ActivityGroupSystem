@@ -7,7 +7,7 @@ namespace ActivityGroupSystem.Models
 {
     public class MemberHandler
     {
-        private List<Member> _memberList = new List<Member>();
+        private List<Member> _memberList;
 
         /*Willie Start*/
 
@@ -68,17 +68,6 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public Dictionary<string, string> LoadUserData(string memberId)
-        {
-            Member member = GetMemberById(memberId);
-            if (member != null)
-            {
-                return member.GetData();
-            }
-            else
-                return null;
-        }
-
         public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
         {
             Member member = GetMemberById(memberId);
@@ -126,7 +115,7 @@ namespace ActivityGroupSystem.Models
                 return false;
         }
 
-        private Member GetMemberById(string id)
+        public Member GetMemberById(string id)
         {
             if (_memberList.Exists(member => member.MemberId == id))
                 return _memberList.Find(member => member.MemberId == id);
@@ -140,7 +129,7 @@ namespace ActivityGroupSystem.Models
         {
             foreach (Member member in _memberList)
             {
-                if (member.IsExist(memberInfo["id"]))
+                if (member.IsExist(memberInfo["MemberId"]))
                 {
                     return false;
                 }
