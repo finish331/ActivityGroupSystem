@@ -91,7 +91,7 @@ namespace ActivityGroupSystem.Models
 
         public List<string> GetAllParticipants(string activityId)
         {
-            Activity activity = GetActivityById(activityId);
+            Activity activity = FindActivity(activityId);
             if (activity != null)
             {
                 return activity.ParticipantList;
@@ -102,7 +102,7 @@ namespace ActivityGroupSystem.Models
 
         public bool transferHomeowner(string activityId, string newOwnerId)
         {
-            Activity activity = GetActivityById(activityId);
+            Activity activity = FindActivity(activityId);
             if (activity != null)
             {
                 activity.transferHomeowner(newOwnerId);
@@ -110,14 +110,6 @@ namespace ActivityGroupSystem.Models
             }
             else
                 return false;
-        }
-
-        private Activity GetActivityById(string id)
-        {
-            if (_activityList.Exists(activity => activity.ActivityId == id))
-                return _activityList.Find(activity => activity.ActivityId == id);
-            else
-                return null;
         }
         /* Ting End */
 

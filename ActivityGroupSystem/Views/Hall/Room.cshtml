@@ -1,5 +1,4 @@
 ﻿@{
-    ViewBag.Title = "Room";
 }
 
 <style type="text/css">
@@ -85,14 +84,47 @@
         color: black;
         background-color: #d9e1e8;
     }
+
+    .form button {
+        border: 0px;
+        color: black;
+        background-color: #d9e1e8;
+        padding: 3px 10px;
+        border-radius: 10px
+    }
+
+    .form ul {
+        padding: 0px;
+        list-style: none;
+    }
+
+    .form table {
+        width: 100%;
+    }
+
+    #manage_form .field {
+        margin-bottom: 15px;
+    }
+
+    .vertical_align_top, #invalid_msg {
+        vertical-align: top;
+    }
+
+    #view_participants_form .user_name {
+        width: 70%;
+    }
+
+    #invite_form .user_name {
+        width: 80%;
+    }
 </style>
 
 <div id="content">
     <!-- 活動資訊 -->
     <div id="info">
         <h1>Room</h1>
-        <p>活動類型:</p>
-        <p>目前人數:</p>
+        <p>活動日期: @ViewData["activity_date"]</p>
+        <p>目前人數: @ViewData["participants_count"]</p>
     </div>
 
     <table id="activity_detail">
@@ -101,11 +133,10 @@
             <td id="menu" class="col-md-3">
                 <h3 id="menu_title">功能選單</h3>
                 <ul>
-                    <li><button type="button">管理活動</button></li>
-                    <li><button type="button">轉移房主</button></li>
-                    <li><button type="button">查看參加者名單</button></li>
-                    <li><button type="button">邀請好友</button></li>
-                    <li><button type="button">退出活動</button></li>
+                    <li><button id="manage_button" type="button">管理活動</button></li>
+                    <li><button id="view_participants_button" type="button">查看與管理參加者名單</button></li>
+                    <li><button id="invite_button" type="button">邀請好友</button></li>
+                    <li><button id="leave_button" type="button">退出活動</button></li>
                 </ul>
             </td>
             <!-- 聊天室 -->
@@ -128,4 +159,94 @@
         </tr>
     </table>
 </div>
+
+<!-- 管理活動視窗 -->
+<div class="form" id="manage_form">
+    <div class="field">
+        <label>活動名稱:</label>
+        <input type="text" class="input" id="activity_name" name="activity_name" value="" validationMessage="此欄位必填" required>
+        <span class="k-invalid-msg" data-for="activity_name"></span>
+    </div>
+    <div class="field">
+        <label>活動人數:</label>
+        <input type="text" class="input" id="activity_type" name="activity_type" value="" validationMessage="此欄位必填" required>
+        <span class="k-invalid-msg" data-for="activity_type"></span>
+    </div>
+    <div class="field">
+        <label class="vertical_align_top">內容簡介:</label>
+        <textarea class="input" id="activity_description" name="activity_description" value="" validationMessage="此欄位必填" required></textarea>
+        <span id="invalid_msg" class="k-invalid-msg" data-for="activity_description"></span>
+    </div>
+    <div class="field">
+        <label>活動日期:</label>
+        <input type="date" class="input" id="activity_date" name="activity_date" value="" validationMessage="此欄位必填" required>
+        <span class="k-invalid-msg" data-for="activity_date"></span>
+    </div>
+    <button type="submit">更新</button>
+</div>
+
+<!-- 查看與管理參加者名單視窗 -->
+<div class="form" id="view_participants_form">
+    <ul>
+        <li>
+            <table>
+                <tr>
+                    <td class="user_name"><p>王小明</p></td>
+                    <td><button>轉移房主</button></td>
+                    <td><button>踢出</button></td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <table>
+                <tr>
+                    <td class="user_name"><p>林大頭</p></td>
+                    <td><button>轉移房主</button></td>
+                    <td><button>踢出</button></td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <table>
+                <tr>
+                    <td class="user_name"><p>陳小華</p></td>
+                    <td><button>轉移房主</button></td>
+                    <td><button>踢出</button></td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+</div>
+
+<!-- 好友邀請視窗 -->
+<div class="form" id="invite_form">
+    <ul>
+        <li>
+            <table>
+                <tr>
+                    <td class="user_name"><p>王小明</p></td>
+                    <td><button>邀請</button></td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <table>
+                <tr>
+                    <td class="user_name"><p>林大頭</p></td>
+                    <td><button>邀請</button></td>
+                </tr>
+            </table>
+        </li>
+        <li>
+            <table>
+                <tr>
+                    <td class="user_name"><p>陳小華</p></td>
+                    <td><button>邀請</button></td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+</div>
+
+<script src="~/Scripts/Room.js"></script>
 

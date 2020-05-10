@@ -253,23 +253,12 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
 
-        public ActionResult Room()
+        public ActionResult Room(string activityId)
         {
-            return View();
-        }
+            Activity activity = _activityHandler.FindActivity(activityId);
 
-        public ActionResult ManageRoom()
-        {
-            return View();
-        }
-
-        public ActionResult ViewPartcipants()
-        {
-            return View();
-        }
-
-        public ActionResult Invite()
-        {
+            ViewData["activity_date"] = "2020/5/10";
+            ViewData["participants_count"] = activity.ParticipantList.Count;
             return View();
         }
         /* Ting End */
