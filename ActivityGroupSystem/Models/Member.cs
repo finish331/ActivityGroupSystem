@@ -21,7 +21,10 @@ namespace ActivityGroupSystem.Models
         /*Willie Start*/
         public Member()
         {
-
+            _friendsList = new List<string>();
+            _blackList = new List<string>();
+            _invitedList = new Dictionary<string, string>();
+            _friendInvitation = new List<string>();
         }
 
         public bool BlackMember(string blackMemberId)

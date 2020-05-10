@@ -66,7 +66,7 @@
 
 $("#activity_grid").on("click", ".btn-enter-button", function (e) {
     var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
-};
+});
 
 //開啟新增活動window之按鈕動作
 $("#btn_create_activity").click(function () {

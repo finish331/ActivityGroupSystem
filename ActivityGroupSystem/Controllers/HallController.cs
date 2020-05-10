@@ -238,8 +238,9 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
 
-        public ActionResult Room(string activityId, string userId)
+        public async Task<ActionResult> Room(string activityId, string userId)
         {
+            await InitializationModel();
             Activity activity = _activityHandler.FindActivity(activityId);
             Member member = _memberHandler.GetMemberById(userId);
             List<Member> participantsList = new List<Member>();
