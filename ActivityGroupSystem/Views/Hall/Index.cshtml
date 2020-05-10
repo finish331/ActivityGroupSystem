@@ -2,24 +2,36 @@
     ViewBag.Title = "Home Page";
     var account = ViewBag.test;
     var welcomeMessage = "";
-    if (Request.Cookies["userName"] == null)
+    if (Request.Cookies["MemberName"] == null)
     {
         welcomeMessage = "訪客請登入";
     }
     else
     {
-        welcomeMessage = "歡迎登入:" + Request.Cookies["userName"].Value;
+        welcomeMessage = "歡迎登入:" + Request.Cookies["MemberName"].Value;
+    }
+    var memberId = "";
+    if (Request.Cookies["MemberId"] == null)
+    {
+        memberId = "";
+    }
+    else
+    {
+        memberId = Request.Cookies["MemberId"].Value;
     }
 }
-
+<label hidden="hidden" id="label_memberId">@memberId</label>
 <div class="form-horizontal">
-    <div class="form-group" style="padding-top:5%">
+    <div class="form-group" style="padding-top:3%">
         <div class="col-md-6">
+            <input id="search_activity" style="margin-right:1%"/>
+            <button id="btn_search_activity">搜尋</button>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-12" style="padding-top:1%">
             <button id="btn_create_activity">創建活動</button>
             <button id="btn_manage_activity">管理活動</button>
             <button id="btn_view_join_activity">查看已參加活動</button>
+            <button id="btn_cancel" style="float:right">取消</button>
         </div>
     </div>
     <div id="activity_grid"></div>
@@ -43,7 +55,7 @@
                 <label class="control-label">活動人數</label>
             </th>
             <td>
-                <input id="add_activity_number" name="add_activity_number" class="form-control" validationMessage="此欄位必填" required />
+                <input id="add_activity_number" name="add_activity_number" class="form-control" validationMessage="此欄位必填" onkeyup="value=value.replace(/[^\d]/g,'')" required />
                 <span class="k-invalid-msg" data-for="add_activity_number"></span>
             </td>
         </tr>

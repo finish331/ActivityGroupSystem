@@ -19,6 +19,13 @@ namespace ActivityGroupSystem.Models
         private Dictionary<string, string> _invitedList; // { 活動ID, 所有邀請人姓名(間隔用',') }
 
         /*Willie Start*/
+        public Member()
+        {
+            _friendsList = new List<string>();
+            _blackList = new List<string>();
+            _invitedList = new Dictionary<string, string>();
+            _friendInvitation = new List<string>();
+        }
 
         public bool BlackMember(string blackMemberId)
         {

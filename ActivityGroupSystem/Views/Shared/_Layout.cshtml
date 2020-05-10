@@ -2,7 +2,7 @@
     var Test = "登入";
     var Test2 = "Login";
     var welcomeMessage = "";
-    if (Request.Cookies["userName"] == null)
+    if (Request.Cookies["MemberName"] == null)
     {
         welcomeMessage = "HI，您尚未登入";
     }
@@ -10,7 +10,7 @@
     {
         Test = "登出";
         Test2 = "Logout";
-        welcomeMessage = "HI，" + Request.Cookies["userName"].Value;
+        welcomeMessage = "HI，" + Request.Cookies["MemberName"].Value;
     }
 }
 <!DOCTYPE html>

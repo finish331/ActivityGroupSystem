@@ -71,6 +71,19 @@ namespace ActivityGroupSystem.Models
             return messageResult;
         }
 
+        public List<Activity> GetManageActivity(string memberId)
+        {
+            List<Activity> result = new List<Activity>();
+            foreach (Activity activity in _activityList)
+            {
+                if (activity.HomeOwnerId == memberId)
+                {
+                    result.Add(activity);
+                }
+            }
+            return result;
+        }
+
         public void SendMessage(string activityId, string memberId, string messageContent)
         {
             Activity activity = FindActivity(activityId);
@@ -102,9 +115,9 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public void CreateActivity(Dictionary<string, string> activityInfo)
+        public void CreateActivity(Activity activityInfo)
         {
-            activityInfo.Add("id", (_activityCount + 1).ToString());
+            activityInfo.ActivityId = (_activityCount + 1).ToString();
             Activity newActivity = new Activity(activityInfo);
             _activityList.Add(newActivity);
             _activityCount++;
@@ -128,6 +141,17 @@ namespace ActivityGroupSystem.Models
             {
                 activity.transferHomeowner(newOwnerId);
                 return true;
+            }
+            else
+                return false;
+        }
+
+        public bool LeaveActivity(string activityId, string memberId)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+            {
+                return activity.Leave(memberId);
             }
             else
                 return false;

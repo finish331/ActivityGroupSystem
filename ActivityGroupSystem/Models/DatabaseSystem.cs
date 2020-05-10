@@ -47,8 +47,22 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public bool InsertActivity(Dictionary<string, string> activityInfo)
+        public async Task<bool> InsertActivity(Activity activityInfo)
         {
+            await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync<Activity>(activityInfo);
+            string participantList = "";
+            if (activityInfo.ParticipantList.Count > 0)
+            {
+                foreach (string temp in activityInfo.ParticipantList)
+                {
+                    participantList += temp + ",";
+                }
+            }
+            Dictionary<string, string> tempDictionary = new Dictionary<string, string>()
+            {
+                { "ParticipantList", participantList }
+            };
+            await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync(tempDictionary);
             return true;
         }
 

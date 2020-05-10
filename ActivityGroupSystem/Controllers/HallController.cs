@@ -43,15 +43,11 @@ namespace ActivityGroupSystem.Controllers
         }
 
         [HttpPost()]
-        public async Task<JsonResult> GetAllActivity2()
+        public async Task<JsonResult> GetManageActivity(string memberId)
         {
-            List<Activity> allActivity = new List<Activity>();
-            Activity activity = new Activity();
-            activity.ActivityId = "3";
-            activity.ActivityName = "3";
-            activity.HomeOwnerId = "3";
-            allActivity.Add(activity);
-            return Json(allActivity);
+            await InitializationModel();
+            List<Activity> allManageActivity = _activityHandler.GetManageActivity(memberId);
+            return Json(allManageActivity);
         }
 
         public async Task<ActionResult> About()
@@ -153,10 +149,10 @@ namespace ActivityGroupSystem.Controllers
             //return chatroomMessage;
         }
 
-        public void SendMessage(string memberId, string activityId, string message)
+        /*public void SendMessage(string memberId, string activityId, string message)
         {
             _activityHandler.SendMessage(memberId, activityId, message);
-        }
+        }*/
 
         public void SearchMemberInfo(string keyWord)
         {
@@ -171,15 +167,16 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public List<Activity> InputAcivityKeyWord(string keyWord)
+        public async Task<JsonResult> InputAcivityKeyWord(string keyWord)
         {
-            return _activityHandler.InputAcivityKeyWord(keyWord);
+            await InitializationModel();
+            return Json(_activityHandler.InputAcivityKeyWord(keyWord));
         }
 
-        public bool KickOutPariticipant(string memberId, string activityId)
+        /*public bool KickOutPariticipant(string memberId, string activityId)
         {
             return _activityHandler.KickOutPariticipant(memberId, activityId);
-        }
+        }*/
 
         public bool AddFriend (string myMemberId, string friendId)
         {
@@ -198,10 +195,12 @@ namespace ActivityGroupSystem.Controllers
         /*Willie End*/
 
         /* Ting Start */
-        public bool CreateActivity(Dictionary<string, string> activityInfo)
+        public async Task<JsonResult> CreateActivity(Activity activityInfo)
         {
+            await InitializationModel();
             _activityHandler.CreateActivity(activityInfo);
-            return _databaseSystem.InsertActivity(activityInfo);
+            await _databaseSystem.InsertActivity(activityInfo);
+            return Json(true);
         }
 
         public Member GetMember(string memberId)
@@ -219,28 +218,29 @@ namespace ActivityGroupSystem.Controllers
             return _activityHandler.GetAllParticipants(activityId);
         }
 
-        public bool transferHomeowner(string activityId, string newOwnerId)
+        /*public bool transferHomeowner(string activityId, string newOwnerId)
         {
             return _activityHandler.transferHomeowner(activityId, newOwnerId);
-        }
+        }*/
 
         public List<string> GetFriendsList(string memberId)
         {
             return _memberHandler.GetFriendsList(memberId);
         }
 
-        public bool InviteFriend(string userName, string friendId, string activityId)
+        /*public bool InviteFriend(string userName, string friendId, string activityId)
         {
             return _memberHandler.InviteMember(userName, friendId, activityId);
-        }
+        }*/
 
         public bool DeleteFriend(string memberId, string targetId)
         {
             return _memberHandler.DeleteFriend(memberId, targetId);
         }
 
-        public ActionResult Room(string activityId, string userId)
+        public async Task<ActionResult> Room(string activityId, string userId)
         {
+            await InitializationModel();
             Activity activity = _activityHandler.FindActivity(activityId);
             Member member = _memberHandler.GetMemberById(userId);
             List<Member> participantsList = new List<Member>();
@@ -256,13 +256,86 @@ namespace ActivityGroupSystem.Controllers
                 friendsList.Add(friend);
             }
 
+            ViewData["activity_id"] = activityId;
             ViewData["activity_name"] = activity.ActivityName;
-            ViewData["ownerId"] = activity.HomeOwnerId;
+            ViewData["owner_id"] = activity.HomeOwnerId;
             ViewData["activity_date"] = "2020/5/10";
             ViewData["participants_count"] = activity.ParticipantList.Count;
             ViewBag.participants = participantsList;
             ViewBag.friends = friendsList;
             return View();
+        }
+
+        public ActionResult updateActivity(string activityId, string activityName, string avtivityPeople, string avtivityDescription, string avtivityDate)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            // update
+            return Json(new { success = true, responseText = "更新成功" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult transferHomeowner(string activityId, string newOwnerId)
+        {
+            try
+            {
+                _activityHandler.transferHomeowner(activityId, newOwnerId);
+                return Json(new { success = true, responseText = "轉移成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "轉移失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult KickOutPariticipant(string activityId, string targetId)
+        {
+            try
+            {
+                _activityHandler.KickOutPariticipant(targetId, activityId);
+                return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "踢出失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult InviteFriend(string userName, string activityId, string targetId)
+        {
+            try
+            {
+                _memberHandler.InviteMember(userName, targetId, activityId);
+                return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "邀請失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult LeaveActivity(string activityId, string memberId)
+        {
+            try
+            {
+                _activityHandler.LeaveActivity(activityId, memberId);
+                return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "退出失敗" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult SendMessage(string memberId, string activityId, string message)
+        {
+            try
+            {
+                _activityHandler.SendMessage(memberId, activityId, message);
+                return Json(new { success = true, responseText = "發送成功" }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { success = false, responseText = "發送失敗" }, JsonRequestBehavior.AllowGet);
+            }
         }
         /* Ting End */
 
@@ -321,14 +394,10 @@ namespace ActivityGroupSystem.Controllers
 
         public ActionResult Logout()
         {
-            if (Request.Cookies["userName"] != null)
+            if (Request.Cookies["MemberId"] != null)
             {
-                //HttpCookie mycookie = new HttpCookie("userName");
-                //mycookie.Expires = DateTime.Now.AddDays(-1);
-                //Response.SetCookie(mycookie);
-                Response.Cookies["userName"].Expires = DateTime.Now.AddDays(-1);
-
-                //ViewBag.IsLogin = false;
+                Response.Cookies["MemberId"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["MemberName"].Expires = DateTime.Now.AddDays(-1);
                 Response.Redirect("Index");
             }
             return new EmptyResult();
@@ -342,13 +411,16 @@ namespace ActivityGroupSystem.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(FormCollection post)
         {
+            await InitializationModel();
             string account = post["account"];
             string password = post["password"];
 
             //驗證帳號密碼
             if (await _databaseSystem.CheckAccount(account, password))
             {
-                Response.Cookies["userName"].Value = account;
+                Member member = _memberHandler.GetMemberById(account);
+                Response.Cookies["MemberName"].Value = member.MemberName;
+                Response.Cookies["MemberId"].Value = member.MemberId;
                 Response.Redirect("Index");
                 return new EmptyResult();
             }
