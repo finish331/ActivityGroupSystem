@@ -1,47 +1,22 @@
 ﻿@{
     ViewBag.Title = "MemberInfo";
-
+    var member = ViewBag.member;
 }
 
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
 
 
-<div class="row" style="margin:20px; " method="post" >
+<form style="margin-left:20px; margin-bottom:20px" id="memberInfo_form" method="post">
+
     
-    <div class="col-md-7">
-        <h1>使用者資料</h1>
-        <div class="form-group">
-            <label for="exampleInputEmail1">帳號</label>
-            <input type="text" readonly class="form-control" id="Id" name="MemberId" value="@ViewBag.MemberId">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">新的密碼</label>
-            <input type="password" readonly class="form-control" id="Password" name="Password" value="@ViewBag.Password">
-        </div>
-        <div class="form-group">
-            <label for="Name">姓名</label>
-            <input type="text" readonly class="form-control" id="Name" name="MemberName" value="@ViewBag.MemberName">
-        </div>
-        <div class="form-group">
-            <label for="Phoone">電話</label>
-            <input type="text" readonly class="form-control" id="Phone" name="Phone" value="@ViewBag.Phone">
-        </div>
-        <div class="form-group">
-            <label for="Sexuality">性別</label>
-            <input type="text" readonly class="form-control" id="Sexuality" name="Sexuality" value="@ViewBag.Sexuality">
-        </div>
-        <div class="form-group">
-            <label for="Birthday">生日</label>
-            <input style="width:200px;" class="form-control" id="Datepicker" name="Birthday" value="@ViewBag.Sexuality" title="birthday" />
-        </div>
-        <button type="submit" class="btn btn-primary" id="confirm">確定</button>
-        <button type="reset" class="btn btn-warning" id="reset">清除</button>
-    </div>
-    <div class="col-md-5" style="margin-top:20px">
+    <div style="margin-top:20px">
         <div id="tabstrip">
             <ul>
                 <li class="k-state-active">
+                    個人資料
+                </li>
+                <li>
                     好友名單
                 </li>
                 <li>
@@ -51,6 +26,37 @@
                     好友邀請
                 </li>
             </ul>
+            <div>
+                <div>
+                    <h1>使用者資料</h1>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">帳號</label>
+                        <input type="text" class="form-control" id="Id" name="MemberId" value="@member.MemberId">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">密碼</label>
+                        <input type="password" class="form-control" id="Password" name="Password" value="@member.Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">姓名</label>
+                        <input type="text" class="form-control" id="Name" name="MemberName" value="@member.MemberName">
+                    </div>
+                    <div class="form-group">
+                        <label for="Phoone">電話</label>
+                        <input type="text" class="form-control" id="Phone" name="Phone" value="@member.Phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="Sexuality">性別</label>
+                        <input type="text" class="form-control" id="Sexuality" name="Sexuality" value="@member.Sexuality">
+                    </div>
+                    <div class="form-group">
+                        <label for="Birthday">生日</label>
+                        <input style="width:200px;" class="form-control" id="Datepicker" name="Birthday" value="@member.Birthday" title="birthday" />
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="confirm">修改</button>
+                    <button type="reset" class="btn btn-warning" id="reset">取消</button>
+                </div>
+            </div>
             <div>
                 <div id="friendList"></div>
             </div>
@@ -62,8 +68,37 @@
             </div>
         </div>
     </div>
-</div>
+</form>
 
+<form style="margin-left:20px; margin-bottom:20px" id="checkInfo_form" method="post">
+    <h1>使用者資料</h1>
+    <div class="form-group">
+        <label for="exampleInputEmail1">帳號</label>
+        <input type="text" readonly class="form-control" id="Id" name="MemberId" value="@member.MemberId">
+    </div>
+    <div class="form-group">
+        <label for="Name">姓名</label>
+        <input type="text" readonly class="form-control" id="Name" name="MemberName" value="@member.MemberName">
+    </div>
+    <div class="form-group">
+        <label for="Phoone">電話</label>
+        <input type="text" readonly class="form-control" id="Phone" name="Phone" value="@member.Phone">
+    </div>
+    <div class="form-group">
+        <label for="Sexuality">性別</label>
+        <input type="text" readonly class="form-control" id="Sexuality" name="Sexuality" value="@member.Sexuality">
+    </div>
+    <div class="form-group">
+        <label for="Birthday">生日</label>
+        <input style="width:200px;" readonly class="form-control" id="Datepicker" name="Birthday" value="@member.Birthday" title="birthday" />
+    </div>
+    <button type="submit" class="btn btn-primary" id="confirm">加入好友</button>
+</form>
+   
+<div>
+    <button id="checkInfo">查個資</button>
+    <button id="memberInfo">個資</button>
+</div>
 <script src="~/Scripts/memberInfo.js"></script>
 
 

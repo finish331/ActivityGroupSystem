@@ -4,7 +4,23 @@ $(document).ready(function () {
     $("#logout_button").kendoButton();
     $("#confirm").kendoButton();
     $("#reset").kendoButton();
-    $("#register_form").kendoValidator().data("kendoValidator");
+    $("#memberInfo_form").kendoValidator();
+
+    $("#memberInfo_form").kendoWindow({
+        width: "500px",
+        title: "Member Information",
+        visible: false, //設定此介面一開始是否可看見
+        actions: ["Minimize", "Maximize", "Close"],
+        modal: true, //操作kendoWindow時，其他元件無法操作
+    }).data("kendoWindow");
+
+    $("#checkInfo_form_form").kendoWindow({
+        width: "500px",
+        title: "Member Information",
+        visible: false, //設定此介面一開始是否可看見
+        actions: ["Minimize", "Maximize", "Close"],
+        modal: true, //操作kendoWindow時，其他元件無法操作
+    }).data("kendoWindow");
 
     $("#tabstrip").kendoTabStrip({
         tabPosition: "left",
@@ -15,15 +31,18 @@ $(document).ready(function () {
         }
     });
 
-    $("#friendList").kendoGrid({
+    $("#blackMemberList").kendoGrid({
         dataSource: {
-            type: "odata",
             serverPaging: true,
             serverSorting: true,
             pageSize: 100,
             transport: {
-                read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Orders"
-            }
+                read: {
+                    url: "GetFriendList",
+                    type: "post",
+                    dataType: "json",
+                }
+            },
         },
         height: 500,
         scrollable: {
@@ -31,12 +50,21 @@ $(document).ready(function () {
         },
         sortable: true,
         columns: [
-            { field: "OrderID", title: "Order ID"},
-            { field: "CustomerID", title: "Customer ID"}
+            { field: "MemberName", title: "Member", width: "10%" },
+            
         ]
     });
 
     $("#Datepicker").kendoDatePicker();
 });
 
+$("#memberInfo").click(function () {
+    $("#memberInfo_form").data('kendoValidator').hideMessages();
+    $("#memberInfo_form").data('kendoWindow').center().open();
+});
+
+$("#checkInfo").click(function () {
+    $("#checkInfo_form").data('kendoValidator').hideMessages();
+    $("#checkInfo_form").data('kendoWindow').center().open();
+});
 

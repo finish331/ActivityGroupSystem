@@ -269,22 +269,27 @@ namespace ActivityGroupSystem.Controllers
         /*Hsu start*/
         public void CreateNewMember(Dictionary<string, string> memberInfo)
         {
+            //InitializationModel();
             if (_memberHandler.CreateNewMember(memberInfo))
             {
                 _databaseSystem.InsertMember(memberInfo);
             }
         }
 
-        public void LoadAllActivity()
-        {
-            List<string> activityList = _activityHandler.LoadAllActivity();
-        }
-
         public void JoinActivity(string memberId, string activityId)
         {
+            //InitializationModel();
             if (_activityHandler.JoinActivity(memberId, activityId))
             {
-                _databaseSystem.InsertList(activityId, memberId, "Activity", "ParticipantList");
+                Activity activity = _activityHandler.FindActivity(activityId);
+                string participantsList = memberId + ",";
+                foreach (string member in activity.ParticipantList)
+                {
+                    participantsList += member + ",";
+                }
+                Dictionary<string, string> newData = new Dictionary<string, string>();
+                newData.Add("ParticipantList", participantsList);
+                _databaseSystem.UpdateActivity(activityId, newData);
                 //存進firebase
             }
         }
@@ -389,21 +394,34 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public ActionResult MemberInfo()
+        public async Task<ActionResult> MemberInfo()
         {
-            Dictionary<string, string> memberInfo = new Dictionary<string, string>();
+            await InitializationModel();
+            Member member = _memberHandler.GetMember(Request.Cookies["userName"].Value);
+            ViewBag.member = member;
             return View();
+        }
+
+        [HttpPost()]
+        public async Task<JsonResult> GetFriend()
+        {
+            await InitializationModel();
+            Member member = _memberHandler.GetMember(Request.Cookies["userName"].Value);
+            
+            return Json(_memberHandler.GetFriendsList(Request.Cookies["userName"].Value));
         }
 
         public async Task<ActionResult> test()
         {
             var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            var memberListData = await firebaseClient.Child("Member").Child("member1").Child("MemberName").OnceSingleAsync<string>();
+            Dictionary<string, string> asd = new Dictionary<string, string>();
+            asd.Add("MemberName", "00");
+            await firebaseClient.Child("Use").Child("test").PatchAsync("asd");
 
             
-            ViewBag.test = memberListData;
             
-            return View("index");
+            
+            return new EmptyResult();
         }
     }
 }

@@ -135,17 +135,6 @@ namespace ActivityGroupSystem.Models
         /* Ting End */
 
         /*Hsu start*/
-        public List<string> LoadAllActivity()
-        {
-            List<string> allActivity = new List<string>();
-
-            foreach (Activity activity in _activityList)
-            {
-                allActivity.Add(activity.ActivityName);
-            }
-            return allActivity;
-        }
-
         public bool JoinActivity(string memberId, string activityId)
         {
             foreach (Activity activity in _activityList)

@@ -201,10 +201,11 @@ namespace ActivityGroupSystem.Models
         {
             try
             {
-                _activityId = newData["id"];
                 _activityName = newData["name"];
                 _homeownerId = newData["ownerId"];
-
+                _numberOfPeople = int.Parse(newData["people"]);
+                _activityNote = newData["note"];
+                _activityDate = newData["date"];
                 
                 return true;
             }

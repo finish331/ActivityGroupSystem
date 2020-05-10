@@ -155,6 +155,20 @@ namespace ActivityGroupSystem.Models
         /* Ting End */
 
         /*Hsu start*/
+        public Member()
+        {
+            _memberId = "";
+            _memberName = "";
+            _memberPassword = "";
+            _memberSexuality = "";
+            _memberBirthday = "";
+            _memberPhone = "";
+            _friendsList = new List<string>();
+            _blackList = new List<string>();
+            _invitedList = new Dictionary<string, string>();
+            _friendInvitation = new List<string>();
+        }
+
         public Member(Dictionary<string, string> memberInfo)
         {
             _memberId = memberInfo["MemberId"];
@@ -191,6 +205,43 @@ namespace ActivityGroupSystem.Models
         public void DeleteFriendInvitation(string memberId)
         {
             _friendInvitation.Remove(memberId);
+        }
+
+        public string Phone
+        {
+            get
+            {
+                return _memberPhone;
+            }
+            set
+            {
+                _memberPhone = value;
+            }
+        }
+
+        public string Sexuality
+        {
+            get
+            {
+                return _memberSexuality;
+            }
+            set
+            {
+                _memberSexuality = value;
+            }
+        }
+
+        public string Birthday
+        {
+            get
+            {
+                return _memberBirthday;
+            }
+            set
+            {
+                _memberBirthday = value;
+
+            }
         }
         /*Hsu end*/
     }

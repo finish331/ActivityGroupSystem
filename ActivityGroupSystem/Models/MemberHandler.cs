@@ -173,6 +173,18 @@ namespace ActivityGroupSystem.Models
                 }
             }
         }
+
+        public Member GetMember(string memberId)
+        {
+            foreach (Member member in _memberList)
+            {
+                if (member.IsExist(memberId))
+                {
+                    return member;
+                }
+            }
+            return null;
+        }
         /*Hsu end*/
     }
 }
