@@ -64,9 +64,15 @@
     });
 });
 
+//活動Grid中進入活動的按鈕
 $("#activity_grid").on("click", ".btn-enter-button", function (e) {
-    var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
-    window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text(); 
+    if ($("#label_memberId").text() != "") {
+        var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+        window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text();
+    }
+    else {
+        alert("請先登入會員！");
+    }
 });
 
 //開啟新增活動window之按鈕動作
