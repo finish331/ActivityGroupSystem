@@ -125,7 +125,11 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-
+        public async Task<bool> UpdateMemberInfo(string memberId, Dictionary<string, string> newData)
+        {
+            await _firebaseClient.Child("Member").Child(memberId).PatchAsync(newData);
+            return true;
+        }
         /*Hsu end*/
     }
 }

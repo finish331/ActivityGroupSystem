@@ -7,93 +7,97 @@
 @Scripts.Render("~/bundles/modernizr")
 
 
-<form style="margin-left:20px; margin-bottom:20px" id="memberInfo_form" method="post">
-
-    
-    <div style="margin-top:20px">
-        <div id="tabstrip">
-            <ul>
-                <li class="k-state-active">
-                    個人資料
-                </li>
-                <li>
-                    好友名單
-                </li>
-                <li>
-                    黑名單
-                </li>
-                <li>
-                    好友邀請
-                </li>
-            </ul>
-            <div>
-                <div>
-                    <h1>使用者資料</h1>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">帳號</label>
-                        <input type="text" class="form-control" id="Id" name="MemberId" value="@member.MemberId">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">密碼</label>
-                        <input type="password" class="form-control" id="Password" name="Password" value="@member.Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="Name">姓名</label>
-                        <input type="text" class="form-control" id="Name" name="MemberName" value="@member.MemberName">
-                    </div>
-                    <div class="form-group">
-                        <label for="Phoone">電話</label>
-                        <input type="text" class="form-control" id="Phone" name="Phone" value="@member.Phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="Sexuality">性別</label>
-                        <input type="text" class="form-control" id="Sexuality" name="Sexuality" value="@member.Sexuality">
-                    </div>
-                    <div class="form-group">
-                        <label for="Birthday">生日</label>
-                        <input style="width:200px;" class="form-control" id="Datepicker" name="Birthday" value="@member.Birthday" title="birthday" />
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="confirm">修改</button>
-                    <button type="reset" class="btn btn-warning" id="reset">取消</button>
+<div style="padding: 0px;" id="memberInfo_form" method="post">
+    <div id="tabstrip">
+        <ul>
+            <li class="k-state-active">
+                個人資料
+            </li>
+            <li>
+                好友名單
+            </li>
+            <li>
+                黑名單
+            </li>
+            <li>
+                好友邀請
+            </li>
+        </ul>
+        <div>
+            <div class="form-group">
+                <h1>使用者資料</h1>
+                <div class="form-group" id="Notification">
+                    <span style="color:red" id="errorNotification"></span>
                 </div>
-            </div>
-            <div>
-                <div id="friendList"></div>
-            </div>
-            <div>
-                <div id="blackMemberList"></div>
-            </div>
-            <div>
-                <div id="friendInvitation"></div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">帳號</label>
+                    <input style="max-width:95%" type="text" class="form-control" id="MemberId" name="MemberId" placeholder="輸入帳號" value="@member.MemberId" validationMessage="此欄位必填" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">密碼</label>
+                    <input style="max-width:95%" type="password" class="form-control" id="Password" name="Password" placeholder="輸入密碼" value="@member.Password" validationMessage="此欄位必填" required>
+
+                </div>
+                <div class="form-group">
+                    <label for="Name">姓名</label>
+                    <input style="max-width:95%" type="text" class="form-control" id="MemberName" name="MemberName" placeholder="輸入姓名" value="@member.MemberName" validationMessage="此欄位必填" required>
+                </div>
+                <div class="form-group">
+                    <label for="Phoone">電話</label>
+                    <input style="max-width:95%" type="text" class="form-control" id="Phone" name="Phone" placeholder="輸入電話" value="@member.Phone" validationMessage="此欄位必填" required>
+                </div>
+                <div class="form-group">
+                    <label for="Sexuality">性別</label>
+                    <input style="max-width:100%" class="form-control" id="Sexuality" name="Sexuality" placeholder="選擇性別" value="@member.Sexuality" />
+                </div>
+                <div class="form-group">
+                    <label for="Birthday">生日</label>
+                    <input style="width:100%" class="form-control" id="Birthday" name="Birthday" value="@member.Birthday" title="birthday" />
+                </div>
+                <button style="width:100%" type="submit" class="btn btn-primary" id="manage_btn">修改</button>
             </div>
         </div>
-    </div>
-</form>
 
-<form style="margin-left:20px; margin-bottom:20px" id="checkInfo_form" method="post">
+        <div>
+            <div id="friendList"></div>
+        </div>
+        <div>
+            <div id="blackMemberList"></div>
+        </div>
+        <div>
+            <div id="friendInvitation"></div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-left:20px; margin-bottom:20px" id="checkInfo_form" method="post">
     <h1>使用者資料</h1>
     <div class="form-group">
+        <span style="color:red" id="CheckErrorNotification"></span>
+    </div>
+    <div class="form-group">
         <label for="exampleInputEmail1">帳號</label>
-        <input type="text" readonly class="form-control" id="Id" name="MemberId" value="@member.MemberId">
+        <input style="max-width:95%" type="text" readonly class="form-control" id="CheckId" name="MemberId" value="@member.MemberId">
     </div>
     <div class="form-group">
         <label for="Name">姓名</label>
-        <input type="text" readonly class="form-control" id="Name" name="MemberName" value="@member.MemberName">
+        <input style="max-width:95%" type="text" readonly class="form-control" id="CheckName" name="MemberName" value="@member.MemberName">
     </div>
     <div class="form-group">
         <label for="Phoone">電話</label>
-        <input type="text" readonly class="form-control" id="Phone" name="Phone" value="@member.Phone">
+        <input style="max-width:95%" type="text" readonly class="form-control" id="CheckPhone" name="Phone" value="@member.Phone">
     </div>
     <div class="form-group">
         <label for="Sexuality">性別</label>
-        <input type="text" readonly class="form-control" id="Sexuality" name="Sexuality" value="@member.Sexuality">
+        <input style="max-width:95%" type="text" readonly class="form-control" id="CheckSexuality" name="Sexuality" value="@member.Sexuality">
     </div>
     <div class="form-group">
         <label for="Birthday">生日</label>
-        <input style="width:200px;" readonly class="form-control" id="Datepicker" name="Birthday" value="@member.Birthday" title="birthday" />
+        <input style="max-width:100%" readonly class="form-control" id="CheckBirthday" name="Birthday" value="@member.Birthday" title="birthday" />
     </div>
-    <button type="submit" class="btn btn-primary" id="confirm">加入好友</button>
-</form>
+    <button class="btn btn-primary" id="addFriend_btn">加入好友</button>
+    <button class="btn btn-primary" id="black_btn">加入黑名單</button>
+</div>
    
 <div>
     <button id="checkInfo">查個資</button>

@@ -9,11 +9,23 @@ namespace ActivityGroupSystem.Models
     {
         private List<Member> _memberList;
 
+        public MemberHandler()
+        {
+            
+        }
+
         /*Willie Start*/
 
         public MemberHandler(List<Member> memberList)
         {
-            _memberList = memberList;
+            if (memberList != null)
+            {
+                _memberList = memberList;
+            }
+            else
+            {
+                _memberList = new List<Member>();
+            }
         }
 
         public List<string> GetBlackList(string memberId)
@@ -23,7 +35,7 @@ namespace ActivityGroupSystem.Models
             {
                 if (tempMember.MemberId == memberId)
                 {
-                    result = tempMember.BlackList.ToList();
+                    result = tempMember.BlackLists.ToList();
                 }
             }
             return result;
@@ -54,13 +66,13 @@ namespace ActivityGroupSystem.Models
             return false;
         }
 
-        public bool AddFriend(string myMemberId, string friendId)
+        public bool AddFriendInvitation(string myMemberId, string friendId)
         {
             foreach (Member member in _memberList)
             {
                 if (member.MemberId == friendId)
                 {
-                    return member.AddFriend(myMemberId);
+                    return member.AddFriendInvitation(myMemberId);
                 }
             }
             return false;
@@ -138,52 +150,57 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-        public List<string> LoadAllFriendInvitation(string memberId)
+        public bool AgreeInvitation(string memberId, string inviterId)
         {
             foreach (Member member in _memberList)
             {
                 if (member.IsExist(memberId))
-                {
-                    return member.LoadAllFriendInvitation();
-                }
-            }
-            return null;
-        }
-
-        public void AgreeInvitation(string memberId, string inviterId)
-        {
-            foreach (Member member in _memberList)
-            {
-                if (member.IsExist(memberId) && member.IsExist(inviterId))
                 {
                     member.InsertFriendList(inviterId);
+                    member.DeleteFriendInvitation(inviterId);
+                }
+                if (member.IsExist(inviterId))
+                {
                     member.InsertFriendList(memberId);
-                    member.DeleteFriendInvitation(inviterId);
                 }
             }
+            return true;
         }
 
-        public void RejectInvitation(string memberId, string inviterId)
+        public bool RejectInvitation(string memberId, string inviterId)
         {
             foreach (Member member in _memberList)
             {
                 if (member.IsExist(memberId))
                 {
                     member.DeleteFriendInvitation(inviterId);
+                    return true;
                 }
             }
+            return false;
         }
 
-        public Member GetMember(string memberId)
+        public List<string> GetInvitationList(string memberId)
         {
-            foreach (Member member in _memberList)
+            Member member = GetMemberById(memberId);
+            if (member != null)
             {
-                if (member.IsExist(memberId))
-                {
-                    return member;
-                }
+                return member.FriendInvitationList;
             }
-            return null;
+            else
+                return null;
+        }
+
+        public bool DeleteBlack(string memberId, string targetId)
+        {
+            Member member = GetMemberById(memberId);
+            if (member != null)
+            {
+                member.DeleteBlack(targetId);
+                return true;
+            }
+            else
+                return false;
         }
         /*Hsu end*/
     }

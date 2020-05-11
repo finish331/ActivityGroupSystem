@@ -1,20 +1,24 @@
 ﻿
 $(document).ready(function () {
     debugger;
-    $("#logout_button").kendoButton();
-    $("#confirm").kendoButton();
-    $("#reset").kendoButton();
+    $("#checkInfo").kendoButton();
+    $("#memberInfo").kendoButton();
+    $("#manage_btn").kendoButton();
+    $("#addFriend_btn").kendoButton();
+    $("#black_btn").kendoButton();
     $("#memberInfo_form").kendoValidator();
+    $("#checkInfo_form").kendoValidator();
+    $("#Birthday").kendoDatePicker();
 
     $("#memberInfo_form").kendoWindow({
-        width: "600px",
+        width: "900px",
         title: "Member Information",
         visible: false, //設定此介面一開始是否可看見
         actions: ["Minimize", "Maximize", "Close"],
         modal: true, //操作kendoWindow時，其他元件無法操作
     }).data("kendoWindow");
 
-    $("#checkInfo_form_form").kendoWindow({
+    $("#checkInfo_form").kendoWindow({
         width: "500px",
         title: "Member Information",
         visible: false, //設定此介面一開始是否可看見
@@ -31,6 +35,18 @@ $(document).ready(function () {
         }
     });
 
+    $("#Sexuality").kendoComboBox({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: [
+            { text: "男", value: "男" },
+            { text: "女", value: "女" },
+        ],
+        filter: "contains",
+        suggest: true,
+        index: 1
+    });
+
     $("#friendList").kendoGrid({
         dataSource: {
             serverPaging: true,
@@ -38,7 +54,7 @@ $(document).ready(function () {
             pageSize: 100,
             transport: {
                 read: {
-                    url: "GetFriendList",
+                    url: "/Hall/GetFriendList",
                     type: "post",
                     dataType: "json",
                 },
@@ -56,10 +72,7 @@ $(document).ready(function () {
             {
                 command: {
                     text: "刪除",
-                    className: "",
-                    click: function (e) {
-                        alert("1");
-                    }
+                    className: "DeleteFriend",
                 },
                 title: " ",
                 width: "5%"
@@ -73,13 +86,10 @@ $(document).ready(function () {
             pageSize: 100,
             transport: {
                 read: {
-                    url: "GetAllActivity",
+                    url: "/Hall/GetBlackList",
                     type: "post",
                     dataType: "json",
                 },
-                test: function (e) {
-                    alert("1");
-                }
             },
         },
         height: 500,
@@ -88,11 +98,12 @@ $(document).ready(function () {
         },
         sortable: true,
         columns: [
-            { field: "ActivityName", title: "活動名稱", width: "10%" },
+            { field: "MemberId", title: "Member Id", width: "10%" },
+            { field: "MemberName", title: "Member Name", width: "10%" },
             {
                 command: {
                     text: "刪除",
-                    className: "test",
+                    className: "DeleteBlack",
                 },
                 title: " ",
                 width: "5%"
@@ -106,7 +117,7 @@ $(document).ready(function () {
             pageSize: 100,
             transport: {
                 read: {
-                    url: "GetAllActivity",
+                    url: "/Hall/GetInvitationList",
                     type: "post",
                     dataType: "json",
                 },
@@ -118,14 +129,12 @@ $(document).ready(function () {
         },
         sortable: true,
         columns: [
-            { field: "ActivityName", title: "活動名稱", width: "10%" },
+            { field: "MemberId", title: "Member Id", width: "10%" },
+            { field: "MemberName", title: "Member Name", width: "10%" },
             {
                 command: {
                     text: "同意",
-                    className: "test",
-                },
-                click: function (e) {
-                    console.log("1");
+                    className: "Agree",
                 },
                 title: " ",
                 width: "5%"
@@ -133,7 +142,7 @@ $(document).ready(function () {
             {
                 command: {
                     text: "拒絕",
-                    className: "test",
+                    className: "Reject",
                 },
                 title: " ",
                 width: "5%"
@@ -143,7 +152,136 @@ $(document).ready(function () {
 
    
 
-    $("#Datepicker").kendoDatePicker();
+    
+});
+
+$("#friendList").on("click", ".DeleteFriend", function (e) {
+    var Item = $("#friendList").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+    var errorNotification = $("#errorNotification").kendoNotification().data("kendoNotification");
+    $.ajax({
+        url: "/Hall/DeleteFriend",
+        dataType: "json",
+        data: { MemberId: Item.MemberId, },
+        type: "post"
+    }).done(function (data) {
+        errorNotification.show(data, "info");
+        $("#friendList").data("kendoGrid").dataSource.read();
+    }).fail(function (data) {
+        errorNotification.show("修改資料失敗", "info");
+    });
+});
+
+$("#blackMemberList").on("click", ".DeleteBlack", function (e) {
+    var Item = $("#blackMemberList").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+    var errorNotification = $("#errorNotification").kendoNotification().data("kendoNotification");
+    $.ajax({
+        url: "/Hall/DeleteBlack",
+        dataType: "json",
+        data: { MemberId: Item.MemberId, },
+        type: "post"
+    }).done(function (data) {
+        errorNotification.show(data, "info");
+        $("#blackMemberList").data("kendoGrid").dataSource.read();
+    }).fail(function (data) {
+        errorNotification.show("修改資料失敗", "info");
+    });
+});
+
+$("#friendInvitation").on("click", ".Agree", function (e) {
+    var Item = $("#friendInvitation").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+    var errorNotification = $("#errorNotification").kendoNotification().data("kendoNotification");
+    $.ajax({
+        url: "/Hall/AgreeInvitation",
+        dataType: "json",
+        data: { MemberId: Item.MemberId, },
+        type: "post"
+    }).done(function (data) {
+        errorNotification.show(data, "info");
+        $("#friendInvitation").data("kendoGrid").dataSource.read();
+        $("#friendList").data("kendoGrid").dataSource.read();
+    }).fail(function (data) {
+        errorNotification.show("修改資料失敗", "info");
+    });
+});
+
+$("#friendInvitation").on("click", ".Reject", function (e) {
+    var Item = $("#friendInvitation").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+    var errorNotification = $("#errorNotification").kendoNotification().data("kendoNotification");
+    $.ajax({
+        url: "/Hall/RejectInvitation",
+        dataType: "json",
+        data: { MemberId: Item.MemberId, },
+        type: "post"
+    }).done(function (data) {
+        errorNotification.show(data, "info");
+        $("#friendInvitation").data("kendoGrid").dataSource.read();
+    }).fail(function (data) {
+        errorNotification.show("修改資料失敗", "info");
+    });
+});
+
+$("#manage_btn").click(function () {
+    var validator = $("#memberInfo_form").kendoValidator().data("kendoValidator");
+
+    debugger;
+
+    var errorNotification = $("#errorNotification").kendoNotification({ appendTo: "#Notification" }).data("kendoNotification");
+
+    var insertMemberData = {
+        MemberId: $("#MemberId").val(),
+        Password: $("#Password").val(),
+        MemberName: $("#MemberName").val(),
+        Phone: $("#Phone").val(),
+        Sexuality: $("#Sexuality").val(),
+        Birthday: $("#Birthday").val()
+    }
+
+    if (validator.validate()) {
+        $.ajax({
+            url: "/Hall/UpdateMemberInfo",
+            dataType: "json",
+            data: insertMemberData,
+            type: "post"
+        }).done(function (data) {
+            if (data == "") {
+                errorNotification.show("修改資料成功", "info");
+            }
+        }).fail(function (data) {
+            errorNotification.show("修改資料失敗", "info");
+        });
+    }
+});
+
+$("#addFriend_btn").click(function () {
+    debugger;
+    var errorNotification = $("#CheckErrorNotification").kendoNotification().data("kendoNotification");
+    $.ajax({
+        url: "/Hall/AddFriend",
+        dataType: "json",
+        data: { MemberId: $("#CheckId").val(), },
+        type: "post"
+    }).done(function (data) {
+        errorNotification.show(data, "info");
+        $("#friendInvitation").data("kendoGrid").dataSource.read();
+    }).fail(function (data) {
+        errorNotification.show("修改資料失敗", "info");
+    });
+});
+
+$("#black_btn").click(function () {
+    debugger;
+    var errorNotification = $("#CheckErrorNotification").kendoNotification().data("kendoNotification");
+    $.ajax({
+        url: "/Hall/BlackMember",
+        dataType: "json",
+        data: { MemberId: $("#CheckId").val(), },
+        type: "post"
+    }).done(function (data) {
+        errorNotification.show(data, "info");
+        $("#blackMemberList").data("kendoGrid").dataSource.read();
+    }).fail(function (data) {
+        errorNotification.show("修改資料失敗", "info");
+    });
 });
 
 $("#memberInfo").click(function () {
@@ -156,8 +294,5 @@ $("#checkInfo").click(function () {
     $("#checkInfo_form").data('kendoWindow').center().open();
 });
 
-function test() //test
-{
-    
-}
+
 
