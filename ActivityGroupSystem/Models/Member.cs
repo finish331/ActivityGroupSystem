@@ -278,7 +278,15 @@ namespace ActivityGroupSystem.Models
                 _friendInvitation = value;
             }
         }
-        
+
+        public Dictionary<string, string> InvitedList
+        {
+            get
+            {
+                return _invitedList;
+            }
+        }
+
         /*Hsu end*/
     }
 }

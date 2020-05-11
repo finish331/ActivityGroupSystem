@@ -284,8 +284,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Hall\About.cshtml" />
-    <Content Include="Views\Hall\Contact.cshtml" />
     <Content Include="Views\Hall\Index.cshtml" />
     <Content Include="Views\Hall\Login.cshtml" />
     <Content Include="Views\Hall\Room.cshtml" />
