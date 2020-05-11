@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityGroupSystem", "ActivityGroupSystem\ActivityGroupSystem.csproj", "{2C8EFCD1-CD9A-4D3D-B74D-5D8142D3B659}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityGroupSystemTest", "ActivityGroupSystemTest\ActivityGroupSystemTest.csproj", "{60F0C369-050A-42FB-B701-75E975CAE5A7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{2C8EFCD1-CD9A-4D3D-B74D-5D8142D3B659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C8EFCD1-CD9A-4D3D-B74D-5D8142D3B659}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C8EFCD1-CD9A-4D3D-B74D-5D8142D3B659}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60F0C369-050A-42FB-B701-75E975CAE5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60F0C369-050A-42FB-B701-75E975CAE5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60F0C369-050A-42FB-B701-75E975CAE5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60F0C369-050A-42FB-B701-75E975CAE5A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -147,21 +147,15 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-        public async Task<bool> UpdateMemberInfo(string memberId, Dictionary<string, string> newData)
+        public async Task<bool> UpdateMemberInfo(Member member)
         {
-            await _firebaseClient.Child("Member").Child(memberId).PatchAsync(newData);
+            await _firebaseClient.Child("Member").Child(member.MemberId).PatchAsync(member);
             return true;
         }
 
         public async Task<bool> UpdateMemberInfoList(string memberId, string listName, List<string> newData)
         {
             await _firebaseClient.Child("Users").Child("test").Child(listName).PatchAsync(newData);
-            return true;
-        }
-
-        public async Task<bool> UpdateMember(Member member)
-        {
-            await _firebaseClient.Child("Member").Child(member.MemberId).PatchAsync(member);
             return true;
         }
         /*Hsu end*/

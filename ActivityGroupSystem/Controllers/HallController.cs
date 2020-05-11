@@ -420,41 +420,17 @@ namespace ActivityGroupSystem.Controllers
 
         public void UpdateFriendList(string memberId)
         {
-            List<string> friendList = _memberHandler.GetFriendsList(memberId);
-            string newFriendList = "";
-            foreach (string member in friendList)
-            {
-                newFriendList += member + ",";
-            }
-            Dictionary<string, List<string>> newData = new Dictionary<string, List<string>>();
-            newData.Add("FriendList", friendList);
-            _databaseSystem.UpdateMemberInfoList(memberId, "FriendList", friendList);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
 
         public void UpdateBlackList(string memberId)
         {
-            List<string> blackList = _memberHandler.GetBlackList(memberId);
-            string newFriendList = "";
-            foreach (string member in blackList)
-            {
-                newFriendList += member + ",";
-            }
-            Dictionary<string, string> newData = new Dictionary<string, string>();
-            newData.Add("BlackList", newFriendList);
-            _databaseSystem.UpdateMemberInfo(memberId, newData);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
 
         public void UpdateFriendInvitation(string memberId)
         {
-            List<string> friendInvitationList = _memberHandler.GetInvitationList(memberId);
-            string newFriendList = "";
-            foreach (string member in friendInvitationList)
-            {
-                newFriendList += member + ",";
-            }
-            Dictionary<string, string> newData = new Dictionary<string, string>();
-            newData.Add("FriendInvitation", newFriendList);
-            _databaseSystem.UpdateMemberInfo(memberId, newData);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
 
         public async Task<JsonResult> RejectInvitation(FormCollection post)
@@ -532,7 +508,7 @@ namespace ActivityGroupSystem.Controllers
 
         public async Task<JsonResult> Registers(FormCollection post)
         {
-            //await InitializationModel();
+            await InitializationModel();
             
             if (string.IsNullOrWhiteSpace(post["Password"]) || post["Password"] != post["Password2"])
             {
@@ -546,15 +522,10 @@ namespace ActivityGroupSystem.Controllers
                     if (key.ToString() == "Password2") continue;
                     memberInfo.Add(key.ToString(), post[key.ToString()]);
                 }
-                if (true)
+                if (_memberHandler.CreateNewMember(memberInfo))
                 {
-                    
-                    memberInfo.Add("FriendList", "asd123");
-                    memberInfo.Add("BlackList", "qwe123");
-                    memberInfo.Add("InvitedList", "qwe1234");
-                    memberInfo.Add("FriendInvitation", "qwe12345");
                     Member member = new Member(memberInfo);
-                    _databaseSystem.UpdateMember(member);
+                    _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberInfo["Member"]));
                     return Json("");
                 }
                 else
@@ -573,7 +544,7 @@ namespace ActivityGroupSystem.Controllers
                 memberInfo.Add(key.ToString(), post[key.ToString()]);
             }
             _memberHandler.UpdateUserData(Request.Cookies["MemberId"].Value, memberInfo);
-            _databaseSystem.UpdateMemberInfo(Request.Cookies["MemberId"].Value, memberInfo);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(Request.Cookies["MemberId"].Value));
             return Json("");
         }
 
