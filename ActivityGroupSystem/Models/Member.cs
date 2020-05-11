@@ -193,13 +193,13 @@ namespace ActivityGroupSystem.Models
             _friendInvitation = new List<string>();
             _invitedList = new Dictionary<string, string>();
 
-            if (memberInfo.Keys.Contains("FriendList"))
+            /*if (memberInfo.Keys.Contains("FriendList"))
                 _friendsList.Add(memberInfo["FriendList"]);
             if (memberInfo.Keys.Contains("BlackList"))
                 _blackList.Add(memberInfo["BlackList"]);
             if (memberInfo.Keys.Contains("FriendInvitation"))
                 _friendInvitation.Add(memberInfo["FriendInvitation"]);
-            /*if (memberInfo.Keys.Contains("InvitedList"))
+            if (memberInfo.Keys.Contains("InvitedList"))
                 _invitedList = new Dictionary<string, string>();*/
         }
 

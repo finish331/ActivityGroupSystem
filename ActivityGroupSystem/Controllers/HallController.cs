@@ -394,15 +394,6 @@ namespace ActivityGroupSystem.Controllers
         /* Ting End */
 
         /*Hsu start*/
-        public void CreateNewMember(Dictionary<string, string> memberInfo)
-        {
-            //InitializationModel();
-            if (_memberHandler.CreateNewMember(memberInfo))
-            {
-                _databaseSystem.InsertMember(memberInfo);
-            }
-        }
-
         public void JoinActivity(string memberId, string activityId)
         {
             //InitializationModel();

@@ -12,9 +12,18 @@ namespace ActivityGroupSystem.Models.Tests
     public class DatabaseSystemTests
     {
         [TestMethod()]
-        public void InitializationMemberDataTest()
+        public void CreateDatabaseSystemTest()
         {
-            //Assert.Fail();
+            Assert.IsNotNull(new DatabaseSystem());
+        }
+
+        [TestMethod]
+        public async void InitializationMemberDataTest()
+        {
+             
+            DatabaseSystem databaseSystem = new DatabaseSystem();
+            List<Member> memberList = await databaseSystem.InitializationMemberData();
+            Assert.AreEqual(8,memberList.Count);
         }
     }
 }
