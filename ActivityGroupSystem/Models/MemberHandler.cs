@@ -9,11 +9,6 @@ namespace ActivityGroupSystem.Models
     {
         private List<Member> _memberList;
 
-        public MemberHandler()
-        {
-            
-        }
-
         /*Willie Start*/
 
         public MemberHandler(List<Member> memberList)
@@ -43,7 +38,7 @@ namespace ActivityGroupSystem.Models
 
         public List<Member> SearchMemberInfo(string keyWord)
         {
-            List<Member> relatedMember = null;
+            List<Member> relatedMember = new List<Member>();
             foreach (Member member in _memberList)
             {
                 if (member.MemberId.Contains(keyWord) || member.MemberName.Contains(keyWord))
