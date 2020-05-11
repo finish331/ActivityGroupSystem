@@ -1,6 +1,5 @@
 ﻿
 $(document).ready(function () {
-    debugger;
     $("#register_button").kendoButton();
     $("#memberInfo_button").kendoButton();
     $("#test").kendoButton();

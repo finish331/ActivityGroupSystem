@@ -50,20 +50,22 @@ namespace ActivityGroupSystem.Models
         public async Task<bool> InsertActivity(Activity activityInfo)
         {
             await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync<Activity>(activityInfo);
-            string participantList = "";
-            if (activityInfo.ParticipantList.Count > 0)
-            {
-                foreach (string temp in activityInfo.ParticipantList)
-                {
-                    participantList += temp + ",";
-                }
-            }
-            Dictionary<string, string> tempDictionary = new Dictionary<string, string>()
-            {
-                { "ParticipantList", participantList }
-            };
-            await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync(tempDictionary);
-            await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync("Chatroom");
+            //string participantList = "";
+            //if (activityInfo.ParticipantList.Count > 0)
+            //{
+            //    foreach (string temp in activityInfo.ParticipantList)
+            //    {
+            //        participantList += temp + ",";
+            //    }
+            //}
+            //char[] charsToTrim = {','};
+            //participantList = participantList.TrimEnd(charsToTrim);
+            //Dictionary<string, string> tempDictionary = new Dictionary<string, string>()
+            //{
+            //    { "ParticipantList", participantList }
+            //};
+            //await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync(tempDictionary);
+            //await _firebaseClient.Child("Activity").Child(activityInfo.ActivityId).PatchAsync("Chatroom");
             return true;
         }
 

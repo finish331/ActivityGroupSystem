@@ -43,11 +43,27 @@ namespace ActivityGroupSystem.Controllers
         }
 
         [HttpPost()]
+        public async Task<JsonResult> GetUnJoinActivity(string memberId)
+        {
+            await InitializationModel();
+            List<Activity> unJoinActivity = _activityHandler.GetUnJoinActivity(memberId);
+            return Json(unJoinActivity);
+        }
+
+        [HttpPost()]
         public async Task<JsonResult> GetManageActivity(string memberId)
         {
             await InitializationModel();
             List<Activity> allManageActivity = _activityHandler.GetManageActivity(memberId);
             return Json(allManageActivity);
+        }
+
+        [HttpPost()]
+        public async Task<JsonResult> GetJoinActivity(string memberId)
+        {
+            await InitializationModel();
+            List<Activity> allJoinActivity = _activityHandler.GetJoinActivity(memberId);
+            return Json(allJoinActivity);
         }
 
         public async Task<ActionResult> About()
@@ -200,9 +216,10 @@ namespace ActivityGroupSystem.Controllers
         /*Willie End*/
 
         /* Ting Start */
-        public async Task<JsonResult> CreateActivity(Activity activityInfo)
+        public async Task<JsonResult> CreateActivity(Activity activityInfo, string memberId)
         {
             await InitializationModel();
+            activityInfo.ParticipantList.Add(memberId);
             _activityHandler.CreateActivity(activityInfo);
             await _databaseSystem.InsertActivity(activityInfo);
             return Json(true);

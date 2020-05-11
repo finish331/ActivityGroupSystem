@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    debugger;
     $("#btn_create_activity").kendoButton();
     $("#btn_manage_activity").kendoButton();
     $("#btn_view_join_activity").kendoButton();
@@ -27,9 +26,10 @@
         dataSource: {
             transport: {
                 read: {
-                    url: "/Hall/GetAllActivity",
+                    url: "/Hall/GetUnJoinActivity",
                     type: "post",
                     dataType: "json",
+                    data: { "memberId": $("#label_memberId").text() }
                 }
             },
             pageSize: 20
@@ -114,8 +114,6 @@ $("#btn_create_activity").click(function () {
 $("#btn_add_activity").click(function () {
     var validator = $("#insert_form").kendoValidator().data("kendoValidator");
 
-    debugger;
-
     var insertActivityData = {
         ActivityName: $("#add_activity_name").val(),
         NumberOfPeople: $("#add_activity_number").val(),
@@ -128,7 +126,7 @@ $("#btn_add_activity").click(function () {
         $.ajax({
             url: "/Hall/CreateActivity",
             dataType: "json",
-            data: insertActivityData,
+            data: { "activityInfo": insertActivityData, "memberId": $("#label_memberId").text()},
             type: "post"
         }).done(function (data) {
             alert("success");
@@ -151,10 +149,23 @@ $("#btn_manage_activity").click(function () {
 });
 
 $("#btn_cancel").click(function () {
+    var memberId = $("#label_memberId").text()
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
-        url: "/Hall/GetAllActivity",
+        url: "/Hall/GetUnJoinActivity",
         type: "post",
         dataType: "json",
+        data: { "memberId": memberId }
+    }
+    $("#activity_grid").data("kendoGrid").dataSource.read();
+});
+
+$("#btn_view_join_activity").click(function () {
+    var memberId = $("#label_memberId").text()
+    $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
+        url: "/Hall/GetJoinActivity",
+        type: "post",
+        dataType: "json",
+        data: { "memberId": memberId }
     }
     $("#activity_grid").data("kendoGrid").dataSource.read();
 });
@@ -168,4 +179,4 @@ $("#btn_search_activity").click(function () {
         data: { keyWord: activityKeyWord }
     }
     $("#activity_grid").data("kendoGrid").dataSource.read();
-})
+});
