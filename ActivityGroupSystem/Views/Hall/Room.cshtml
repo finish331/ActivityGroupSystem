@@ -26,10 +26,10 @@
         margin-bottom: 15px;
     }
 
-        #info p {
-            display: inline;
-            margin-right: 30px;
-        }
+    #info p {
+        display: inline;
+        margin-right: 30px;
+    }
 
     #menu {
         vertical-align: top;
@@ -59,10 +59,10 @@
         transition-duration: 0.4s;
     }
 
-        #menu button:hover {
-            background-color: #2b90d9;
-            color: white;
-        }
+    #menu button:hover {
+        background-color: #2b90d9;
+        color: white;
+    }
 
     #chatroom {
         vertical-align: top;
@@ -73,8 +73,11 @@
         margin-top: 0px;
     }
 
-    #chat_form td {
+    #chat_form table {
         width: 100%;
+    }
+
+    #chat_form td {
         padding: 0px;
     }
 
@@ -161,18 +164,18 @@
             <td id="chatroom" class="col-md-9">
                 <h3 id="chatroom_title">聊天室</h3>
                 <div id="chat_content"></div>
-                <form id="chat_form">
+                <div id="chat_form">
                     <table>
                         <tr>
-                            <td class="col-md-9">
+                            <td width="80%">
                                 <input type="text" id="chat_input" name="chat_input">
                             </td>
-                            <td class="col-md-3">
+                            <td width="20%">
                                 <button id="chat_submit" type="button">送出</button>
                             </td>
                         </tr>
                     </table>
-                </form>
+                </div>
             </td>
         </tr>
     </table>
@@ -361,19 +364,22 @@
 
     // 發送聊天訊息
     $("#chat_submit").click(function () {
-        var data = {
-            memberId: "@userId",
-            memberName: "@userName",
-            activityId: "@activityId",
-            messageContent: $("#chat_input").val(),
-        };
+        var content = $("#chat_input").val();
+        if (content != "") {
+            var data = {
+                memberId: "@userId",
+                memberName: "@userName",
+                activityId: "@activityId",
+                messageContent: content,
+            };
 
-        $.ajax({
-            url: "SendMessage",
-            dataType: "json",
-            data: data,
-            type: "post"
-        });
+            $.ajax({
+                url: "SendMessage",
+                dataType: "json",
+                data: data,
+                type: "post"
+            });
+        }
     });
 
     // 更新聊天室
