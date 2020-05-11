@@ -57,7 +57,7 @@ namespace ActivityGroupSystem.Models
 
         public void SendMessage(string memberId, string messageContent)
         {
-            _chatroom.SendMessage(memberId, messageContent);
+            //_chatroom.SendMessage(memberId, messageContent);
         }
 
         public bool KickOutPariticipant(string memberId)

@@ -47,7 +47,10 @@
             { field: "ActivityNote", title: "活動內容", width: "15%" },
             { field: "ActivityDate", title: "活動日期", width: "6%" },
             {
-                command: { text: "參加", className: "" },
+                command: {
+                    text: "參加",
+                    className: "btn-join-button",
+                },
                 title: " ",
                 width: "5%"
             },
@@ -64,9 +67,24 @@
     });
 });
 
-$("#activity_grid").on("click", ".btn-enter-button", function (e) {
+//活動Grid中參加活動的按鈕
+$("#activity_grid").on("click", ".btn-join-button", function (e) {
     var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
-    window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text(); 
+    var result = confirm("是否確認要加入\"" + Item.ActivityName + "\"?");
+    if (result) {
+        window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text() + "&isJoin=1";
+    }
+});
+
+//活動Grid中進入活動的按鈕
+$("#activity_grid").on("click", ".btn-enter-button", function (e) {
+    if ($("#label_memberId").text() != "") {
+        var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+        window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text();
+    }
+    else {
+        alert("請先登入會員！");
+    }
 });
 
 //開啟新增活動window之按鈕動作
