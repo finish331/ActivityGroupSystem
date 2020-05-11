@@ -18,8 +18,7 @@ namespace ActivityGroupSystem.Models
             _memberName = memberName;
             _messageContent = messageContent;
 
-            string now = DateTime.Now.ToString();
-            now = now.Replace("/", "-"); // 因為/在firebase會變成自動建child
+            string now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             _time = now;
         }
 

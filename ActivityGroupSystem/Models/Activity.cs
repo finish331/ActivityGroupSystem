@@ -152,6 +152,10 @@ namespace ActivityGroupSystem.Models
             {
                 return _participantList;
             }
+            set
+            {
+                _participantList = value;
+            }
         }
         /*Willie End*/
 

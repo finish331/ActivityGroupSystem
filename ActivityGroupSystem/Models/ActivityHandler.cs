@@ -84,6 +84,32 @@ namespace ActivityGroupSystem.Models
             return result;
         }
 
+        public List<Activity> GetUnJoinActivity(string memberId)
+        {
+            List<Activity> result = new List<Activity>();
+            foreach (Activity activity in _activityList)
+            {
+                if (!activity.IsMemberInActivity(memberId))
+                {
+                    result.Add(activity);
+                }
+            }
+            return result;
+        }
+
+        public List<Activity> GetJoinActivity(string memberId)
+        {
+            List<Activity> result = new List<Activity>();
+            foreach (Activity activity in _activityList)
+            {
+                if (activity.IsMemberInActivity(memberId))
+                {
+                    result.Add(activity);
+                }
+            }
+            return result;
+        }
+
         public void SendMessage(string activityId, string memberId, string messageContent)
         {
             Activity activity = FindActivity(activityId);
