@@ -276,7 +276,7 @@ namespace ActivityGroupSystem.Controllers
             foreach (string memberId in activity.ParticipantList)
             {
                 Member participant = _memberHandler.GetMemberById(memberId);
-                participantsList.Add(member);
+                participantsList.Add(participant);
             }
             foreach (string memberId in member.FriendList)
             {
