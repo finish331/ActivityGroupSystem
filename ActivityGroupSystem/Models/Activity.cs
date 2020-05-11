@@ -36,30 +36,6 @@ namespace ActivityGroupSystem.Models
             return false;
         }
 
-        public List<Message> GetChatroomMessage(List<string> blackList)
-        {
-            List<Message> messageResult = _chatroom.MessageList.ToList();
-            if (blackList.Count > 0)
-            {
-                for (int i = messageResult.Count - 1; i > 0; i--)
-                {
-                    foreach (string blackedMemberId in blackList)
-                    {
-                        if (messageResult[i].MemberId == blackedMemberId)
-                        {
-                            messageResult.RemoveAt(i);
-                        }
-                    }
-                }
-            }
-            return messageResult;
-        }
-
-        public void SendMessage(string memberId, string messageContent)
-        {
-            //_chatroom.SendMessage(memberId, messageContent);
-        }
-
         public bool KickOutPariticipant(string memberId)
         {
             foreach (string participantId in _participantList)
@@ -172,7 +148,7 @@ namespace ActivityGroupSystem.Models
             _chatroom = new Chatroom();
         }
 
-        public void transferHomeowner(string newOwnerId)
+        public void TransferHomeowner(string newOwnerId)
         {
             _homeownerId = newOwnerId;
         }
@@ -190,13 +166,6 @@ namespace ActivityGroupSystem.Models
         /* Ting End */
 
         /*Hsu start*/
-        /*public string ActivityName
-        {
-            get
-            {
-                return _activityData["name"];
-            }
-        }*/
 
         public bool AddNewParticipant(string memberId)
         {

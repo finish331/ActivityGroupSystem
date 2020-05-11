@@ -150,25 +150,10 @@ namespace ActivityGroupSystem.Controllers
         /*Willie Start*/
         public void EnterJoinedActivity(string memberId, string activityId)
         {
-            Activity activity = _activityHandler.enterJoinedActivity(memberId, activityId);
+            Activity activity = _activityHandler.EnterJoinedActivity(memberId, activityId);
             // return activity;
 
         }
-
-        public void EnterChatroom(string memberId, string activityId)
-        {
-            List<string> blackList = _memberHandler.GetBlackList(memberId);
-            if (blackList != null)
-            {
-                List<Message> chatroomMessage = _activityHandler.EnterChatroom(activityId, blackList);
-            }
-            //return chatroomMessage;
-        }
-
-        /*public void SendMessage(string memberId, string activityId, string message)
-        {
-            _activityHandler.SendMessage(memberId, activityId, message);
-        }*/
 
         public void SearchMemberInfo(string keyWord)
         {
@@ -192,11 +177,6 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             return Json(_activityHandler.InputAcivityKeyWord(keyWord));
         }
-
-        /*public bool KickOutPariticipant(string memberId, string activityId)
-        {
-            return _activityHandler.KickOutPariticipant(memberId, activityId);
-        }*/
 
         public async Task<JsonResult> AddFriend (FormCollection post)
         {
@@ -239,11 +219,6 @@ namespace ActivityGroupSystem.Controllers
         {
             return _activityHandler.GetAllParticipants(activityId);
         }
-
-        /*public bool transferHomeowner(string activityId, string newOwnerId)
-        {
-            return _activityHandler.transferHomeowner(activityId, newOwnerId);
-        }*/
 
         public List<string> GetFriendsList(string memberId)
         {
@@ -301,11 +276,11 @@ namespace ActivityGroupSystem.Controllers
             return Json(new { success = true, responseText = "更新成功" }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult transferHomeowner(string activityId, string newOwnerId)
+        public ActionResult TransferHomeowner(string activityId, string newOwnerId)
         {
             try
             {
-                _activityHandler.transferHomeowner(activityId, newOwnerId);
+                _activityHandler.TransferHomeowner(activityId, newOwnerId);
                 return Json(new { success = true, responseText = "轉移成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
