@@ -50,7 +50,7 @@ namespace ActivityGroupSystem.Models
             return null;
         }
 
-        public Activity enterJoinedActivity(string memberId, string activityId)
+        public Activity EnterJoinedActivity(string memberId, string activityId)
         {
             Activity activityResult = null;
             foreach (Activity tempActivity in _activityList)
@@ -160,24 +160,13 @@ namespace ActivityGroupSystem.Models
                 return null;
         }
 
-        public bool transferHomeowner(string activityId, string newOwnerId)
+        public bool TransferHomeowner(string activityId, string newOwnerId)
         {
             Activity activity = FindActivity(activityId);
             if (activity != null)
             {
                 activity.transferHomeowner(newOwnerId);
                 return true;
-            }
-            else
-                return false;
-        }
-
-        public bool LeaveActivity(string activityId, string memberId)
-        {
-            Activity activity = FindActivity(activityId);
-            if (activity != null)
-            {
-                return activity.Leave(memberId);
             }
             else
                 return false;

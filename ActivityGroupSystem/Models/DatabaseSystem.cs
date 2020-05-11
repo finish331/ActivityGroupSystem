@@ -58,8 +58,12 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-        public bool UpdateActivity(string activityId, Dictionary<string, string> newData)
+        public async Task<bool> UpdateActivity(string activityId, Dictionary<string, string> newData)
         {
+            foreach (KeyValuePair<string, string> item in newData)
+            {
+                await _firebaseClient.Child("Activity").Child(activityId).Child(item.Key).PatchAsync(item.Value);
+            }
             return true;
         }
 

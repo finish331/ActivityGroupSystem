@@ -150,7 +150,7 @@ namespace ActivityGroupSystem.Controllers
         /*Willie Start*/
         public void EnterJoinedActivity(string memberId, string activityId)
         {
-            Activity activity = _activityHandler.enterJoinedActivity(memberId, activityId);
+            Activity activity = _activityHandler.EnterJoinedActivity(memberId, activityId);
             // return activity;
 
         }
@@ -276,7 +276,7 @@ namespace ActivityGroupSystem.Controllers
             foreach (string memberId in activity.ParticipantList)
             {
                 Member participant = _memberHandler.GetMemberById(memberId);
-                participantsList.Add(member);
+                participantsList.Add(participant);
             }
             foreach (string memberId in member.FriendList)
             {
@@ -305,7 +305,7 @@ namespace ActivityGroupSystem.Controllers
         {
             try
             {
-                _activityHandler.transferHomeowner(activityId, newOwnerId);
+                _activityHandler.TransferHomeowner(activityId, newOwnerId);
                 return Json(new { success = true, responseText = "轉移成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -340,12 +340,24 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public ActionResult LeaveActivity(string activityId, string memberId)
+        public async Task<ActionResult> LeaveActivity(string activityId, string memberId)
         {
+            await InitializationModel();
             try
             {
-                _activityHandler.LeaveActivity(activityId, memberId);
-                return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
+                Activity activity = _activityHandler.FindActivity(activityId);
+                if (activity.ParticipantList.Contains(memberId))
+                {
+                    if (activity.HomeOwnerId != memberId)
+                    {
+                        activity.Leave(memberId);
+                        return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                        return Json(new { success = false, responseText = "請先至參加者名單轉移房主" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { success = false, responseText = "您不再參加者名單中" }, JsonRequestBehavior.AllowGet);
             }
             catch
             {
