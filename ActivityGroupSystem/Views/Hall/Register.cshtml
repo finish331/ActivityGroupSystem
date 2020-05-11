@@ -1,55 +1,42 @@
-﻿@{
-    ViewBag.Title = "Register";
-
-}
-
-@Styles.Render("~/Content/css")
+﻿@Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
 
-<div class="row">
-    <button type="reset" id="logout_button">清除</button>
+<h1>請輸入使用者資料</h1>
+<div class="form-group" id="Notification">
+    <span style="color:red" id="errorNotification"></span>
 </div>
-
-<div style="margin:20px;" id="register_form" method="post">
-    <h1>請輸入使用者資料</h1>
-    <div class="form-group" id="Notification">
-        <span style="color:red" id="errorNotification"></span>
-    </div>
-    <div class="form-group" >
-        <label for="exampleInputEmail1">帳號</label>
-        <input style="max-width:95%" type="text" class="form-control" id="MemberId" name="MemberId" placeholder="輸入帳號" value="" validationMessage="此欄位必填" required>
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">新的密碼</label>
-        <input style="max-width:95%" type="password" class="form-control" id="Password" name="Password" placeholder="輸入密碼" value="" validationMessage="此欄位必填" required>
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">再次確認</label>
-        <input style="max-width:95%" type="password" class="form-control" id="Password2" name="Password2" placeholder="輸入密碼" value="" validationMessage="此欄位必填" required>
-    </div>
-    <div class="form-group">
-        <label for="Name">姓名</label>
-        <input style="max-width:95%" type="text" class="form-control" id="MemberName" name="MemberName" placeholder="輸入姓名" value="" validationMessage="此欄位必填" required>
-    </div>
-    <div class="form-group">
-        <label for="Phoone">電話</label>
-        <input style="max-width:95%" type="text" class="form-control" id="Phone" name="Phone" placeholder="輸入電話" value="" validationMessage="此欄位必填" required>
-    </div>
-    <div class="form-group">
-        <label for="Sexuality">性別</label>
-        <select class="form-control" id="Sexuality" name="Sexuality" placeholder="性別">
-            <option>男</option>
-            <option>女</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="Birthday">生日</label>
-        <input class="form-control" id="Birthday" name="Birthday" value="10/10/2011" title="birthday" />
-    </div>
-    <button style="width:100%" class="btn btn-primary" id="confirm">確定</button>
+<div class="form-group">
+    <label for="exampleInputEmail1">帳號</label>
+    <input style="max-width:95%" type="text" class="form-control" id="MemberId" name="MemberId" placeholder="輸入帳號" value="" validationMessage="此欄位必填" required>
 </div>
+<div class="form-group">
+    <label for="exampleInputPassword1">新的密碼</label>
+    <input style="max-width:95%" type="password" class="form-control" id="Password" name="Password" placeholder="輸入密碼" value="" validationMessage="此欄位必填" required>
+</div>
+<div class="form-group">
+    <label for="exampleInputPassword1">再次確認</label>
+    <input style="max-width:95%" type="password" class="form-control" id="Password2" name="Password2" placeholder="輸入密碼" value="" validationMessage="此欄位必填" required>
+</div>
+<div class="form-group">
+    <label for="Name">姓名</label>
+    <input style="max-width:95%" type="text" class="form-control" id="MemberName" name="MemberName" placeholder="輸入姓名" value="" validationMessage="此欄位必填" required>
+</div>
+<div class="form-group">
+    <label for="Phoone">電話</label>
+    <input style="max-width:95%" type="text" class="form-control" id="Phone" name="Phone" placeholder="輸入電話" value="" validationMessage="此欄位必填" required>
+</div>
+<div class="form-group">
+    <label for="Sexuality">性別</label>
+    <select style="max-width:95%" class="form-control" id="Sexuality" name="Sexuality" placeholder="性別">
+        <option>男</option>
+        <option>女</option>
+    </select>
+</div>
+<div class="form-group">
+    <label for="Birthday">生日</label>
+    <input style="max-width:95%" class="form-control" id="Birthday" name="Birthday" value="10/10/2011" title="birthday" />
+</div>
+<button style="width:95%" class="btn btn-primary" id="confirm">確定</button>
 
 
 <script src="~/Scripts/register.js"></script>
-
-

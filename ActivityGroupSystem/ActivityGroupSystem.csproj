@@ -256,7 +256,9 @@
     <Content Include="Content\kendo\fonts\glyphs\WebComponentsIcons.ttf" />
     <Content Include="Content\kendo\fonts\glyphs\WebComponentsIcons.woff" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\otherMemberInfo.js" />
     <Content Include="Scripts\memberInfo.js" />
+    <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\register.js" />
     <Content Include="Scripts\index.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -286,9 +288,10 @@
     <Content Include="Views\Hall\Contact.cshtml" />
     <Content Include="Views\Hall\Index.cshtml" />
     <Content Include="Views\Hall\Login.cshtml" />
-    <Content Include="Views\Hall\Register.cshtml" />
-    <Content Include="Views\Hall\MemberInfo.cshtml" />
     <Content Include="Views\Hall\Room.cshtml" />
+    <Content Include="Views\Hall\MemberInfo.cshtml" />
+    <Content Include="Views\Hall\Register.cshtml" />
+    <Content Include="Views\Hall\OtherMemberInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "MemberInfo";
+    var member = ViewBag.member;
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+<h1>使用者資料</h1>
+<div class="form-group">
+    <span style="color:red" id="CheckErrorNotification"></span>
+</div>
+<div class="form-group">
+    <label for="exampleInputEmail1">帳號</label>
+    <input style="max-width:95%" type="text" readonly class="form-control" id="CheckId" name="MemberId" value="@member.MemberId">
+</div>
+<div class="form-group">
+    <label for="Name">姓名</label>
+    <input style="max-width:95%" type="text" readonly class="form-control" id="CheckName" name="MemberName" value="@member.MemberName">
+</div>
+<div class="form-group">
+    <label for="Phoone">電話</label>
+    <input style="max-width:95%" type="text" readonly class="form-control" id="CheckPhone" name="Phone" value="@member.Phone">
+</div>
+<div class="form-group">
+    <label for="Sexuality">性別</label>
+    <input style="max-width:95%" type="text" readonly class="form-control" id="CheckSexuality" name="Sexuality" value="@member.Sexuality">
+</div>
+<div class="form-group">
+    <label for="Birthday">生日</label>
+    <input style="max-width:100%" readonly class="form-control" id="CheckBirthday" name="Birthday" value="@member.Birthday" title="birthday" />
+</div>
+<button class="btn btn-primary" id="addFriend_btn">加入好友</button>
+<button class="btn btn-primary" id="black_btn">加入黑名單</button>
+
+
+<script src="~/Scripts/otherMemberInfo.js"></script>
+
+

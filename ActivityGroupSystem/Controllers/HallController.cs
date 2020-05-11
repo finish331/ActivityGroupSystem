@@ -162,9 +162,9 @@ namespace ActivityGroupSystem.Controllers
         public async Task<JsonResult> BlackMember(FormCollection post)
         {
             await InitializationModel();
-            if (_memberHandler.BlackMember(Request.Cookies["memberId"].Value, post["MemberId"]))
+            if (_memberHandler.BlackMember(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateBlackList(Request.Cookies["memberId"].Value);
+                UpdateBlackList(Request.Cookies["MemberId"].Value);
                 return Json("加入黑名單成功");
                 //True才新增資料庫
             }
@@ -185,10 +185,10 @@ namespace ActivityGroupSystem.Controllers
         public async Task<JsonResult> AddFriend (FormCollection post)
         {
             await InitializationModel();
-            bool result = _memberHandler.AddFriendInvitation(Request.Cookies["memberId"].Value, post["MemberId"]);
+            bool result = _memberHandler.AddFriendInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]);
             if (result)
             {
-                UpdateFriendInvitation(Request.Cookies["memberId"].Value);
+                UpdateFriendInvitation(Request.Cookies["MemberId"].Value);
                 //新增至資料庫
                 return Json("發送好友邀請成功");
             }
@@ -444,9 +444,9 @@ namespace ActivityGroupSystem.Controllers
         {
             await InitializationModel();
 
-            if (_memberHandler.RejectInvitation(Request.Cookies["memberId"].Value, post["MemberId"]))
+            if (_memberHandler.RejectInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateFriendInvitation(Request.Cookies["memberId"].Value);
+                UpdateFriendInvitation(Request.Cookies["MemberId"].Value);
                 return Json("拒絕好友邀請");
             }
             return Json("拒絕好友邀請");
@@ -457,12 +457,12 @@ namespace ActivityGroupSystem.Controllers
         {
             await InitializationModel();
             
-            if(_memberHandler.AgreeInvitation(Request.Cookies["memberId"].Value, post["MemberId"]))
+            if(_memberHandler.AgreeInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateFriendList(Request.Cookies["memberId"].Value);
+                UpdateFriendList(Request.Cookies["MemberId"].Value);
                 UpdateFriendList(post["MemberId"]);
 
-                UpdateFriendInvitation(Request.Cookies["memberId"].Value);
+                UpdateFriendInvitation(Request.Cookies["MemberId"].Value);
                 return Json("同意好友邀請");
             }
             return Json("同意好友失敗");
@@ -510,10 +510,9 @@ namespace ActivityGroupSystem.Controllers
 
         public ActionResult Register()
         {
-            return View();
+            return PartialView("Register");
         }
 
-        
         public async Task<JsonResult> Registers(FormCollection post)
         {
             await InitializationModel();
@@ -554,17 +553,17 @@ namespace ActivityGroupSystem.Controllers
             {
                 memberInfo.Add(key.ToString(), post[key.ToString()]);
             }
-            _memberHandler.UpdateUserData(Request.Cookies["memberId"].Value, memberInfo);
-            _databaseSystem.UpdateMemberInfo(Request.Cookies["memberId"].Value, memberInfo);
+            _memberHandler.UpdateUserData(Request.Cookies["MemberId"].Value, memberInfo);
+            _databaseSystem.UpdateMemberInfo(Request.Cookies["MemberId"].Value, memberInfo);
             return Json("");
         }
 
         public async Task<JsonResult> DeleteFriend(FormCollection post)
         {
             await InitializationModel();
-            if (_memberHandler.DeleteFriend(Request.Cookies["memberId"].Value, post["MemberId"]))
+            if (_memberHandler.DeleteFriend(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateFriendList(Request.Cookies["memberId"].Value);
+                UpdateFriendList(Request.Cookies["MemberId"].Value);
                 
                 return Json("刪除好友成功");
             }
@@ -574,9 +573,9 @@ namespace ActivityGroupSystem.Controllers
         public async Task<JsonResult> DeleteBlack(FormCollection post)
         {
             await InitializationModel();
-            if (_memberHandler.DeleteBlack(Request.Cookies["memberId"].Value, post["MemberId"]))
+            if (_memberHandler.DeleteBlack(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateBlackList(Request.Cookies["memberId"].Value);
+                UpdateBlackList(Request.Cookies["MemberId"].Value);
                 return Json("刪除黑名單成功");
             }
             return Json("刪除黑名單失敗");
@@ -585,16 +584,24 @@ namespace ActivityGroupSystem.Controllers
         public async Task<ActionResult> MemberInfo()
         {
             await InitializationModel();
-            Member member = _memberHandler.GetMemberById(Request.Cookies["memberId"].Value);
+            Member member = _memberHandler.GetMemberById(Request.Cookies["MemberId"].Value);
             ViewBag.member = member;
-            return View();
+            return PartialView("MemberInfo");
         }
 
-        
+        public async Task<ActionResult> OtherMemberInfo()
+        {
+            await InitializationModel();
+            Member member = _memberHandler.GetMemberById(Request.Cookies["MemberId"].Value);
+            ViewBag.member = member;
+            return PartialView("OtherMemberInfo");
+        }
+
+
         public async Task<JsonResult> GetFriendList()
         {
             await InitializationModel();
-            List<string> friendList = _memberHandler.GetFriendsList(Request.Cookies["memberId"].Value);
+            List<string> friendList = _memberHandler.GetFriendsList(Request.Cookies["MemberId"].Value);
             List<Member> memberList = new List<Member>();
             foreach (string memberId in friendList)
             {
@@ -607,7 +614,7 @@ namespace ActivityGroupSystem.Controllers
         public async Task<JsonResult> GetBlackList()
         {
             await InitializationModel();
-            List<string> blackList = _memberHandler.GetBlackList(Request.Cookies["memberId"].Value);
+            List<string> blackList = _memberHandler.GetBlackList(Request.Cookies["MemberId"].Value);
             List<Member> memberList = new List<Member>();
             foreach (string memberId in blackList)
             {
@@ -620,27 +627,14 @@ namespace ActivityGroupSystem.Controllers
         public async Task<JsonResult> GetInvitationList()
         {
             await InitializationModel();
-            List<string> invitationList = _memberHandler.GetInvitationList(Request.Cookies["memberId"].Value);
+            List<string> invitationList = _memberHandler.GetInvitationList(Request.Cookies["MemberId"].Value);
             List<Member> memberList = new List<Member>();
-            foreach (string memberId in invitationList)
+            foreach (string MemberId in invitationList)
             {
-                memberList.Add(_memberHandler.GetMemberById(memberId));
+                memberList.Add(_memberHandler.GetMemberById(MemberId));
             }
 
             return Json(memberList);
-        }
-
-        public async Task<ActionResult> test()
-        {
-            var firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            Dictionary<string, string> asd = new Dictionary<string, string>();
-            asd.Add("MemberName", "00");
-            await firebaseClient.Child("Use").Child("test").PatchAsync("asd");
-
-            
-            
-            
-            return new EmptyResult();
         }
     }
 }

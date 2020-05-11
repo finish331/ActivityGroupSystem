@@ -1,30 +1,9 @@
 ﻿
 $(document).ready(function () {
     debugger;
-    $("#checkInfo").kendoButton();
-    $("#memberInfo").kendoButton();
     $("#manage_btn").kendoButton();
-    $("#addFriend_btn").kendoButton();
-    $("#black_btn").kendoButton();
     $("#memberInfo_form").kendoValidator();
-    $("#checkInfo_form").kendoValidator();
     $("#Birthday").kendoDatePicker();
-
-    $("#memberInfo_form").kendoWindow({
-        width: "900px",
-        title: "Member Information",
-        visible: false, //設定此介面一開始是否可看見
-        actions: ["Minimize", "Maximize", "Close"],
-        modal: true, //操作kendoWindow時，其他元件無法操作
-    }).data("kendoWindow");
-
-    $("#checkInfo_form").kendoWindow({
-        width: "500px",
-        title: "Member Information",
-        visible: false, //設定此介面一開始是否可看見
-        actions: ["Minimize", "Maximize", "Close"],
-        modal: true, //操作kendoWindow時，其他元件無法操作
-    }).data("kendoWindow");
 
     $("#tabstrip").kendoTabStrip({
         tabPosition: "left",
@@ -252,47 +231,6 @@ $("#manage_btn").click(function () {
     }
 });
 
-$("#addFriend_btn").click(function () {
-    debugger;
-    var errorNotification = $("#CheckErrorNotification").kendoNotification().data("kendoNotification");
-    $.ajax({
-        url: "/Hall/AddFriend",
-        dataType: "json",
-        data: { MemberId: $("#CheckId").val(), },
-        type: "post"
-    }).done(function (data) {
-        errorNotification.show(data, "info");
-        $("#friendInvitation").data("kendoGrid").dataSource.read();
-    }).fail(function (data) {
-        errorNotification.show("修改資料失敗", "info");
-    });
-});
-
-$("#black_btn").click(function () {
-    debugger;
-    var errorNotification = $("#CheckErrorNotification").kendoNotification().data("kendoNotification");
-    $.ajax({
-        url: "/Hall/BlackMember",
-        dataType: "json",
-        data: { MemberId: $("#CheckId").val(), },
-        type: "post"
-    }).done(function (data) {
-        errorNotification.show(data, "info");
-        $("#blackMemberList").data("kendoGrid").dataSource.read();
-    }).fail(function (data) {
-        errorNotification.show("修改資料失敗", "info");
-    });
-});
-
-$("#memberInfo").click(function () {
-    $("#memberInfo_form").data('kendoValidator').hideMessages();
-    $("#memberInfo_form").data('kendoWindow').center().open();
-});
-
-$("#checkInfo").click(function () {
-    $("#checkInfo_form").data('kendoValidator').hideMessages();
-    $("#checkInfo_form").data('kendoWindow').center().open();
-});
 
 
 
