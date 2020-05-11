@@ -525,7 +525,7 @@ namespace ActivityGroupSystem.Controllers
                 if (_memberHandler.CreateNewMember(memberInfo))
                 {
                     Member member = new Member(memberInfo);
-                    _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberInfo["Member"]));
+                    _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberInfo["MemberId"]));
                     return Json("");
                 }
                 else
