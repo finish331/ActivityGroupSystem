@@ -12,7 +12,8 @@ namespace ActivityGroupSystem.Models
 
         public ActivityHandler()
         {
-
+            _activityList = new List<Activity>();
+            _activityCount = _activityList.Count;
         }
 
         public ActivityHandler(List<Activity> activity)
@@ -25,7 +26,7 @@ namespace ActivityGroupSystem.Models
             else
             {
                 _activityList = new List<Activity>();
-                _activityCount = 0;
+                _activityCount = _activityList.Count;
             }
         }
 
@@ -61,14 +62,6 @@ namespace ActivityGroupSystem.Models
                 }
             }
             return activityResult;
-        }
-
-        public List<Message> EnterChatroom(string activityId, List<string> blackList)
-        {
-            List<Message> messageResult = null;
-            Activity activity = FindActivity(activityId);
-            messageResult = activity.GetChatroomMessage(blackList);
-            return messageResult;
         }
 
         public List<Activity> GetManageActivity(string memberId)
@@ -110,12 +103,6 @@ namespace ActivityGroupSystem.Models
             return result;
         }
 
-        public void SendMessage(string activityId, string memberId, string messageContent)
-        {
-            Activity activity = FindActivity(activityId);
-            activity.SendMessage(memberId, messageContent);
-        }
-
         public List<Activity> InputAcivityKeyWord(string keyWord)
         {
             List<Activity> relatedActivity = new List<Activity>();
@@ -143,7 +130,7 @@ namespace ActivityGroupSystem.Models
         /* Ting Start */
         public void CreateActivity(Activity activityInfo)
         {
-            activityInfo.ActivityId = (_activityCount + 1).ToString();
+            activityInfo.ActivityId = (_activityList.Count + 1).ToString();
             Activity newActivity = new Activity(activityInfo);
             _activityList.Add(newActivity);
             _activityCount++;
@@ -157,7 +144,9 @@ namespace ActivityGroupSystem.Models
                 return activity.ParticipantList;
             }
             else
+            {
                 return null;
+            }
         }
 
         public bool TransferHomeowner(string activityId, string newOwnerId)
@@ -165,7 +154,7 @@ namespace ActivityGroupSystem.Models
             Activity activity = FindActivity(activityId);
             if (activity != null)
             {
-                activity.transferHomeowner(newOwnerId);
+                activity.TransferHomeowner(newOwnerId);
                 return true;
             }
             else

@@ -12,9 +12,13 @@ namespace ActivityGroupSystem.Models.Tests
     public class MessageTests
     {
         [TestMethod()]
-        public void MessageTest()
+        public void TestMessage()
         {
-            //Assert.Fail();
+            Message message = new Message("1", "tester", "testContent");
+
+            Assert.AreEqual("1", message.MemberId);
+            Assert.AreEqual("tester", message.MemberName);
+            Assert.AreEqual("testContent", message.MessageContent);
         }
     }
 }
