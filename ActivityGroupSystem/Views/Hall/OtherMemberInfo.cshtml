@@ -28,12 +28,17 @@
 </div>
 <div class="form-group">
     <label for="Birthday">生日</label>
-    <input style="max-width:100%" readonly class="form-control" id="CheckBirthday" name="Birthday" value="@member.Birthday" title="birthday" />
+    <input style="max-width:95%" readonly class="form-control" id="CheckBirthday" name="Birthday" value="@member.Birthday" title="birthday" />
 </div>
-<button class="btn btn-primary" id="addFriend_btn">加入好友</button>
-<button class="btn btn-primary" id="black_btn">加入黑名單</button>
+<div class="row">
+    <div class="col-md-5">
+        <button style="width:100%" class="btn btn-primary" id="addFriend_btn">加入好友</button>
+    </div>
+    <div class="col-md-5">
+        <button style="width:100%" class="btn btn-primary" id="black_btn">加入黑名單</button>
+    </div>
+ </div>
 
-
-<script src="~/Scripts/otherMemberInfo.js"></script>
+ <script src="~/Scripts/otherMemberInfo.js"></script>
 
 

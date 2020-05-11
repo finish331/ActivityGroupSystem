@@ -70,20 +70,6 @@
     
 });
 
-/*$("#logout_button").click(function () {
-    $("#register_form").kendoValidator().data("kendoValidator");
-    $("#register_form").kendoWindow({
-        width: "600px",
-        title: "Register",
-        visible: false,
-        actions: ["Minimize", "Maximize", "Close"],
-        content: "Hall/Register",
-        modal: true
-    });
-    $("#register_form").data('kendoValidator').hideMessages();
-    $("#register_form").data('kendoWindow').center().open();
-});*/
-
 //活動Grid中參加活動的按鈕
 $("#activity_grid").on("click", ".btn-join-button", function (e) {
     var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));

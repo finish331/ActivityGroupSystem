@@ -15,11 +15,15 @@ $("#register_button").click(function () {
         visible: false,
         actions: ["Minimize", "Maximize", "Close"],
         content: "Hall/Register",
+        position: {
+            top: "5%",
+            left: "35%"
+        },
         modal: true
     });
     //打開window
     $("#register_form").data('kendoValidator').hideMessages();
-    $("#register_form").data('kendoWindow').center().open();
+    $("#register_form").data('kendoWindow').open();
 });
 
 $("#memberInfo_button").click(function () {
@@ -50,9 +54,13 @@ $("#test").click(function () {
         visible: false, //設定此介面一開始是否可看見
         actions: ["Minimize", "Maximize", "Close"],
         content: "Hall/OtherMemberInfo",
+        position: {
+            top: "20%",
+            left: "35%"
+        },
         modal: true, //操作kendoWindow時，其他元件無法操作
     }).data("kendoWindow");
     //打開window
     $("#checkInfo_form").data('kendoValidator').hideMessages();
-    $("#checkInfo_form").data('kendoWindow').center().open();
+    $("#checkInfo_form").data('kendoWindow').open();
 });

@@ -35,7 +35,7 @@ namespace ActivityGroupSystem.Models
             {
                 if (tempMember.MemberId == memberId)
                 {
-                    result = tempMember.BlackLists.ToList();
+                    result = tempMember.BlackList.ToList();
                 }
             }
             return result;
@@ -97,7 +97,7 @@ namespace ActivityGroupSystem.Models
             Member member = GetMemberById(memberId);
             if (member != null)
             {
-                return member.FriendsList;
+                return member.FriendList;
             }
             else
                 return null;
@@ -185,7 +185,7 @@ namespace ActivityGroupSystem.Models
             Member member = GetMemberById(memberId);
             if (member != null)
             {
-                return member.FriendInvitationList;
+                return member.FriendInvitation;
             }
             else
                 return null;

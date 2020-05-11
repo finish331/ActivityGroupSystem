@@ -261,7 +261,7 @@ namespace ActivityGroupSystem.Controllers
                 Member participant = _memberHandler.GetMemberById(memberId);
                 participantsList.Add(member);
             }
-            foreach (string memberId in member.FriendsList)
+            foreach (string memberId in member.FriendList)
             {
                 Member friend = _memberHandler.GetMemberById(memberId);
                 friendsList.Add(friend);
@@ -409,9 +409,9 @@ namespace ActivityGroupSystem.Controllers
             {
                 newFriendList += member + ",";
             }
-            Dictionary<string, string> newData = new Dictionary<string, string>();
-            newData.Add("FriendList", newFriendList);
-            _databaseSystem.UpdateMemberInfo(memberId, newData);
+            Dictionary<string, List<string>> newData = new Dictionary<string, List<string>>();
+            newData.Add("FriendList", friendList);
+            _databaseSystem.UpdateMemberInfoList(memberId, "FriendList", friendList);
         }
 
         public void UpdateBlackList(string memberId)
@@ -475,7 +475,7 @@ namespace ActivityGroupSystem.Controllers
             {
                 Response.Cookies["MemberId"].Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies["MemberName"].Expires = DateTime.Now.AddDays(-1);
-                Response.Redirect("Index");
+                Response.Redirect("/");
             }
             return new EmptyResult();
         }
@@ -498,7 +498,7 @@ namespace ActivityGroupSystem.Controllers
                 Member member = _memberHandler.GetMemberById(account);
                 Response.Cookies["MemberName"].Value = member.MemberName;
                 Response.Cookies["MemberId"].Value = member.MemberId;
-                Response.Redirect("Index");
+                Response.Redirect("/");
                 return new EmptyResult();
             }
             else
@@ -515,7 +515,7 @@ namespace ActivityGroupSystem.Controllers
 
         public async Task<JsonResult> Registers(FormCollection post)
         {
-            await InitializationModel();
+            //await InitializationModel();
             
             if (string.IsNullOrWhiteSpace(post["Password"]) || post["Password"] != post["Password2"])
             {
@@ -529,13 +529,15 @@ namespace ActivityGroupSystem.Controllers
                     if (key.ToString() == "Password2") continue;
                     memberInfo.Add(key.ToString(), post[key.ToString()]);
                 }
-                if (_memberHandler.CreateNewMember(memberInfo))
+                if (true)
                 {
-                    memberInfo.Add("FriendList", "");
-                    memberInfo.Add("BlackList", "");
-                    memberInfo.Add("InvitedList", "");
-                    memberInfo.Add("FriendInvitation", "");
-                    _databaseSystem.InsertMember(memberInfo);
+                    
+                    memberInfo.Add("FriendList", "asd123");
+                    memberInfo.Add("BlackList", "qwe123");
+                    memberInfo.Add("InvitedList", "qwe1234");
+                    memberInfo.Add("FriendInvitation", "qwe12345");
+                    Member member = new Member(memberInfo);
+                    _databaseSystem.UpdateMember(member);
                     return Json("");
                 }
                 else
