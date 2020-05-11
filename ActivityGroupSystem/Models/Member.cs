@@ -119,10 +119,6 @@ namespace ActivityGroupSystem.Models
             data.Add("Birthday", _memberBirthday);
             data.Add("Phone", _memberPhone);
             
-            /*_friendsList = new List<string>();
-            _blackList = new List<string>();
-            _invitedList = new Dictionary<string, string>();
-            _friendInvitation = new List<string>();*/
             return data;
         }
 
