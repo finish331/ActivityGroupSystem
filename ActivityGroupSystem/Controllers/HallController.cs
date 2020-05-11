@@ -251,9 +251,9 @@ namespace ActivityGroupSystem.Controllers
             foreach (string memberId in activity.ParticipantList)
             {
                 Member participant = _memberHandler.GetMemberById(memberId);
-                participantsList.Add(member);
+                participantsList.Add(participant);
             }
-            foreach (string memberId in member.FriendsList)
+            foreach (string memberId in member.FriendList)
             {
                 Member friend = _memberHandler.GetMemberById(memberId);
                 friendsList.Add(friend);
@@ -315,12 +315,25 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public ActionResult LeaveActivity(string activityId, string memberId)
+        public async Task<ActionResult> LeaveActivity(string activityId, string memberId)
         {
+            await InitializationModel();
             try
             {
-                _activityHandler.LeaveActivity(activityId, memberId);
-                return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
+                Activity activity = _activityHandler.FindActivity(activityId);
+                if (activity.ParticipantList.Contains(memberId))
+                {
+                    if (activity.HomeOwnerId != memberId)
+                    {
+                        /*這個要再改*/
+                        activity.Leave(memberId);
+                        return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                        return Json(new { success = false, responseText = "請先至參加者名單轉移房主" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { success = false, responseText = "您不再參加者名單中" }, JsonRequestBehavior.AllowGet);
             }
             catch
             {
@@ -395,41 +408,17 @@ namespace ActivityGroupSystem.Controllers
 
         public void UpdateFriendList(string memberId)
         {
-            List<string> friendList = _memberHandler.GetFriendsList(memberId);
-            string newFriendList = "";
-            foreach (string member in friendList)
-            {
-                newFriendList += member + ",";
-            }
-            Dictionary<string, string> newData = new Dictionary<string, string>();
-            newData.Add("FriendList", newFriendList);
-            _databaseSystem.UpdateMemberInfo(memberId, newData);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
 
         public void UpdateBlackList(string memberId)
         {
-            List<string> blackList = _memberHandler.GetBlackList(memberId);
-            string newFriendList = "";
-            foreach (string member in blackList)
-            {
-                newFriendList += member + ",";
-            }
-            Dictionary<string, string> newData = new Dictionary<string, string>();
-            newData.Add("BlackList", newFriendList);
-            _databaseSystem.UpdateMemberInfo(memberId, newData);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
 
         public void UpdateFriendInvitation(string memberId)
         {
-            List<string> friendInvitationList = _memberHandler.GetInvitationList(memberId);
-            string newFriendList = "";
-            foreach (string member in friendInvitationList)
-            {
-                newFriendList += member + ",";
-            }
-            Dictionary<string, string> newData = new Dictionary<string, string>();
-            newData.Add("FriendInvitation", newFriendList);
-            _databaseSystem.UpdateMemberInfo(memberId, newData);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
 
         public async Task<JsonResult> RejectInvitation(FormCollection post)
@@ -467,7 +456,7 @@ namespace ActivityGroupSystem.Controllers
             {
                 Response.Cookies["MemberId"].Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies["MemberName"].Expires = DateTime.Now.AddDays(-1);
-                Response.Redirect("Index");
+                Response.Redirect("/");
             }
             return new EmptyResult();
         }
@@ -490,7 +479,7 @@ namespace ActivityGroupSystem.Controllers
                 Member member = _memberHandler.GetMemberById(account);
                 Response.Cookies["MemberName"].Value = member.MemberName;
                 Response.Cookies["MemberId"].Value = member.MemberId;
-                Response.Redirect("Index");
+                Response.Redirect("/");
                 return new EmptyResult();
             }
             else
@@ -523,11 +512,8 @@ namespace ActivityGroupSystem.Controllers
                 }
                 if (_memberHandler.CreateNewMember(memberInfo))
                 {
-                    memberInfo.Add("FriendList", "");
-                    memberInfo.Add("BlackList", "");
-                    memberInfo.Add("InvitedList", "");
-                    memberInfo.Add("FriendInvitation", "");
-                    _databaseSystem.InsertMember(memberInfo);
+                    Member member = new Member(memberInfo);
+                    _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberInfo["MemberId"]));
                     return Json("");
                 }
                 else
@@ -546,7 +532,7 @@ namespace ActivityGroupSystem.Controllers
                 memberInfo.Add(key.ToString(), post[key.ToString()]);
             }
             _memberHandler.UpdateUserData(Request.Cookies["MemberId"].Value, memberInfo);
-            _databaseSystem.UpdateMemberInfo(Request.Cookies["MemberId"].Value, memberInfo);
+            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(Request.Cookies["MemberId"].Value));
             return Json("");
         }
 

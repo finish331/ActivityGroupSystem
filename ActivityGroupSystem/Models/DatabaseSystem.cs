@@ -58,8 +58,12 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-        public bool UpdateActivity(string activityId, Dictionary<string, string> newData)
+        public async Task<bool> UpdateActivity(string activityId, Dictionary<string, string> newData)
         {
+            foreach (KeyValuePair<string, string> item in newData)
+            {
+                await _firebaseClient.Child("Activity").Child(activityId).Child(item.Key).PatchAsync(item.Value);
+            }
             return true;
         }
 
@@ -131,9 +135,15 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-        public async Task<bool> UpdateMemberInfo(string memberId, Dictionary<string, string> newData)
+        public async Task<bool> UpdateMemberInfo(Member member)
         {
-            await _firebaseClient.Child("Member").Child(memberId).PatchAsync(newData);
+            await _firebaseClient.Child("Member").Child(member.MemberId).PatchAsync(member);
+            return true;
+        }
+
+        public async Task<bool> UpdateMemberInfoList(string memberId, string listName, List<string> newData)
+        {
+            await _firebaseClient.Child("Users").Child("test").Child(listName).PatchAsync(newData);
             return true;
         }
         /*Hsu end*/

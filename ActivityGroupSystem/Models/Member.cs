@@ -95,11 +95,15 @@ namespace ActivityGroupSystem.Models
             }
         }
 
-        public List<string> BlackLists
+        public List<string> BlackList
         {
             get
             {
                 return _blackList;
+            }
+            set
+            {
+                _blackList = value;
             }
         }
         /*Willie End*/
@@ -132,11 +136,15 @@ namespace ActivityGroupSystem.Models
             _memberPhone = newData["Phone"];
         }
 
-        public List<string> FriendsList
+        public List<string> FriendList
         {
             get
             {
                 return _friendsList;
+            }
+            set
+            {
+                _friendsList = value;
             }
         }
 
@@ -182,8 +190,17 @@ namespace ActivityGroupSystem.Models
             _memberPhone = memberInfo["Phone"];
             _friendsList = new List<string>();
             _blackList = new List<string>();
-            _invitedList = new Dictionary<string, string>();
             _friendInvitation = new List<string>();
+            _invitedList = new Dictionary<string, string>();
+
+            if (memberInfo.Keys.Contains("FriendList"))
+                _friendsList.Add(memberInfo["FriendList"]);
+            if (memberInfo.Keys.Contains("BlackList"))
+                _blackList.Add(memberInfo["BlackList"]);
+            if (memberInfo.Keys.Contains("FriendInvitation"))
+                _friendInvitation.Add(memberInfo["FriendInvitation"]);
+            /*if (memberInfo.Keys.Contains("InvitedList"))
+                _invitedList = new Dictionary<string, string>();*/
         }
 
         public bool IsExist(string memberId)
@@ -250,53 +267,17 @@ namespace ActivityGroupSystem.Models
             }
         }
 
-        public List<string> FriendInvitationList
+        public List<string> FriendInvitation
         {
             get
             {
                 return _friendInvitation;
             }
-        }
-
-        public string FriendInvitation
-        {
             set
             {
-                string[] memberIdList = value.Split(',');
-                foreach (var memberId in memberIdList)
-                {
-                    if (memberId != "")
-                        _friendInvitation.Add(memberId);
-                }
+                _friendInvitation = value;
             }
         }
-
-        public string FriendList
-        {
-            set
-            {
-                string[] memberIdList = value.Split(',');
-                foreach(var memberId in memberIdList)
-                {
-                    if (memberId != "")
-                        _friendsList.Add(memberId);
-                }
-            }
-        }
-
-        public string BlackList
-        {
-            set
-            {
-                string[] memberIdList = value.Split(',');
-                foreach (var memberId in memberIdList)
-                {
-                    if(memberId != "") 
-                        _blackList.Add(memberId);
-                }
-            }
-        }
-
         
         /*Hsu end*/
     }

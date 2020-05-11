@@ -153,15 +153,9 @@ namespace ActivityGroupSystem.Models
             _homeownerId = newOwnerId;
         }
 
-        public bool Leave(string memberId)
+        public void Leave(string memberId)
         {
-            if (_participantList.Contains(memberId))
-            {
-                _participantList.Remove(memberId);
-                return true;
-            }
-            else
-                return false;
+            _participantList.Remove(memberId);
         }
         /* Ting End */
 

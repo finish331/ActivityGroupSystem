@@ -44,18 +44,18 @@
                     <li>@Html.ActionLink("首頁", "Index", "Hall")</li>
                     <li>@Html.ActionLink("關於", "About", "Hall")</li>
                     <li>@Html.ActionLink("連絡人", "Contact", "Hall")</li>
-                    <li><button class="btn-default" id="test">看別人資料</button></li>
+                    <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="test">看別人資料</button></li>
                 </ul>
                 <ul class="nav navbar-nav" style="float:right;">
                     <li style="color:white; position:absolute; top:32%; left:65%">@welcomeMessage</li>
                     <li>@Html.ActionLink(Test, Test2, "Hall")</li>
                     @if (Request.Cookies["MemberName"] != null)
                     {
-                        <li><button class="btn-primary" id="memberInfo_button">個資</button></li>
+                        <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="memberInfo_button">個資</button></li>
                     }
                     else
                     {
-                        <li><button class="btn-default" id="register_button">註冊</button></li>
+                        <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="register_button">註冊</button></li>
                     }
                 </ul>
             </div>
@@ -64,7 +64,7 @@
 
     <div style="margin: 20px;" id="register_form" method="post"></div>
     <div style="padding: 0px;" id="memberInfo_form" method="post"></div>
-    <div style="margin-left:20px; margin-bottom:20px" id="checkInfo_form" method="post"></div>
+    <div style="margin:20px;" id="checkInfo_form" method="post"></div>
 
     <div class="container body-content">
         @RenderBody()

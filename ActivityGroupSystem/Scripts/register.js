@@ -37,7 +37,7 @@ $("#confirm").click(function () {
         }).done(function (data) {
             if (data == "") {
                 $("#register_form").data('kendoWindow').close();
-                location.href = "Hall\Login";
+                location.href = "Hall/Login";
             }
             else {
                 errorNotification.show(data, "info");

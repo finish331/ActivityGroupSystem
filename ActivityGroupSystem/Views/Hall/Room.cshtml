@@ -2,12 +2,15 @@
     var userId = Request.Cookies["MemberId"].Value;
     var userName = Request.Cookies["MemberName"].Value;
     var activityId = ViewData["activity_id"];
+    var ownerId = ViewData["owner_id"];
     var participants = ViewBag.participants;
     var friends = ViewBag.friends;
     var participants_title = "";
+    var isOwner = false;
 
-    if (userId == ViewData["owner_id"])
+    if (userId.ToString() == ownerId.ToString())
     {
+        isOwner = true;
         participants_title = "查看與管理參加者名單";
     }
     else
@@ -151,7 +154,7 @@
             <td id="menu" class="col-md-3">
                 <h3 id="menu_title">功能選單</h3>
                 <ul>
-                    @if (userId == ViewData["owner_id"])
+                    @if (isOwner)
                     {
                         <li><button id="manage_button" type="button">管理活動</button></li>
                     }
@@ -215,7 +218,7 @@
                 <table>
                     <tr>
                         <td class="user_name"><p>@participants[i].MemberId</p></td>
-                        @if (userId == ViewData["owner_id"] && participants[i].MemberId != userId)
+                        @if (isOwner && participants[i].MemberId != userId)
                         {
                             <td><button id="transfer_button" value="@participants[i].MemberId">轉移房主</button></td>
                             <td><button id="kick_out_button" value="@participants[i].MemberId">踢出</button></td>
@@ -341,11 +344,12 @@
     // 退出活動
     $("#leave_button").click(function () {
         var result = confirm("是否確認要退出活動?");
-
+        console.log("@activityId");
+        console.log("@userId");
         if (result) {
             var data = {
                 activityId: "@activityId",
-                memberId: "test",
+                memberId: "@userId",
             };
 
             $.ajax({
@@ -355,7 +359,6 @@
                 type: "post"
             }).done(function (data) {
                 alert(data.responseText);
-                ClearView();
             }).fail(function (data) {
                 alert(data.responseText);
             });
@@ -408,5 +411,9 @@
             $("#chat_content").append("<p>無法連接聊天室</p>");
         });
     }
+
+    console.log("@ownerId");
+    console.log("@userId");
+    console.log("@isOwner");
 </script>
 

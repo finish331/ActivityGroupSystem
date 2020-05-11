@@ -182,21 +182,21 @@ namespace ActivityGroupSystem.Models.Tests
             Assert.IsFalse(result);
         }
 
-        [TestMethod()]
-        public void LeaveActivityTest()
-        {
-            Initialization();
-            bool result;
-            result = _activityHandler.LeaveActivity("1", "tester2");
-            Assert.IsTrue(result);
-            Assert.AreEqual(1, _activityHandler.ActivityList[0].ParticipantList.Count);
-            Assert.AreEqual("tester1", _activityHandler.ActivityList[0].ParticipantList[0]);
+        //[TestMethod()]
+        //public void LeaveActivityTest()
+        //{
+        //    Initialization();
+        //    bool result;
+        //    result = _activityHandler.LeaveActivity("1", "tester2");
+        //    Assert.IsTrue(result);
+        //    Assert.AreEqual(1, _activityHandler.ActivityList[0].ParticipantList.Count);
+        //    Assert.AreEqual("tester1", _activityHandler.ActivityList[0].ParticipantList[0]);
 
-            //房間不存在
-            result = _activityHandler.TransferHomeowner("3", "testtest");
-            Assert.IsFalse(result);
+        //    //房間不存在
+        //    result = _activityHandler.TransferHomeowner("3", "testtest");
+        //    Assert.IsFalse(result);
 
-        }
+        //}
 
         [TestMethod()]
         public void JoinActivityTest()

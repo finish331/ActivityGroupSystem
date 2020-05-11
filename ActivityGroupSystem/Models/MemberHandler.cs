@@ -9,11 +9,6 @@ namespace ActivityGroupSystem.Models
     {
         private List<Member> _memberList;
 
-        public MemberHandler()
-        {
-            
-        }
-
         /*Willie Start*/
 
         public MemberHandler(List<Member> memberList)
@@ -35,7 +30,7 @@ namespace ActivityGroupSystem.Models
             {
                 if (tempMember.MemberId == memberId)
                 {
-                    result = tempMember.BlackLists.ToList();
+                    result = tempMember.BlackList.ToList();
                 }
             }
             return result;
@@ -43,7 +38,7 @@ namespace ActivityGroupSystem.Models
 
         public List<Member> SearchMemberInfo(string keyWord)
         {
-            List<Member> relatedMember = null;
+            List<Member> relatedMember = new List<Member>();
             foreach (Member member in _memberList)
             {
                 if (member.MemberId.Contains(keyWord) || member.MemberName.Contains(keyWord))
@@ -97,7 +92,7 @@ namespace ActivityGroupSystem.Models
             Member member = GetMemberById(memberId);
             if (member != null)
             {
-                return member.FriendsList;
+                return member.FriendList;
             }
             else
                 return null;
@@ -185,7 +180,7 @@ namespace ActivityGroupSystem.Models
             Member member = GetMemberById(memberId);
             if (member != null)
             {
-                return member.FriendInvitationList;
+                return member.FriendInvitation;
             }
             else
                 return null;
