@@ -12,6 +12,8 @@ namespace ActivityGroupSystem.Models.Tests
     public class ActivityTests
     {
         Activity _activity;
+
+        [TestInitialize]
         public void Initialization()
         {
             _activity = new Activity()
@@ -29,7 +31,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void IsMemberInActivityTest()
         {
-            Initialization();
             bool result;
             result = _activity.IsMemberInActivity("tester1");
             Assert.IsTrue(result);
@@ -40,7 +41,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void KickOutPariticipantTest()
         {
-            Initialization();
             bool result = _activity.KickOutPariticipant("tester1");
             Assert.IsTrue(result);
             Assert.AreEqual(1, _activity.ParticipantList.Count);
@@ -53,7 +53,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void TransferHomeownerTest()
         {
-            Initialization();
 
             Assert.AreEqual("tester1", _activity.HomeOwnerId);
             _activity.TransferHomeowner("tester3");
@@ -63,7 +62,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void LeaveTest()
         {
-            Initialization();
 
             Assert.AreEqual(2, _activity.ParticipantList.Count);
             _activity.Leave("tester1");
@@ -73,7 +71,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void AddNewParticipantTest()
         {
-            Initialization();
             bool result = _activity.AddNewParticipant("tester3");
             Assert.IsTrue(result);
             Assert.AreEqual("tester3", _activity.ParticipantList[2]);
@@ -86,14 +83,12 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void IsExistTest()
         {
-            Initialization();
             Assert.IsTrue(_activity.IsExist("1"));
         }
 
         [TestMethod()]
         public void UpdateActivityTest()
         {
-            Initialization();
             Dictionary<string, string> myDic = new Dictionary<string, string>()
             {
                 { "name", "newTest" },

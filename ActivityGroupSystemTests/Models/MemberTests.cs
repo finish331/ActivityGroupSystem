@@ -24,13 +24,13 @@ namespace ActivityGroupSystem.Models.Tests
                 { "Sexuality", "female" },
                 { "Birthday", "321" },
                 { "Phone", "0987654321" },
-                { "FriendList", "1" },
-                { "BlackList", "2" },
-                { "FriendInvitation", "3" },
             };
 
             member = new Member();
             fillMember = new Member(memberInfo);
+            fillMember.FriendList = new List<string>() { "1" };
+            fillMember.BlackList = new List<string>() { "2" };
+            fillMember.FriendInvitation = new List<string>() { "3" };
         }
 
         [TestMethod()]
