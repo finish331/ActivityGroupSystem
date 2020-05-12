@@ -70,6 +70,10 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             if (_memberHandler.BlackMember(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
+                if (_memberHandler.DeleteFriend(Request.Cookies["MemberId"].Value, post["MemberId"]))
+                {
+                    UpdateFriendList(Request.Cookies["MemberId"].Value);
+                }
                 UpdateBlackList(Request.Cookies["MemberId"].Value);
                 return Json("加入黑名單成功");
                 //True才新增資料庫
