@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace ActivityGroupSystem.Models.Tests
 {
     [TestClass()]
@@ -29,8 +30,19 @@ namespace ActivityGroupSystem.Models.Tests
         public async Task InitializationActivityDataTest()
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
+            Activity activity = new Activity();
+            activity.ActivityId = "99";
+            activity.ActivityName = "unitTest2";
+            activity.HomeOwnerId = "unitTest1";
+            activity.ActivityDate = "2020/02/02";
+            activity.ActivityNote = "unitTest";
+            activity.NumberOfPeople = "3";
+            await databaseSystem.InsertActivity(activity);
+
             List<Activity> activityList = await databaseSystem.InitializationActivityData();
-            Assert.AreEqual("3", activityList[0].ActivityId);
+            await databaseSystem.Delete("99", "Activity");
+
+            Assert.IsNotNull(activityList.Find(x => x.ActivityId == "99"));
         }
 
         [TestMethod]
@@ -38,14 +50,18 @@ namespace ActivityGroupSystem.Models.Tests
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
             Activity activity = new Activity();
-            activity.ActivityId = "10";
+            activity.ActivityId = "99";
             activity.ActivityName = "unitTest2";
             activity.HomeOwnerId = "unitTest1";
             activity.ActivityDate = "2020/02/02";
             activity.ActivityNote = "unitTest";
             activity.NumberOfPeople = "3";
 
-            Assert.IsTrue(await databaseSystem.InsertActivity(activity));
+            var result = await databaseSystem.InsertActivity(activity);
+            await databaseSystem.Delete("99", "Activity");
+
+            Assert.IsTrue(result);
+            
         }
 
         [TestMethod]
@@ -63,13 +79,18 @@ namespace ActivityGroupSystem.Models.Tests
             DatabaseSystem databaseSystem = new DatabaseSystem();
             Dictionary<string, string> testValue = new Dictionary<string, string>();
 
+            testValue.Add("ActivityId", "99");
             testValue.Add("ActivityName", "unitTest2");
             testValue.Add("HomeOwnerId", "unitTest1");
             testValue.Add("ActivityDate", "1998/02/11");
             testValue.Add("ActivityNote", "unitTest");
             testValue.Add("NumberOfPeople", "3");
 
-            Assert.IsTrue(await databaseSystem.UpdateActivity("unitTest", testValue));
+            var result = await databaseSystem.UpdateActivity("99", testValue);
+            await databaseSystem.Delete("99", "Activity");
+
+            Assert.IsTrue(result);
+
         }
 
         [TestMethod]
@@ -77,8 +98,22 @@ namespace ActivityGroupSystem.Models.Tests
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
             List<Message> messages = new List<Message>();
-            messages = await databaseSystem.GetChatData("3");
-            Assert.AreEqual("member1", messages[0].MemberId);
+
+            Message message = new Message("unitTest1", "unitTest1", "unitTestMessage");
+            Activity activity = new Activity();
+            activity.ActivityId = "99";
+            activity.ActivityName = "unitTest2";
+            activity.HomeOwnerId = "unitTest1";
+            activity.ActivityDate = "2020/02/02";
+            activity.ActivityNote = "unitTest";
+            activity.NumberOfPeople = "3";
+            await databaseSystem.InsertActivity(activity);
+            await databaseSystem.SendMessage("99", message);
+
+            messages = await databaseSystem.GetChatData("99");
+            await databaseSystem.Delete("99", "Activity");
+
+            Assert.AreEqual("unitTest1", messages[0].MemberId);
         }
 
         [TestMethod]
@@ -86,8 +121,18 @@ namespace ActivityGroupSystem.Models.Tests
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
             Message message = new Message("unitTest1","unitTest1","unitTestMessage");
+            Activity activity = new Activity();
+            activity.ActivityId = "99";
+            activity.ActivityName = "unitTest2";
+            activity.HomeOwnerId = "unitTest1";
+            activity.ActivityDate = "2020/02/02";
+            activity.ActivityNote = "unitTest";
+            activity.NumberOfPeople = "3";
 
-            Assert.IsTrue(await databaseSystem.SendMessage("3", message));
+            await databaseSystem.InsertActivity(activity);
+            //await databaseSystem.Delete("99", "Activity");
+
+            Assert.IsTrue(await databaseSystem.SendMessage("99", message));
         }
         
         [TestMethod]
@@ -111,7 +156,10 @@ namespace ActivityGroupSystem.Models.Tests
             testValue.Add("Birthday", "10/10/1659");
             testValue.Add("Sexuality", "女");
 
-            Assert.IsTrue(await databaseSystem.InsertMember(testValue));
+            var result = await databaseSystem.InsertMember(testValue);
+            await databaseSystem.Delete("unitTest4", "Member");
+
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -127,7 +175,10 @@ namespace ActivityGroupSystem.Models.Tests
             member.Birthday = "10/10/1659";
             member.Sexuality = "女";
 
-            Assert.IsTrue(await databaseSystem.UpdateMemberInfo(member));
+            var result = await databaseSystem.UpdateMemberInfo(member);
+            await databaseSystem.Delete("unitTest4", "Member");
+
+            Assert.IsTrue(result);
         }
     }
 }

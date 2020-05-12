@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Firebase.Database;
-using Firebase.Database.Query;
 
 namespace ActivityGroupSystem.Models
 {
@@ -110,6 +108,12 @@ namespace ActivityGroupSystem.Models
         public async Task<bool> UpdateMemberInfo(Member member)
         {
             await _firebaseClient.Child("Member").Child(member.MemberId).PatchAsync(member);
+            return true;
+        }
+
+        public async Task<bool> Delete(string activityId, string dataType)
+        {
+            await _firebaseClient.Child(dataType).Child(activityId).DeleteAsync();
             return true;
         }
         /*Hsu end*/
