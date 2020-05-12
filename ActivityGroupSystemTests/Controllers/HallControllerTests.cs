@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ActivityGroupSystem.Controllers;
+using ActivityGroupSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,52 +124,54 @@ namespace ActivityGroupSystem.Controllers.Tests
             Assert.Fail();
         }*/
 
-        [TestMethod()]
+        /*[TestMethod()]
         public void CreateActivityTest()
         {
-            Assert.Fail();
-        }
+            Dictionary<string, string> data = new Dictionary<string, string>
+            {
+                { "name" , "sports" },
+                { "ownerId" , "1" },
+                { "people" , "10" },
+                { "note" , "go to move" },
+                { "date" , "2020/5/12" },
+            };
 
-        [TestMethod()]
-        public void GetMemberTest()
-        {
-            Assert.Fail();
-        }
+            Activity activity = new Activity();
+            activity.UpdateActivity(data);
 
-        [TestMethod()]
-        public void UpdateUserDataTest()
-        {
-            Assert.Fail();
-        }
+            var result = hall.CreateActivity(activity, "1").Result as JsonResult;
+            Assert.IsTrue((bool)result.Data);
+        }*/
 
-        [TestMethod()]
-        public void GetAllParticipantsTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetFriendsListTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
+        /*[TestMethod()]
         public void RoomTest()
         {
             Assert.Fail();
-        }
+        }*/
 
-        [TestMethod()]
+        /*[TestMethod()]
         public void updateActivityTest()
         {
-            Assert.Fail();
-        }
+            Dictionary<string, string> data = new Dictionary<string, string>
+            {
+                { "name" , "TTP" },
+                { "ownerId" , "1" },
+                { "people" , "10" },
+                { "note" , "go go go" },
+                { "date" , "2020/5/12" },
+            };
 
-        [TestMethod()]
+            Activity activity = new Activity();
+            activity.UpdateActivity(data);
+
+            var create = hall.CreateActivity(activity, "1").Result as JsonResult;
+            var result = hall.updateActivity("1", "play", "8", "let's play", "2020/05/13") as JsonResult;
+        }*/
+
+        /*[TestMethod()]
         public void transferHomeownerTest()
         {
-            Assert.Fail();
+            var result = hall.TransferHomeowner("1", "2") as JsonResult;
         }
 
         [TestMethod()]
@@ -325,6 +328,6 @@ namespace ActivityGroupSystem.Controllers.Tests
         public void GetInvitationListTest()
         {
             //Assert.Fail();
-        }
+        }*/
     }
 }

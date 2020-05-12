@@ -14,7 +14,7 @@
     $("#insert_form").kendoValidator();
     $("#insert_form").kendoWindow({
         width: "500px",
-        title: "Update Book Window",
+        title: "Create Activity Window",
         visible: false, //設定此介面一開始是否可看見
         actions: ["Pin", "Minimize", "Maximize", "Close"],
         modal: true, //操作kendoWindow時，其他元件無法操作

@@ -12,6 +12,8 @@ namespace ActivityGroupSystem.Models.Tests
     public class ActivityHandlerTests
     {
         ActivityHandler _activityHandler;
+
+        [TestInitialize]
         public void Initialization()
         {
             _activityHandler = new ActivityHandler();
@@ -43,7 +45,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void FindActivityTest()
         {
-            Initialization();
 
             Activity testActivity = _activityHandler.FindActivity("1");
             Assert.AreEqual("test", testActivity.ActivityName);
@@ -56,7 +57,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void EnterJoinedActivityTest()
         {
-            Initialization();
 
             Activity testActivity = _activityHandler.EnterJoinedActivity("tester1", "1");
             Assert.AreEqual("test", testActivity.ActivityName);
@@ -68,7 +68,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void GetManageActivityTest()
         {
-            Initialization();
             List<Activity> activities = new List<Activity>();
             activities = _activityHandler.GetManageActivity("tester1");
             Assert.AreEqual("test", activities[0].ActivityName);
@@ -80,7 +79,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void GetUnJoinActivityTest()
         {
-            Initialization();
             List<Activity> activities = new List<Activity>();
             activities = _activityHandler.GetUnJoinActivity("tester1");
             Assert.AreEqual("test2", activities[0].ActivityName);
@@ -93,7 +91,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void GetJoinActivityTest()
         {
-            Initialization();
             List<Activity> activities = new List<Activity>();
             activities = _activityHandler.GetJoinActivity("tester1");
             Assert.AreEqual("test", activities[0].ActivityName);
@@ -106,7 +103,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void InputAcivityKeyWordTest()
         {
-            Initialization();
             List<Activity> activities = new List<Activity>();
             activities = _activityHandler.InputAcivityKeyWord("1");
             Assert.AreEqual(1, activities.Count);
@@ -120,7 +116,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void KickOutPariticipantTest()
         {
-            Initialization();
             bool result;
             //正確踢人
             result = _activityHandler.KickOutPariticipant("tester1", "1");
@@ -136,7 +131,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void CreateActivityTest()
         {
-            Initialization();
             Activity activity = new Activity()
             {
                 ActivityName = "test3",
@@ -154,7 +148,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void GetAllParticipantsTest()
         {
-            Initialization();
             List<string> participant = new List<string>();
             participant = _activityHandler.GetAllParticipants("1");
             Assert.AreEqual(2, participant.Count);
@@ -171,7 +164,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void TransferHomeownerTest()
         {
-            Initialization();
             bool result;
             result = _activityHandler.TransferHomeowner("1", "tester2");
             Assert.IsTrue(result);
@@ -201,7 +193,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void JoinActivityTest()
         {
-            Initialization();
 
             bool result = _activityHandler.JoinActivity("testJoin", "1");
             Assert.IsTrue(result);
@@ -218,7 +209,6 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void SaveActivityTest()
         {
-            Initialization();
             Dictionary<string, string> myDic = new Dictionary<string, string>()
             {
                 { "name", "newTest" },
