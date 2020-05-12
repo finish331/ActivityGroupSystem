@@ -116,6 +116,9 @@ $("#btn_add_activity").click(function () {
             type: "post"
         }).done(function (data) {
             alert("success");
+            $("#add_activity_name").val("");
+            $("#add_activity_number").val("");
+            $("#add_activity_note").val("");
             $("#activity_grid").data("kendoGrid").dataSource.read();
         }).fail(function (data) {
             alert("fail");
