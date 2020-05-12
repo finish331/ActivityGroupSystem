@@ -115,8 +115,7 @@ namespace ActivityGroupSystem.Models
             Member member = GetMemberById(memberId);
             if (member != null)
             {
-                member.DeleteFriend(targetId);
-                return true;
+                return member.DeleteFriend(targetId);
             }
             else
                 return false;
