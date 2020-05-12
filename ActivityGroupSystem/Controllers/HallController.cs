@@ -456,7 +456,7 @@ namespace ActivityGroupSystem.Controllers
         public async Task<ActionResult> OtherMemberInfo()
         {
             await InitializationModel();
-            Member member = _memberHandler.GetMemberById(Request.Cookies["MemberId"].Value);
+            Member member = _memberHandler.GetMemberById("dsa123");
             ViewBag.member = member;
             return PartialView("OtherMemberInfo");
         }
