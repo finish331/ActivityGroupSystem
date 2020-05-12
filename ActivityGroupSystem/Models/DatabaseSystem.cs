@@ -60,10 +60,8 @@ namespace ActivityGroupSystem.Models
 
         public async Task<bool> UpdateActivity(string activityId, Dictionary<string, string> newData)
         {
-            foreach (KeyValuePair<string, string> item in newData)
-            {
-                await _firebaseClient.Child("Activity").Child(activityId).Child(item.Key).PatchAsync(item.Value);
-            }
+            await _firebaseClient.Child("Activity").Child(activityId).PatchAsync(newData);
+            
             return true;
         }
 
@@ -88,22 +86,6 @@ namespace ActivityGroupSystem.Models
         /* Ting End */
 
         /*Hsu start*/
-        public async Task<List<Dictionary<string, string>>> GetInitializationData(string dataType)
-        {
-            _firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            var initializationListData = await _firebaseClient.Child(dataType).OnceAsync<Dictionary<string, string>>();
-            if (initializationListData.Count != 0)
-            {
-                List<Dictionary<string, string>> memberList = new List<Dictionary<string, string>>();
-                foreach (var member in initializationListData)
-                {
-                    memberList.Add(member.Object);
-                }
-                return memberList;
-            }
-            return null;
-        }
-
         public async Task<bool> CheckAccount(string id, string passwd)
         {
             _firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
@@ -125,25 +107,9 @@ namespace ActivityGroupSystem.Models
             return true;
         }
 
-        public async Task<bool> InsertList(string searchId, string targetId, string searchType, string targetType)
-        {
-            _firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            var listData = await _firebaseClient.Child(searchType).Child(searchId).Child(targetType).OnceSingleAsync<string>();
-
-            listData += "," + targetId;
-            await _firebaseClient.Child(searchType).Child(searchId).Child(targetType).PatchAsync(listData);
-            return true;
-        }
-
         public async Task<bool> UpdateMemberInfo(Member member)
         {
             await _firebaseClient.Child("Member").Child(member.MemberId).PatchAsync(member);
-            return true;
-        }
-
-        public async Task<bool> UpdateMemberInfoList(string memberId, string listName, List<string> newData)
-        {
-            await _firebaseClient.Child("Users").Child("test").Child(listName).PatchAsync(newData);
             return true;
         }
         /*Hsu end*/
