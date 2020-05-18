@@ -130,7 +130,7 @@ namespace ActivityGroupSystem.Models
         /* Ting Start */
         public void CreateActivity(Activity activityInfo)
         {
-            activityInfo.ActivityId = (_activityList.Count ).ToString();
+            activityInfo.ActivityId = (_activityList.Count + 1).ToString();
             Activity newActivity = new Activity(activityInfo);
             _activityList.Add(newActivity);
             _activityCount++;
