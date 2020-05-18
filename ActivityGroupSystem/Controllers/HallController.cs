@@ -119,11 +119,6 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.GetMemberById(memberId);
         }
 
-        public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
-        {
-            return _memberHandler.UpdateUserData(memberId, newData) && _databaseSystem.UpdateMember(memberId, newData);
-        }
-
         public List<string> GetAllParticipants(string activityId)
         {
             return _activityHandler.GetAllParticipants(activityId);
@@ -143,6 +138,8 @@ namespace ActivityGroupSystem.Controllers
             if (isJoin == "1") // 1代表使用者點擊參加, 0代表使用者點擊進入
             {
                 _activityHandler.JoinActivity(userId, activityId);
+                List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                await _databaseSystem.UpdateParticipantList(activityId, participantList);
             }
 
             List<Member> participantsList = new List<Member>();
@@ -158,28 +155,33 @@ namespace ActivityGroupSystem.Controllers
                 friendsList.Add(friend);
             }
 
-            ViewData["activity_id"] = activityId;
-            ViewData["activity_name"] = activity.ActivityName;
-            ViewData["owner_id"] = activity.HomeOwnerId;
-            ViewData["activity_date"] = "2020/5/10";
             ViewData["participants_count"] = activity.ParticipantList.Count;
+            ViewBag.activity = activity;
             ViewBag.participants = participantsList;
             ViewBag.friends = friendsList;
             return View();
         }
 
-        public ActionResult updateActivity(string activityId, string activityName, string avtivityPeople, string avtivityDescription, string avtivityDate)
+        public async Task<ActionResult> updateActivity(string activityId, string activityName, string avtivityPeople, string avtivityDescription, string avtivityDate)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            // update
+            Dictionary<string, string> newData = new Dictionary<string, string>();
+            newData.Add("ActivityName", activityName);
+            newData.Add("NumberOfPeople", avtivityPeople);
+            newData.Add("ActivityNote", avtivityDescription);
+            newData.Add("ActivityDate", avtivityDate);
+            await _databaseSystem.UpdateActivity(activityId, newData);
             return Json(new { success = true, responseText = "更新成功" }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult TransferHomeowner(string activityId, string newOwnerId)
+        public async Task<ActionResult> TransferHomeowner(string activityId, string newOwnerId)
         {
+            await InitializationModel();
             try
             {
                 _activityHandler.TransferHomeowner(activityId, newOwnerId);
+                Dictionary<string, string> newData = new Dictionary<string, string>();
+                newData.Add("HomeOwnerId", newOwnerId);
+                await _databaseSystem.UpdateActivity(activityId, newData);
                 return Json(new { success = true, responseText = "轉移成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -188,11 +190,14 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public ActionResult KickOutPariticipant(string activityId, string targetId)
+        public async Task<ActionResult> KickOutPariticipant(string activityId, string targetId)
         {
+            await InitializationModel();
             try
             {
                 _activityHandler.KickOutPariticipant(targetId, activityId);
+                List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                await _databaseSystem.UpdateParticipantList(activityId, participantList);
                 return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -201,11 +206,14 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public ActionResult InviteFriend(string userName, string activityId, string targetId)
+        public async Task<ActionResult> InviteFriend(string userName, string activityId, string targetId)
         {
+            await InitializationModel();
             try
             {
                 _memberHandler.InviteMember(userName, targetId, activityId);
+                Dictionary<string, string> invitedList = _memberHandler.GetMemberById(targetId).InvitedList;
+                await _databaseSystem.UpdateInvitedList(targetId, invitedList);
                 return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -224,8 +232,9 @@ namespace ActivityGroupSystem.Controllers
                 {
                     if (activity.HomeOwnerId != memberId)
                     {
-                        /*這個要再改*/
                         activity.Leave(memberId);
+                        List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                        await _databaseSystem.UpdateParticipantList(activityId, participantList);
                         return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
                     }
                     else
