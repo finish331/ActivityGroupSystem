@@ -212,6 +212,8 @@ namespace ActivityGroupSystem.Controllers
             try
             {
                 _memberHandler.InviteMember(userName, targetId, activityId);
+                Dictionary<string, string> invitedList = _memberHandler.GetMemberById(targetId).InvitedList;
+                await _databaseSystem.UpdateInvitedList(targetId, invitedList);
                 return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
             }
             catch

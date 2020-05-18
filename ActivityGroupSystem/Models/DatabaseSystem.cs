@@ -53,15 +53,19 @@ namespace ActivityGroupSystem.Models
 
         public async Task<bool> UpdateActivity(string activityId, Dictionary<string, string> newData)
         {
-            await _firebaseClient.Child("Activity").Child(activityId).PatchAsync(newData);
-            
+            await _firebaseClient.Child("Activity").Child(activityId).PatchAsync(newData);         
             return true;
         }
 
         public async Task<bool> UpdateParticipantList(string activityId, List<string> newList)
         {
             await _firebaseClient.Child("Activity").Child(activityId).Child("ParticipantList").PutAsync(newList);
+            return true;
+        }
 
+        public async Task<bool> UpdateInvitedList(string memberId, Dictionary<string, string> newList)
+        {
+            await _firebaseClient.Child("Member").Child(memberId).Child("InvitedList").PatchAsync(newList);
             return true;
         }
 
