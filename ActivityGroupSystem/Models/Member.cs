@@ -281,6 +281,10 @@ namespace ActivityGroupSystem.Models
             {
                 return _invitedList;
             }
+            set
+            {
+                _invitedList = value;
+            }
         }
 
         /*Hsu end*/
