@@ -93,7 +93,7 @@ namespace ActivityGroupSystem.Controllers
             bool result = _memberHandler.AddFriendInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]);
             if (result)
             {
-                UpdateFriendInvitation(Request.Cookies["MemberId"].Value);
+                UpdateFriendInvitation(post["MemberId"]);
                 //新增至資料庫
                 return Json("發送好友邀請成功");
             }
