@@ -119,11 +119,6 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.GetMemberById(memberId);
         }
 
-        public bool UpdateUserData(string memberId, Dictionary<string, string> newData)
-        {
-            return _memberHandler.UpdateUserData(memberId, newData) && _databaseSystem.UpdateMember(memberId, newData);
-        }
-
         public List<string> GetAllParticipants(string activityId)
         {
             return _activityHandler.GetAllParticipants(activityId);
@@ -143,6 +138,8 @@ namespace ActivityGroupSystem.Controllers
             if (isJoin == "1") // 1代表使用者點擊參加, 0代表使用者點擊進入
             {
                 _activityHandler.JoinActivity(userId, activityId);
+                List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                await _databaseSystem.UpdateParticipantList(activityId, participantList);
             }
 
             List<Member> participantsList = new List<Member>();
@@ -199,6 +196,8 @@ namespace ActivityGroupSystem.Controllers
             try
             {
                 _activityHandler.KickOutPariticipant(targetId, activityId);
+                List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                await _databaseSystem.UpdateParticipantList(activityId, participantList);
                 return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -231,8 +230,9 @@ namespace ActivityGroupSystem.Controllers
                 {
                     if (activity.HomeOwnerId != memberId)
                     {
-                        /*這個要再改*/
                         activity.Leave(memberId);
+                        List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                        await _databaseSystem.UpdateParticipantList(activityId, participantList);
                         return Json(new { success = true, responseText = "退出成功" }, JsonRequestBehavior.AllowGet);
                     }
                     else

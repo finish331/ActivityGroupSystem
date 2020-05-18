@@ -65,15 +65,6 @@ namespace ActivityGroupSystem.Models.Tests
         }
 
         [TestMethod]
-        public void UpdateMemberTest()
-        {
-            DatabaseSystem databaseSystem = new DatabaseSystem();
-            Dictionary<string, string> testValue = new Dictionary<string, string>();
-            testValue.Add("Phone", "0913265846");
-            Assert.IsTrue(databaseSystem.UpdateMember("asd1234", testValue));
-        }
-
-        [TestMethod]
         public async Task UpdateActivityTest()
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
