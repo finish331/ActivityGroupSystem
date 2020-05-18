@@ -1,14 +1,13 @@
 ﻿@{
     var userId = Request.Cookies["MemberId"].Value;
     var userName = Request.Cookies["MemberName"].Value;
-    var activityId = ViewData["activity_id"];
-    var ownerId = ViewData["owner_id"];
+    var activity = ViewBag.activity;
     var participants = ViewBag.participants;
     var friends = ViewBag.friends;
     var participants_title = "";
     var isOwner = false;
 
-    if (userId.ToString() == ownerId.ToString())
+    if (userId.ToString() == activity.HomeOwnerId.ToString())
     {
         isOwner = true;
         participants_title = "查看與管理參加者名單";
@@ -143,8 +142,8 @@
 <div id="content">
     <!-- 活動資訊 -->
     <div id="info">
-        <h1>@ViewData["activity_name"]</h1>
-        <p>活動日期: @ViewData["activity_date"]</p>
+        <h1>@activity.ActivityName</h1>
+        <p>活動日期: @activity.ActivityDate</p>
         <p>目前人數: @ViewData["participants_count"]</p>
     </div>
 
@@ -188,22 +187,22 @@
 <div class="form" id="manage_form">
     <div class="field">
         <label>活動名稱:</label>
-        <input type="text" class="input" id="activity_name" name="activity_name" value="" validationMessage="此欄位必填" required>
+        <input type="text" class="input" id="activity_name" name="activity_name" value="@activity.ActivityName" validationMessage="此欄位必填" required>
         <span class="k-invalid-msg" data-for="activity_name"></span>
     </div>
     <div class="field">
         <label>活動人數:</label>
-        <input type="text" class="input" id="activity_people" name="activity_people" value="" validationMessage="此欄位必填" required>
+        <input type="text" class="input" id="activity_people" name="activity_people" value="@activity.NumberOfPeople" validationMessage="此欄位必填" required>
         <span class="k-invalid-msg" data-for="activity_people"></span>
     </div>
     <div class="field">
         <label class="vertical_align_top">內容簡介:</label>
-        <textarea class="input" id="activity_description" name="activity_description" value="" validationMessage="此欄位必填" required></textarea>
+        <textarea class="input" id="activity_description" name="activity_description" validationMessage="此欄位必填" required>@activity.ActivityNote</textarea>
         <span id="invalid_msg" class="k-invalid-msg" data-for="activity_description"></span>
     </div>
     <div class="field">
         <label>活動日期:</label>
-        <input type="date" class="input" id="activity_date" name="activity_date" value="" validationMessage="此欄位必填" required>
+        <input type="date" class="input" id="activity_date" name="activity_date" value="@activity.ActivityDate" validationMessage="此欄位必填" required>
         <span class="k-invalid-msg" data-for="activity_date"></span>
     </div>
     <button id="update_button" type="submit">更新</button>
@@ -217,7 +216,7 @@
             <li>
                 <table>
                     <tr>
-                        <td class="user_name"><p>@participants[i].MemberId</p></td>
+                        <td class="user_name"><p>@participants[i].MemberName</p></td>
                         @if (isOwner && participants[i].MemberId != userId)
                         {
                             <td><button id="transfer_button" value="@participants[i].MemberId">轉移房主</button></td>
@@ -238,7 +237,7 @@
             <li>
                 <table>
                     <tr>
-                        <td class="user_name"><p>@friends[i].MemberId</p></td>
+                        <td class="user_name"><p>@friends[i].MemberName</p></td>
                         <td><button id="invite_button" value="@friends[i].MemberId">邀請</button></td>
                     </tr>
                 </table>
@@ -258,10 +257,10 @@
         var validator = $("#manage_form").kendoValidator().data("kendoValidator");
 
         var data = {
-            activityId: "@activityId",
+            activityId: "@activity.ActivityId",
             activityName: $("#activity_name").val(),
-            avtivityPeople: $("activity_people").val(),
-            avtivityDescription: $("activity_description").val(),
+            avtivityPeople: $("#activity_people").val(),
+            avtivityDescription: $("#activity_description").val(),
             avtivityDate: $("#activity_date").val(),
         };
 
@@ -273,7 +272,7 @@
                 type: "post"
             }).done(function (data) {
                 alert(data.responseText);
-                ClearView();
+                location.reload();
             }).fail(function (data) {
                 alert(data.responseText);
             });
@@ -283,7 +282,7 @@
     // 轉移房主
     $("#transfer_button").click(function () {
         var data = {
-            activityId: "@activityId",
+            activityId: "@activity.ActivityId",
             newOwnerId: $("#transfer_button").val(),
         };
 
@@ -294,7 +293,7 @@
             type: "post"
         }).done(function (data) {
             alert(data.responseText);
-            ClearView();
+            location.reload();
         }).fail(function (data) {
             alert(data.responseText);
         });
@@ -303,7 +302,7 @@
     // 踢人
     $("#kick_out_button").click(function () {
         var data = {
-            activityId: "@activityId",
+            activityId: "@activity.ActivityId",
             targetId: $("#kick_out_button").val(),
         };
 
@@ -323,7 +322,7 @@
     // 邀請好友
     $("#invite_button").click(function () {
         var data = {
-            activityId: "@activityId",
+            activityId: "@activity.ActivityId",
             targetId: $("#invite_button").val(),
             userName: "@userName",
         };
@@ -344,11 +343,11 @@
     // 退出活動
     $("#leave_button").click(function () {
         var result = confirm("是否確認要退出活動?");
-        console.log("@activityId");
+        console.log("@activity.ActivityId");
         console.log("@userId");
         if (result) {
             var data = {
-                activityId: "@activityId",
+                activityId: "@activity.ActivityId",
                 memberId: "@userId",
             };
 
@@ -372,7 +371,7 @@
             var data = {
                 memberId: "@userId",
                 memberName: "@userName",
-                activityId: "@activityId",
+                activityId: "@activity.ActivityId",
                 messageContent: content,
             };
 
@@ -390,7 +389,7 @@
 
     function updateChatroom() {
         var data = {
-            activityId: "@activityId",
+            activityId: "@activity.ActivityId",
         };
 
         $.ajax({
@@ -412,8 +411,6 @@
         });
     }
 
-    console.log("@ownerId");
-    console.log("@userId");
-    console.log("@isOwner");
+    console.log("@activity.ActivityId");
 </script>
 

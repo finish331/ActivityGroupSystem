@@ -76,10 +76,15 @@
 
 //活動Grid中參加活動的按鈕
 $("#activity_grid").on("click", ".btn-join-button", function (e) {
-    var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
-    var result = confirm("是否確認要加入\"" + Item.ActivityName + "\"?");
-    if (result) {
-        window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text() + "&isJoin=1";
+    if ($("#label_memberId").text() != "") {
+        var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+        var result = confirm("是否確認要加入\"" + Item.ActivityName + "\"?");
+        if (result) {
+            window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text() + "&isJoin=1";
+        }
+    }
+    else {
+        alert("請先登入會員！");
     }
 });
 
