@@ -19,14 +19,6 @@ namespace ActivityGroupSystem.Models.Tests
         }
 
         [TestMethod]
-        public async Task InitializationMemberDataTest()
-        {
-            DatabaseSystem databaseSystem = new DatabaseSystem();
-            List<Member> memberList = await databaseSystem.InitializationMemberData();
-            Assert.AreEqual("asd1234",memberList[0].MemberId);
-        }
-
-        [TestMethod]
         public async Task InitializationActivityDataTest()
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
@@ -61,7 +53,7 @@ namespace ActivityGroupSystem.Models.Tests
             await databaseSystem.Delete("99", "Activity");
 
             Assert.IsTrue(result);
-            
+
         }
 
         [TestMethod]
@@ -111,7 +103,7 @@ namespace ActivityGroupSystem.Models.Tests
         public async Task SendMessageTest()
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
-            Message message = new Message("unitTest1","unitTest1","unitTestMessage");
+            Message message = new Message("unitTest1", "unitTest1", "unitTestMessage");
             Activity activity = new Activity();
             activity.ActivityId = "99";
             activity.ActivityName = "unitTest2";
@@ -121,18 +113,49 @@ namespace ActivityGroupSystem.Models.Tests
             activity.NumberOfPeople = "3";
 
             await databaseSystem.InsertActivity(activity);
-            //await databaseSystem.Delete("99", "Activity");
 
             Assert.IsTrue(await databaseSystem.SendMessage("99", message));
+            await databaseSystem.Delete("99", "Activity");
         }
-        
+
+        [TestMethod]
+        public async Task InitializationMemberDataTest()
+        {
+            DatabaseSystem databaseSystem = new DatabaseSystem();
+            Member member = new Member();
+            member.MemberId = "unitTest4";
+            member.MemberName = "zxczxc";
+            member.Password = "test123";
+            member.Phone = "0326598741";
+            member.Birthday = "10/10/1659";
+            member.Sexuality = "女";
+
+            await databaseSystem.UpdateMemberInfo(member);
+            List<Member> memberList = await databaseSystem.InitializationMemberData();
+            await databaseSystem.Delete("unitTest4", "Member");
+
+            Assert.IsNotNull(memberList.Find(x => x.MemberId == "unitTest4"));
+        }
+
         [TestMethod]
         public async Task CheckAccountTest()
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
+            Member member = new Member();
+            member.MemberId = "unitTest4";
+            member.MemberName = "zxczxc";
+            member.Password = "test123";
+            member.Phone = "0326598741";
+            member.Birthday = "10/10/1659";
+            member.Sexuality = "女";
 
-            Assert.IsTrue(await databaseSystem.CheckAccount("unitTest1", "test123"));
-            Assert.IsFalse(await databaseSystem.CheckAccount("unitTest2", "test456"));
+            await databaseSystem.UpdateMemberInfo(member);
+            var result1 = await databaseSystem.CheckAccount("unitTest4", "test123");
+            var result2 = await databaseSystem.CheckAccount("unitTest4", "test456");
+            await databaseSystem.Delete("unitTest4", "Member");
+
+            Assert.IsTrue(result1);
+            Assert.IsFalse(result2);
         }
 
         [TestMethod]
@@ -158,7 +181,6 @@ namespace ActivityGroupSystem.Models.Tests
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();
             Member member = new Member();
-            member.MemberId = "unitTest4";
             member.MemberId = "unitTest4";
             member.MemberName = "zxczxc";
             member.Password = "test123";

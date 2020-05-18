@@ -206,7 +206,10 @@ namespace ActivityGroupSystem.Models
 
         public void InsertFriendList(string memberId)
         {
-            _friendsList.Add(memberId);
+            if (!_friendsList.Contains(memberId))
+            {
+                _friendsList.Add(memberId);
+            }
         }
 
         public void DeleteFriendInvitation(string memberId)
@@ -280,6 +283,10 @@ namespace ActivityGroupSystem.Models
             get
             {
                 return _invitedList;
+            }
+            set
+            {
+                _invitedList = value;
             }
         }
 

@@ -51,11 +51,15 @@ namespace ActivityGroupSystem.Models
 
         public bool BlackMember(string memberId, string blackMemberId)
         {
-            foreach (Member member in _memberList)
+            if (memberId != blackMemberId)
             {
-                if (member.MemberId == memberId)
+                RejectInvitation(blackMemberId, memberId);
+                foreach (Member member in _memberList)
                 {
-                    return member.BlackMember(blackMemberId);
+                    if (member.MemberId == memberId)
+                    {
+                        return member.BlackMember(blackMemberId);
+                    }
                 }
             }
             return false;
@@ -63,11 +67,15 @@ namespace ActivityGroupSystem.Models
 
         public bool AddFriendInvitation(string myMemberId, string friendId)
         {
-            foreach (Member member in _memberList)
+            if(myMemberId != friendId)
             {
-                if (member.MemberId == friendId)
+                DeleteBlack(myMemberId, friendId);
+                foreach (Member member in _memberList)
                 {
-                    return member.AddFriendInvitation(myMemberId);
+                    if (member.MemberId == friendId)
+                    {
+                        return member.AddFriendInvitation(myMemberId);
+                    }
                 }
             }
             return false;
@@ -113,9 +121,11 @@ namespace ActivityGroupSystem.Models
         public bool DeleteFriend(string memberId, string targetId)
         {
             Member member = GetMemberById(memberId);
-            if (member != null)
+            Member target = GetMemberById(targetId);
+
+            if (member != null && target != null)
             {
-                return member.DeleteFriend(targetId);
+                return member.DeleteFriend(targetId) && target.DeleteFriend(memberId);
             }
             else
                 return false;
