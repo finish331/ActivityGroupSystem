@@ -70,11 +70,10 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             if (_memberHandler.BlackMember(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                if (_memberHandler.DeleteFriend(Request.Cookies["MemberId"].Value, post["MemberId"]))
-                {
-                    UpdateFriendList(Request.Cookies["MemberId"].Value);
-                }
-                UpdateBlackList(Request.Cookies["MemberId"].Value);
+                _memberHandler.DeleteFriend(Request.Cookies["MemberId"].Value, post["MemberId"]);
+
+                UpdateMemberInfo(Request.Cookies["MemberId"].Value);
+                UpdateMemberInfo(post["MemberId"]);
                 return Json("加入黑名單成功");
                 //True才新增資料庫
             }
@@ -93,7 +92,8 @@ namespace ActivityGroupSystem.Controllers
             bool result = _memberHandler.AddFriendInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]);
             if (result)
             {
-                UpdateFriendInvitation(post["MemberId"]);
+                UpdateMemberInfo(post["MemberId"]);
+                UpdateMemberInfo(Request.Cookies["MemberId"].Value);
                 //新增至資料庫
                 return Json("發送好友邀請成功");
             }
@@ -305,17 +305,7 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public void UpdateFriendList(string memberId)
-        {
-            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
-        }
-
-        public void UpdateBlackList(string memberId)
-        {
-            _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
-        }
-
-        public void UpdateFriendInvitation(string memberId)
+        public void UpdateMemberInfo(string memberId)
         {
             _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(memberId));
         }
@@ -326,7 +316,7 @@ namespace ActivityGroupSystem.Controllers
 
             if (_memberHandler.RejectInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateFriendInvitation(Request.Cookies["MemberId"].Value);
+                UpdateMemberInfo(Request.Cookies["MemberId"].Value);
                 return Json("拒絕好友邀請");
             }
             return Json("拒絕好友邀請");
@@ -339,10 +329,9 @@ namespace ActivityGroupSystem.Controllers
             
             if(_memberHandler.AgreeInvitation(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateFriendList(Request.Cookies["MemberId"].Value);
-                UpdateFriendList(post["MemberId"]);
+                UpdateMemberInfo(Request.Cookies["MemberId"].Value);
+                UpdateMemberInfo(post["MemberId"]);
 
-                UpdateFriendInvitation(Request.Cookies["MemberId"].Value);
                 return Json("同意好友邀請");
             }
             return Json("同意好友失敗");
@@ -440,8 +429,9 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             if (_memberHandler.DeleteFriend(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateFriendList(Request.Cookies["MemberId"].Value);
-                
+                UpdateMemberInfo(Request.Cookies["MemberId"].Value);
+                UpdateMemberInfo(post["MemberId"]);
+
                 return Json("刪除好友成功");
             }
             return Json("刪除好友失敗");
@@ -452,7 +442,7 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             if (_memberHandler.DeleteBlack(Request.Cookies["MemberId"].Value, post["MemberId"]))
             {
-                UpdateBlackList(Request.Cookies["MemberId"].Value);
+                UpdateMemberInfo(Request.Cookies["MemberId"].Value);
                 return Json("刪除黑名單成功");
             }
             return Json("刪除黑名單失敗");
