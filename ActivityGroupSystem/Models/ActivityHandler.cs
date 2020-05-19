@@ -160,6 +160,15 @@ namespace ActivityGroupSystem.Models
             else
                 return false;
         }
+
+        public bool IsParticipant(string activityId, string memberId)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+                return activity.IsParticipant(memberId);
+            else
+                return false;
+        }
         /* Ting End */
 
         /*Hsu start*/

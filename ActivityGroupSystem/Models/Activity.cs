@@ -157,6 +157,11 @@ namespace ActivityGroupSystem.Models
         {
             _participantList.Remove(memberId);
         }
+
+        public bool IsParticipant(string memberId)
+        {
+            return _participantList.Contains(memberId);
+        }
         /* Ting End */
 
         /*Hsu start*/
