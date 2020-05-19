@@ -45,54 +45,45 @@
         columns: [
             { hidden: true, field: "ActivityId" },
             { field: "ActivityName", title: "活動名稱", width: "10%" },
-            { field: "HomeOwnerId", title: "活動房主", width: "6%" },
-            { field: "NumberOfPeople", title: "活動人數", width: "4%" },
-            { field: "ActivityNote", title: "活動內容", width: "15%" },
-            { field: "ActivityDate", title: "活動日期", width: "6%" },
-            {
-                command: {
-                    text: "參加",
-                    className: "btn-join-button",
-                },
-                title: " ",
-                width: "5%"
-            },
+            { field: "HomeOwnerId", title: "活動房主", width: "10%" },
+            { field: "NumberOfPeople", title: "活動人數", width: "10%" },
+            { field: "ActivityNote", title: "活動內容", width: "30%" },
+            { field: "ActivityDate", title: "活動日期", width: "10%" },
             {
                 command: {
                     text: "進入",
                     className: "btn-enter-button",
                 },
                 title: " ",
-                width: "5%"
-
+                width: "10%",
+                attributes: {
+                    style: "text-align: center"
+                }
             }
         ]
-    });
-
-    
-   
-    
-});
-
-//活動Grid中參加活動的按鈕
-$("#activity_grid").on("click", ".btn-join-button", function (e) {
-    if ($("#label_memberId").text() != "") {
-        var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
-        var result = confirm("是否確認要加入\"" + Item.ActivityName + "\"?");
-        if (result) {
-            window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text() + "&isJoin=1";
-        }
-    }
-    else {
-        alert("請先登入會員！");
-    }
+    }); 
 });
 
 //活動Grid中進入活動的按鈕
 $("#activity_grid").on("click", ".btn-enter-button", function (e) {
     if ($("#label_memberId").text() != "") {
         var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
-        window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text();
+
+        $.ajax({
+            url: "/Hall/IsParticipant",
+            dataType: "json",
+            data: { "activityId": Item.ActivityId, "memberId": $("#label_memberId").text() },
+            type: "post"
+        }).done(function (data) {
+            if (data.responseText == "True")
+                window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text();
+            else {
+                if (confirm("您尚未參加\"" + Item.ActivityName + "\"活動，請問您是否要參加?"))
+                    window.location.href = "/Hall/Room?activityId=" + Item.ActivityId + "&" + "userId=" + $("#label_memberId").text();
+            }
+        }).fail(function (data) {
+            alert("進入失敗");
+        });
     }
     else {
         alert("請先登入會員！");

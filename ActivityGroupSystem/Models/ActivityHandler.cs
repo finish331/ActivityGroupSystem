@@ -130,7 +130,7 @@ namespace ActivityGroupSystem.Models
         /* Ting Start */
         public void CreateActivity(Activity activityInfo)
         {
-            activityInfo.ActivityId = (_activityList.Count ).ToString();
+            activityInfo.ActivityId = (_activityList.Count + 1).ToString();
             Activity newActivity = new Activity(activityInfo);
             _activityList.Add(newActivity);
             _activityCount++;
@@ -157,6 +157,15 @@ namespace ActivityGroupSystem.Models
                 activity.TransferHomeowner(newOwnerId);
                 return true;
             }
+            else
+                return false;
+        }
+
+        public bool IsParticipant(string activityId, string memberId)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+                return activity.IsParticipant(memberId);
             else
                 return false;
         }

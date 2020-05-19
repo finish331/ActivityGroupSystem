@@ -129,15 +129,14 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.GetFriendsList(memberId);
         }
 
-        public async Task<ActionResult> Room(string activityId, string userId, string isJoin)
+        public async Task<ActionResult> Room(string activityId, string userId)
         {
             await InitializationModel();
             Activity activity = _activityHandler.FindActivity(activityId);
             Member member = _memberHandler.GetMemberById(userId);
 
-            if (isJoin == "1") // 1代表使用者點擊參加, 0代表使用者點擊進入
+            if (_activityHandler.JoinActivity(userId, activityId))
             {
-                _activityHandler.JoinActivity(userId, activityId);
                 List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
                 await _databaseSystem.UpdateParticipantList(activityId, participantList);
             }
@@ -274,6 +273,13 @@ namespace ActivityGroupSystem.Controllers
             {
                 return Json(new { success = false, responseText = "連結聊天室失敗" }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public async Task<ActionResult> IsParticipant(string activityId, string memberId)
+        {
+            await InitializationModel();
+            bool result = _activityHandler.IsParticipant(activityId, memberId);
+            return Json(new { success = true, responseText = result.ToString() }, JsonRequestBehavior.AllowGet);
         }
         /* Ting End */
 

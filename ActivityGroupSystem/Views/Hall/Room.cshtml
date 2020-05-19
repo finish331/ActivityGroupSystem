@@ -381,6 +381,8 @@
                 dataType: "json",
                 data: data,
                 type: "post"
+            }).done(function (data) {
+                $("#chat_input").val("");
             });
         }
     });
@@ -411,7 +413,5 @@
             $("#chat_content").append("<p>無法連接聊天室</p>");
         });
     }
-
-    console.log("@activity.ActivityId");
 </script>
 
