@@ -44,7 +44,10 @@
                     <li>@Html.ActionLink("首頁", "Index", "Hall")</li>
                     <li>@Html.ActionLink("關於", "About", "Hall")</li>
                     <li>@Html.ActionLink("連絡人", "Contact", "Hall")</li>
-                    <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="test">看別人資料</button></li>
+                    @if (Request.Cookies["MemberName"] != null)
+                    {
+                        <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="test">看別人資料</button></li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav" style="float:right;">
                     <li style="color:white; position:absolute; top:32%; left:65%">@welcomeMessage</li>
