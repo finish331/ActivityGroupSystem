@@ -256,6 +256,7 @@
     <Content Include="Content\kendo\fonts\glyphs\WebComponentsIcons.ttf" />
     <Content Include="Content\kendo\fonts\glyphs\WebComponentsIcons.woff" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\login.js" />
     <Content Include="Scripts\otherMemberInfo.js" />
     <Content Include="Scripts\memberInfo.js" />
     <Content Include="Scripts\layout.js" />

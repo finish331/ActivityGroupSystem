@@ -23,7 +23,7 @@
 </div>
 <div class="form-group">
     <label for="Phoone">電話</label>
-    <input style="max-width:95%" type="text" class="form-control" id="Phone" name="Phone" placeholder="輸入電話" value="" validationMessage="此欄位必填" required>
+    <input style="max-width:95%" type="text" class="form-control" id="Phone" name="Phone" placeholder="輸入電話" value="" validationMessage="此欄位必填" onkeyup="value=value.replace(/[^\d]/g,'')" required>
 </div>
 <div class="form-group">
     <label for="Sexuality">性別</label>

@@ -366,9 +366,10 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             string account = post["account"];
             string password = post["password"];
+            string loginMessage = _memberHandler.CheckLoginAccount(account, password);
 
             //驗證帳號密碼
-            if (await _databaseSystem.CheckAccount(account, password))
+            if (loginMessage == "")
             {
                 Member member = _memberHandler.GetMemberById(account);
                 Response.Cookies["MemberName"].Value = member.MemberName;
@@ -378,7 +379,7 @@ namespace ActivityGroupSystem.Controllers
             }
             else
             {
-                ViewBag.Msg = "登入失敗...";
+                ViewBag.Msg = loginMessage;
                 return View();
             }
         }
@@ -426,7 +427,9 @@ namespace ActivityGroupSystem.Controllers
                 memberInfo.Add(key.ToString(), post[key.ToString()]);
             }
             _memberHandler.UpdateUserData(Request.Cookies["MemberId"].Value, memberInfo);
+            Response.Cookies["MemberName"].Value = memberInfo["MemberName"];
             _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(Request.Cookies["MemberId"].Value));
+            Response.Redirect(Request.Url.ToString());
             return Json("");
         }
 

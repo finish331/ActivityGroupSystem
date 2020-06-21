@@ -206,6 +206,27 @@ namespace ActivityGroupSystem.Models
             else
                 return false;
         }
+
+        public string CheckLoginAccount(string memberId, string password)
+        {
+            Member member = GetMemberById(memberId);
+            if (member == null)
+            {
+                return "帳號尚未註冊";
+            }
+            else
+            {
+                if(member.Password != password)
+                {
+                    return "密碼輸入錯誤";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+                
+        }
         /*Hsu end*/
     }
 }
