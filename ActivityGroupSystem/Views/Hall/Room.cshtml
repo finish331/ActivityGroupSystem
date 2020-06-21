@@ -390,6 +390,10 @@
                 type: "post"
             }).done(function (data) {
                 $("#chat_input").val("");
+
+                if (data.type != 0) {
+                    alert(data.responseText);
+                }
             });
         }
     });

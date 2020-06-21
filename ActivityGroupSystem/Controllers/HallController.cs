@@ -257,15 +257,23 @@ namespace ActivityGroupSystem.Controllers
 
         public async Task<ActionResult> SendMessage(string memberId, string memberName, string activityId, string messageContent)
         {
+            await InitializationModel();
             try
             {
-                Message message = new Message(memberId, memberName, messageContent);
-                await _databaseSystem.SendMessage(activityId, message);
-                return Json(new { success = true, responseText = "發送成功" }, JsonRequestBehavior.AllowGet);
+                if (_activityHandler.IsParticipant(activityId, memberId))
+                {
+                    Message message = new Message(memberId, memberName, messageContent);
+                    await _databaseSystem.SendMessage(activityId, message);
+                    return Json(new { success = true, responseText = "發送成功", type = 0 }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, responseText = "很抱歉您非本活動的參加者故無法發言", type = 1 }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
-                return Json(new { success = false, responseText = "發送失敗" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, responseText = "發送失敗", type = 1 }, JsonRequestBehavior.AllowGet);
             }
         }
 
