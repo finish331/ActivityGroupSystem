@@ -7,6 +7,7 @@ using Firebase.Database;
 using Firebase.Database.Query;
 using System.Threading.Tasks;
 using ActivityGroupSystem.Models;
+using Newtonsoft.Json;
 
 namespace ActivityGroupSystem.Controllers
 {
@@ -63,6 +64,41 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             List<Activity> allJoinActivity = _activityHandler.GetJoinActivity(memberId);
             return Json(allJoinActivity);
+        }
+
+        [HttpPost()]
+        public async Task<JsonResult> GetInvitedActivity(string memberId)
+        {
+            await InitializationModel();
+            Member member = _memberHandler.GetMemberById(memberId);
+            Dictionary<string, string> invitedList = new Dictionary<string, string>();
+            List<Dictionary<string, string>> gridResult = new List<Dictionary<string, string>>();
+            if (member != null)
+            {
+                invitedList = member.InvitedList;
+            }
+
+            if (invitedList.Count > 0)
+            {
+                foreach (var tempInvited in invitedList)
+                {
+                    Activity activity = _activityHandler.FindActivity(tempInvited.Key);
+                    Dictionary<string, string> result = new Dictionary<string, string>();
+                    if (activity != null)
+                    {
+                        result["ActivityId"] = activity.ActivityId;
+                        result["ActivityName"] = activity.ActivityName;
+                        result["HomeOwnerId"] = activity.HomeOwnerId;
+                        result["NumberOfPeople"] = activity.NumberOfPeople;
+                        result["ActivityNote"] = activity.ActivityNote;
+                        result["ActivityDate"] = activity.ActivityDate;
+                        result["InviteMember"] = tempInvited.Value;
+                        gridResult.Add(result);
+                    }
+                }
+            }
+
+            return Json(gridResult);
         }
 
         public async Task<JsonResult> BlackMember(FormCollection post)
@@ -129,6 +165,30 @@ namespace ActivityGroupSystem.Controllers
             return _memberHandler.GetFriendsList(memberId);
         }
 
+        public async Task<JsonResult> DeleteInvitedList(string memberId, string activityId)
+        {
+            await InitializationModel();
+            Member member = _memberHandler.GetMemberById(memberId);
+            if (member.InvitedList.Count > 0)
+            {
+                bool matchInvited = false;
+                foreach (var tempList in member.InvitedList)
+                {
+                    if (tempList.Key == activityId)
+                    {
+                        matchInvited = true;
+                    }
+                }
+
+                if (matchInvited)
+                {
+                    member.InvitedList.Remove(activityId);
+                    await _databaseSystem.UpdateInvitedList(memberId, member.InvitedList);
+                }
+            }
+            return Json("");
+        }
+
         public async Task<ActionResult> Room(string activityId, string userId)
         {
             await InitializationModel();
@@ -139,6 +199,7 @@ namespace ActivityGroupSystem.Controllers
             {
                 List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
                 await _databaseSystem.UpdateParticipantList(activityId, participantList);
+                await DeleteInvitedList(userId, activityId);
             }
 
             List<Member> participantsList = new List<Member>();

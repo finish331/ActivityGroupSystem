@@ -4,6 +4,7 @@
     $("#btn_view_join_activity").kendoButton();
     $("#btn_cancel").kendoButton();
     $("#btn_search_activity").kendoButton();
+    $("#btn_view_invite_activity").kendoButton();
     $("#register_button").kendoButton();
     $("#memberInfo_button").kendoButton();
     $("#test").kendoButton();
@@ -90,6 +91,27 @@ $("#activity_grid").on("click", ".btn-enter-button", function (e) {
     }
 });
 
+$("#activity_grid").on("click", ".btn-accept-button", function (e) {
+
+});
+
+$("#activity_grid").on("click", ".btn-reject-button", function (e) {
+    var Item = $("#activity_grid").data("kendoGrid").dataItem($(e.currentTarget).closest('tr'));
+    if (confirm("您是否要拒絕參加此活動?")) {
+        $.ajax({
+            url: "/Hall/DeleteInvitedList",
+            dataType: "json",
+            data: { "activityId": Item.ActivityId, "memberId": $("#label_memberId").text() },
+            type: "post"
+        }).done(function (data) {
+            alert("success");
+            $("#btn_cancel").click();
+        }).fail(function (data) {
+            alert("fail");
+        });
+    }
+});
+
 //開啟新增活動window之按鈕動作
 $("#btn_create_activity").click(function () {
     $("#insert_form").data('kendoValidator').hideMessages();
@@ -127,6 +149,7 @@ $("#btn_add_activity").click(function () {
 });
 
 $("#btn_manage_activity").click(function () {
+    resetColumn();
     var memberId = $("#label_memberId").text()
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
         url: "/Hall/GetManageActivity",
@@ -138,6 +161,7 @@ $("#btn_manage_activity").click(function () {
 });
 
 $("#btn_cancel").click(function () {
+    resetColumn();
     var memberId = $("#label_memberId").text()
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
         url: "/Hall/GetUnJoinActivity",
@@ -149,6 +173,7 @@ $("#btn_cancel").click(function () {
 });
 
 $("#btn_view_join_activity").click(function () {
+    resetColumn();
     var memberId = $("#label_memberId").text()
     $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
         url: "/Hall/GetJoinActivity",
@@ -157,6 +182,57 @@ $("#btn_view_join_activity").click(function () {
         data: { "memberId": memberId }
     }
     $("#activity_grid").data("kendoGrid").dataSource.read();
+});
+
+
+$("#btn_view_invite_activity").click(function () {
+    var memberId = $("#label_memberId").text()
+
+    var options = $("#activity_grid").data("kendoGrid").getOptions()
+
+    options.columns = [
+        { hidden: true, field: "ActivityId" },
+        { field: "ActivityName", title: "活動名稱", width: "10%" },
+        { field: "HomeOwnerId", title: "活動房主", width: "8%" },
+        { field: "NumberOfPeople", title: "活動人數", width: "7%" },
+        { field: "ActivityNote", title: "活動內容", width: "18%" },
+        { field: "ActivityDate", title: "活動日期", width: "8%" },
+        { field: "InviteMember", title: "邀請人", width: "8%" },
+        {
+            command: {
+                text: "接受",
+                className: "btn-enter-button",
+            },
+            title: " ",
+            width: "7%",
+            attributes: {
+                style: "text-align: center"
+            }
+        },
+        {
+            command: {
+                text: "拒絕",
+                className: "btn-reject-button",
+            },
+            title: " ",
+            width: "7%",
+            attributes: {
+                style: "text-align: center"
+            }
+        }
+    ]
+
+    $("#activity_grid").data("kendoGrid").setOptions(options)
+
+    $("#activity_grid").data("kendoGrid").dataSource.transport.options.read = {
+        url: "/Hall/GetInvitedActivity",
+        type: "post",
+        dataType: "json",
+        data: { "memberId": memberId }
+    }
+    $("#activity_grid").data("kendoGrid").dataSource.read();
+
+    $("#activity_grid").data("kendoGrid").refresh();
 });
 
 $("#btn_search_activity").click(function () {
@@ -209,6 +285,32 @@ $("#memberInfo_button").click(function () {
     $("#memberInfo_form").data('kendoValidator').hideMessages();
     $("#memberInfo_form").data('kendoWindow').open();
 });
+
+function resetColumn() {
+    var options = $("#activity_grid").data("kendoGrid").getOptions()
+
+    options.columns = [
+        { hidden: true, field: "ActivityId" },
+        { field: "ActivityName", title: "活動名稱", width: "10%" },
+        { field: "HomeOwnerId", title: "活動房主", width: "10%" },
+        { field: "NumberOfPeople", title: "活動人數", width: "10%" },
+        { field: "ActivityNote", title: "活動內容", width: "30%" },
+        { field: "ActivityDate", title: "活動日期", width: "10%" },
+        {
+            command: {
+                text: "進入",
+                className: "btn-enter-button",
+            },
+            title: " ",
+            width: "10%",
+            attributes: {
+                style: "text-align: center"
+            }
+        }
+    ]
+
+    $("#activity_grid").data("kendoGrid").setOptions(options)
+}
 
 $("#test").click(function () {
     $("#checkInfo_form").kendoValidator().data("kendoValidator");
