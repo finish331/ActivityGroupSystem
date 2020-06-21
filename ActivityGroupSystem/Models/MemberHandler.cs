@@ -138,6 +138,12 @@ namespace ActivityGroupSystem.Models
             else
                 return null;
         }
+
+        public bool IsBlack(string memberId, string targetId)
+        {
+            Member member = GetMemberById(memberId);
+            return member.IsBlack(targetId);
+        }
         /* Ting End */
 
         /*Hsu start*/

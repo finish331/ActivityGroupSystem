@@ -36,17 +36,17 @@ namespace ActivityGroupSystem.Models
             return false;
         }
 
-        public bool KickOutPariticipant(string memberId)
+        public int KickOutPariticipant(string memberId)
         {
             foreach (string participantId in _participantList)
             {
                 if (participantId == memberId)
                 {
                     _participantList.Remove(participantId);
-                    return true;
+                    return 0;
                 }
             }
-            return false;
+            return 1;
         }
 
 

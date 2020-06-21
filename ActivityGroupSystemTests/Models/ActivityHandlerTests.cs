@@ -116,16 +116,16 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void KickOutPariticipantTest()
         {
-            bool result;
+            int result;
             //正確踢人
             result = _activityHandler.KickOutPariticipant("tester1", "1");
-            Assert.IsTrue(result);
+            Assert.AreEqual(result, 0);
             //找到房間，但房間內沒有這名成員
             result = _activityHandler.KickOutPariticipant("tester1", "2");
-            Assert.IsFalse(result);
+            Assert.AreEqual(result, 1);
             //錯誤的房間，錯誤的成員
             result = _activityHandler.KickOutPariticipant("tester1", "30");
-            Assert.IsFalse(result);
+            Assert.AreEqual(result, 2);
         }
 
         [TestMethod()]
