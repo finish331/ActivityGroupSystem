@@ -173,6 +173,14 @@ namespace ActivityGroupSystem.Models
                 return false;
             }
         }
+
+        public bool IsBlack(string memberId)
+        {
+            if (_blackList.Contains(memberId))
+                return true;
+            else
+                return false;
+        }
         /* Ting End */
 
         /*Hsu start*/

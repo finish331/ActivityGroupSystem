@@ -288,11 +288,23 @@ namespace ActivityGroupSystem.Controllers
             }
         }
 
-        public async Task<ActionResult> updateChatroom(string activityId)
+        public async Task<ActionResult> updateChatroom(string activityId, string memberId)
         {
+            await InitializationModel();
             try
             {
+                int index = 0;
                 List<Message> messages = await _databaseSystem.GetChatData(activityId);
+                // 清除黑名單人員的訊息
+                while (messages.Count > index)
+                {
+                    if (_memberHandler.IsBlack(memberId, messages[index].MemberId))
+                    {
+                        messages.RemoveAt(index);
+                    }
+                    else
+                        index++;
+                }
                 return Json(new { success = true, responseText = messages }, JsonRequestBehavior.AllowGet);
             }
             catch

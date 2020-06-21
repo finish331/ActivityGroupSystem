@@ -11,8 +11,8 @@ namespace ActivityGroupSystem.Models.Tests
     [TestClass()]
     public class MemberHandlerTests
     {
-        
-        
+
+
 
         private List<Member> GetTestMemberList()
         {
@@ -178,7 +178,7 @@ namespace ActivityGroupSystem.Models.Tests
         public void AgreeInvitationTest()
         {
             MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
-            Assert.IsTrue(memberHandler.AgreeInvitation("asd1","asd4"));
+            Assert.IsTrue(memberHandler.AgreeInvitation("asd1", "asd4"));
         }
 
         [TestMethod()]
@@ -193,7 +193,7 @@ namespace ActivityGroupSystem.Models.Tests
         public void GetInvitationListTest()
         {
             MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
-            Assert.AreEqual("asd4",memberHandler.GetInvitationList("asd1")[0]);
+            Assert.AreEqual("asd4", memberHandler.GetInvitationList("asd1")[0]);
             Assert.IsNull(memberHandler.GetInvitationList("zxc1"));
         }
 
@@ -201,8 +201,8 @@ namespace ActivityGroupSystem.Models.Tests
         public void DeleteBlackTest()
         {
             MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
-            Assert.IsTrue(memberHandler.DeleteBlack("asd1","asd2"));
-            Assert.IsFalse(memberHandler.DeleteBlack("zxc1","asd2"));
+            Assert.IsTrue(memberHandler.DeleteBlack("asd1", "asd2"));
+            Assert.IsFalse(memberHandler.DeleteBlack("zxc1", "asd2"));
         }
 
         [TestMethod()]
@@ -211,6 +211,12 @@ namespace ActivityGroupSystem.Models.Tests
             MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
             Assert.AreEqual("Demo1", memberHandler.SearchMemberInfo("asd")[0].MemberName);
             Assert.AreEqual("Demo1", memberHandler.SearchMemberInfo("De")[0].MemberName);
+        }
+
+        [TestMethod()]
+        public void IsBlackTest()
+        {
+            Assert.Fail();
         }
     }
 }

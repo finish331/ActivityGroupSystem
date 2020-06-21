@@ -143,6 +143,12 @@ namespace ActivityGroupSystem.Models.Tests
         }
 
         [TestMethod()]
+        public void IsBlackTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
         public void DeleteBlackTest()
         {
             fillMember.DeleteBlack("2");
