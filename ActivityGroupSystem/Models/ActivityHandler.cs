@@ -116,14 +116,14 @@ namespace ActivityGroupSystem.Models
             return relatedActivity;
         }
 
-        public bool KickOutPariticipant(string memberId, string activityId)
+        public int KickOutPariticipant(string memberId, string activityId)
         {
             Activity activity = FindActivity(activityId);
             if(activity != null)
             {
                 return activity.KickOutPariticipant(memberId);
             }
-            return false;
+            return 2;
         }
         /*Willie End*/
 

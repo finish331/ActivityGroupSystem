@@ -194,10 +194,21 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             try
             {
-                _activityHandler.KickOutPariticipant(targetId, activityId);
-                List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
-                await _databaseSystem.UpdateParticipantList(activityId, participantList);
-                return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
+                int result = _activityHandler.KickOutPariticipant(targetId, activityId);
+                if (result == 0)
+                {
+                    List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                    await _databaseSystem.UpdateParticipantList(activityId, participantList);
+                    return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (result == 1)
+                {
+                    return Json(new { success = true, responseText = "踢出失敗，該使用已不在參加者名單" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, responseText = "踢出失敗，活動不存在" }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
@@ -210,10 +221,17 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             try
             {
-                _memberHandler.InviteMember(userName, targetId, activityId);
-                Dictionary<string, string> invitedList = _memberHandler.GetMemberById(targetId).InvitedList;
-                await _databaseSystem.UpdateInvitedList(targetId, invitedList);
-                return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
+                if (!_activityHandler.IsParticipant(activityId, targetId))
+                {
+                    _memberHandler.InviteMember(userName, targetId, activityId);
+                    Dictionary<string, string> invitedList = _memberHandler.GetMemberById(targetId).InvitedList;
+                    await _databaseSystem.UpdateInvitedList(targetId, invitedList);
+                    return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, responseText = "該好友已經是本活動的參加者囉" }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
@@ -250,23 +268,43 @@ namespace ActivityGroupSystem.Controllers
 
         public async Task<ActionResult> SendMessage(string memberId, string memberName, string activityId, string messageContent)
         {
+            await InitializationModel();
             try
             {
-                Message message = new Message(memberId, memberName, messageContent);
-                await _databaseSystem.SendMessage(activityId, message);
-                return Json(new { success = true, responseText = "發送成功" }, JsonRequestBehavior.AllowGet);
+                if (_activityHandler.IsParticipant(activityId, memberId))
+                {
+                    Message message = new Message(memberId, memberName, messageContent);
+                    await _databaseSystem.SendMessage(activityId, message);
+                    return Json(new { success = true, responseText = "發送成功", type = 0 }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, responseText = "很抱歉您非本活動的參加者故無法發言", type = 1 }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
-                return Json(new { success = false, responseText = "發送失敗" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, responseText = "發送失敗", type = 1 }, JsonRequestBehavior.AllowGet);
             }
         }
 
-        public async Task<ActionResult> updateChatroom(string activityId)
+        public async Task<ActionResult> updateChatroom(string activityId, string memberId)
         {
+            await InitializationModel();
             try
             {
+                int index = 0;
                 List<Message> messages = await _databaseSystem.GetChatData(activityId);
+                // 清除黑名單人員的訊息
+                while (messages.Count > index)
+                {
+                    if (_memberHandler.IsBlack(memberId, messages[index].MemberId))
+                    {
+                        messages.RemoveAt(index);
+                    }
+                    else
+                        index++;
+                }
                 return Json(new { success = true, responseText = messages }, JsonRequestBehavior.AllowGet);
             }
             catch
