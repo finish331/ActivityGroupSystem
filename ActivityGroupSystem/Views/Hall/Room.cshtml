@@ -219,8 +219,8 @@
                         <td class="user_name"><p>@participants[i].MemberName</p></td>
                         @if (isOwner && participants[i].MemberId != userId)
                         {
-                            <td><button id="transfer_button" value="@participants[i].MemberId">轉移房主</button></td>
-                            <td><button id="kick_out_button" value="@participants[i].MemberId">踢出</button></td>
+                            <td><button class="transfer_button" value="@participants[i].MemberId">轉移房主</button></td>
+                            <td><button class="kick_out_button" value="@participants[i].MemberId">踢出</button></td>
                         }
                     </tr>
                 </table>
@@ -238,7 +238,7 @@
                 <table>
                     <tr>
                         <td class="user_name"><p>@friends[i].MemberName</p></td>
-                        <td><button id="invite_button" value="@friends[i].MemberId">邀請</button></td>
+                        <td><button class="invite_button" value="@friends[i].MemberId">邀請</button></td>
                     </tr>
                 </table>
             </li>
@@ -280,71 +280,78 @@
     });
 
     // 轉移房主
-    $("#transfer_button").click(function () {
-        var data = {
-            activityId: "@activity.ActivityId",
-            newOwnerId: $("#transfer_button").val(),
-        };
+    $(".transfer_button").click(function () {
+        var result = confirm("是否確認要轉移房主權限?");
+        if (result) {
+            var data = {
+                activityId: "@activity.ActivityId",
+                newOwnerId: $(this).val(),
+            };
 
-        $.ajax({
-            url: "TransferHomeowner",
-            dataType: "json",
-            data: data,
-            type: "post"
-        }).done(function (data) {
-            alert(data.responseText);
-            location.reload();
-        }).fail(function (data) {
-            alert(data.responseText);
-        });
+            $.ajax({
+                url: "TransferHomeowner",
+                dataType: "json",
+                data: data,
+                type: "post"
+            }).done(function (data) {
+                alert(data.responseText);
+                location.reload();
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        }
     });
 
     // 踢人
-    $("#kick_out_button").click(function () {
-        var data = {
-            activityId: "@activity.ActivityId",
-            targetId: $("#kick_out_button").val(),
-        };
+    $(".kick_out_button").click(function () {
+        var result = confirm("是否確認要將該參加者踢出?");
+        if (result) {
+            var data = {
+                activityId: "@activity.ActivityId",
+                targetId: $(this).val(),
+            };
 
-        $.ajax({
-            url: "KickOutPariticipant",
-            dataType: "json",
-            data: data,
-            type: "post"
-        }).done(function (data) {
-            alert(data.responseText);
-            location.reload();
-        }).fail(function (data) {
-            alert(data.responseText);
-        });
+            $.ajax({
+                url: "KickOutPariticipant",
+                dataType: "json",
+                data: data,
+                type: "post"
+            }).done(function (data) {
+                alert(data.responseText);
+                location.reload();
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        }
     });
 
     // 邀請好友
-    $("#invite_button").click(function () {
-        var data = {
-            activityId: "@activity.ActivityId",
-            targetId: $("#invite_button").val(),
-            userName: "@userName",
-        };
+    $(".invite_button").click(function () {
+        var result = confirm("是否確認要邀請該好友?");
+        if (result) {
+            var data = {
+                activityId: "@activity.ActivityId",
+                targetId: $(this).val(),
+                userName: "@userName",
+            };
 
-        $.ajax({
-            url: "InviteFriend",
-            dataType: "json",
-            data: data,
-            type: "post"
-        }).done(function (data) {
-            alert(data.responseText);
-            ClearView();
-        }).fail(function (data) {
-            alert(data.responseText);
-        });
+            $.ajax({
+                url: "InviteFriend",
+                dataType: "json",
+                data: data,
+                type: "post"
+            }).done(function (data) {
+                alert(data.responseText);
+                ClearView();
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        }
     });
 
     // 退出活動
     $("#leave_button").click(function () {
         var result = confirm("是否確認要退出活動?");
-        console.log("@activity.ActivityId");
-        console.log("@userId");
         if (result) {
             var data = {
                 activityId: "@activity.ActivityId",

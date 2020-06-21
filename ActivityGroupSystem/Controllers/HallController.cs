@@ -210,10 +210,17 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             try
             {
-                _memberHandler.InviteMember(userName, targetId, activityId);
-                Dictionary<string, string> invitedList = _memberHandler.GetMemberById(targetId).InvitedList;
-                await _databaseSystem.UpdateInvitedList(targetId, invitedList);
-                return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
+                if (!_activityHandler.IsParticipant(activityId, targetId))
+                {
+                    _memberHandler.InviteMember(userName, targetId, activityId);
+                    Dictionary<string, string> invitedList = _memberHandler.GetMemberById(targetId).InvitedList;
+                    await _databaseSystem.UpdateInvitedList(targetId, invitedList);
+                    return Json(new { success = true, responseText = "邀請成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, responseText = "該好友已經是本活動的參加者囉" }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
