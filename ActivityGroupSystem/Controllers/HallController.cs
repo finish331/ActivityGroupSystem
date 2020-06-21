@@ -467,7 +467,7 @@ namespace ActivityGroupSystem.Controllers
             _memberHandler.UpdateUserData(Request.Cookies["MemberId"].Value, memberInfo);
             Response.Cookies["MemberName"].Value = memberInfo["MemberName"];
             _databaseSystem.UpdateMemberInfo(_memberHandler.GetMemberById(Request.Cookies["MemberId"].Value));
-            Response.Redirect(Request.Url.ToString());
+            //Response.Redirect(Request.Url.ToString());
             return Json("");
         }
 
