@@ -41,12 +41,12 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void KickOutPariticipantTest()
         {
-            bool result = _activity.KickOutPariticipant("tester1");
-            Assert.IsTrue(result);
+            int result = _activity.KickOutPariticipant("tester1");
+            Assert.AreEqual(result, 0);
             Assert.AreEqual(1, _activity.ParticipantList.Count);
 
             result = _activity.KickOutPariticipant("tester1");
-            Assert.IsFalse(result);
+            Assert.AreEqual(result, 1);
             Assert.AreEqual(1, _activity.ParticipantList.Count);
         }
 

@@ -194,10 +194,21 @@ namespace ActivityGroupSystem.Controllers
             await InitializationModel();
             try
             {
-                _activityHandler.KickOutPariticipant(targetId, activityId);
-                List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
-                await _databaseSystem.UpdateParticipantList(activityId, participantList);
-                return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
+                int result = _activityHandler.KickOutPariticipant(targetId, activityId);
+                if (result == 0)
+                {
+                    List<string> participantList = _activityHandler.FindActivity(activityId).ParticipantList;
+                    await _databaseSystem.UpdateParticipantList(activityId, participantList);
+                    return Json(new { success = true, responseText = "踢出成功" }, JsonRequestBehavior.AllowGet);
+                }
+                else if (result == 1)
+                {
+                    return Json(new { success = true, responseText = "踢出失敗，該使用已不在參加者名單" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = true, responseText = "踢出失敗，活動不存在" }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch
             {
