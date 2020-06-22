@@ -1,6 +1,4 @@
 ﻿$(document).ready(function () {
-    $("#memberInfo_button").kendoButton();
-    $("#test").kendoButton();
     // 管理活動視窗
     $("#manage_button").kendoButton();
     $("#manage_form").kendoValidator();
@@ -53,43 +51,4 @@ $("#view_participants_button").click(function () {
 $("#invite_friend_button").click(function () {
     $("#invite_form").data('kendoValidator').hideMessages();
     $("#invite_form").data('kendoWindow').center().open();
-});
-
-$("#memberInfo_button").click(function () {
-    $("#memberInfo_form").kendoValidator().data("kendoValidator");
-    $("#memberInfo_form").kendoWindow({
-        width: "900px",
-        title: "Member Information",
-        visible: false, //設定此介面一開始是否可看見
-        actions: ["Minimize", "Maximize", "Close"],
-        content: "MemberInfo",
-        position: {
-            top: "20%",
-            left: "30%"
-        },
-        modal: true, //操作kendoWindow時，其他元件無法操作
-    }).data("kendoWindow");
-
-    //打開window
-    $("#memberInfo_form").data('kendoValidator').hideMessages();
-    $("#memberInfo_form").data('kendoWindow').open();
-});
-
-$("#test").click(function () {
-    $("#checkInfo_form").kendoValidator().data("kendoValidator");
-    $("#checkInfo_form").kendoWindow({
-        width: "500px",
-        title: "Member Information",
-        visible: false, //設定此介面一開始是否可看見
-        actions: ["Minimize", "Maximize", "Close"],
-        content: "OtherMemberInfo",
-        position: {
-            top: "20%",
-            left: "35%"
-        },
-        modal: true, //操作kendoWindow時，其他元件無法操作
-    }).data("kendoWindow");
-    //打開window
-    $("#checkInfo_form").data('kendoValidator').hideMessages();
-    $("#checkInfo_form").data('kendoWindow').open();
 });

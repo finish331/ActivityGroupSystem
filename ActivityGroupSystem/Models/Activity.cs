@@ -133,6 +133,18 @@ namespace ActivityGroupSystem.Models
                 _participantList = value;
             }
         }
+
+        public Chatroom Chatroom
+        {
+            get
+            {
+                return _chatroom;
+            }
+            set
+            {
+                _chatroom = value;
+            }
+        }
         /*Willie End*/
 
         /* Ting Start */
@@ -161,6 +173,21 @@ namespace ActivityGroupSystem.Models
         public bool IsParticipant(string memberId)
         {
             return _participantList.Contains(memberId);
+        }
+
+        public void SendMessage(string memberId, string memberName, string messageContent)
+        {
+            _chatroom.SendMessage(memberId, memberName, messageContent);
+        }
+
+        public List<Message> GetChatData()
+        {
+            return _chatroom.MessageList;
+        }
+
+        public void InitializeChatroom(List<Message> messages)
+        {
+            _chatroom.Initialize(messages);
         }
         /* Ting End */
 

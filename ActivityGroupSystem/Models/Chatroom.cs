@@ -10,11 +10,11 @@ namespace ActivityGroupSystem.Models
         private List<Message> _messageList = new List<Message>();
 
         /*Willie Start*/
-        /*public void SendMessage(string memberId, string messageContent)
+        public void SendMessage(string memberId, string memberName, string messageContent)
         {
-            Message message = new Message(memberId, messageContent);
+            Message message = new Message(memberId, memberName, messageContent);
             _messageList.Add(message);
-        }*/
+        }
 
         public List<Message> MessageList
         {
@@ -24,5 +24,10 @@ namespace ActivityGroupSystem.Models
             }
         }
         /*Willie End*/
+
+        public void Initialize(List<Message> messages)
+        {
+            _messageList = messages;
+        }
     }
 }

@@ -65,7 +65,7 @@ namespace ActivityGroupSystem.Models
 
         public async Task<bool> UpdateInvitedList(string memberId, Dictionary<string, string> newList)
         {
-            await _firebaseClient.Child("Member").Child(memberId).Child("InvitedList").PatchAsync(newList);
+            await _firebaseClient.Child("Member").Child(memberId).Child("InvitedList").PutAsync(newList);
             return true;
         }
 
