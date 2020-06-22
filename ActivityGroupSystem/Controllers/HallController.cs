@@ -335,6 +335,7 @@ namespace ActivityGroupSystem.Controllers
                 if (_activityHandler.IsParticipant(activityId, memberId))
                 {
                     Message message = new Message(memberId, memberName, messageContent);
+                    _activityHandler.SendMessage(activityId, memberId, memberName, messageContent);
                     await _databaseSystem.SendMessage(activityId, message);
                     return Json(new { success = true, responseText = "發送成功", type = 0 }, JsonRequestBehavior.AllowGet);
                 }
@@ -355,7 +356,8 @@ namespace ActivityGroupSystem.Controllers
             try
             {
                 int index = 0;
-                List<Message> messages = await _databaseSystem.GetChatData(activityId);
+                _activityHandler.InitializeChatroom(activityId, await _databaseSystem.GetChatData(activityId));
+                List<Message> messages = _activityHandler.GetChatData(activityId);
                 // 清除黑名單人員的訊息
                 while (messages.Count > index)
                 {

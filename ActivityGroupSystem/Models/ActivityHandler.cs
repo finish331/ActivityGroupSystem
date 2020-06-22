@@ -169,6 +169,29 @@ namespace ActivityGroupSystem.Models
             else
                 return false;
         }
+
+        public void SendMessage(string activityId, string memberId, string memberName, string messageContent)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+                activity.SendMessage(memberId, memberName, messageContent);
+        }
+
+        public List<Message> GetChatData(string activityId)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+                return activity.GetChatData();
+            else
+                return null;
+        }
+
+        public void InitializeChatroom(string activityId, List<Message> messages)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+                activity.InitializeChatroom(messages);
+        }
         /* Ting End */
 
         /*Hsu start*/
