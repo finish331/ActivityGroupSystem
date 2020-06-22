@@ -36,6 +36,21 @@
         actions: ["Pin", "Minimize", "Maximize", "Close"],
         modal: true,
     }).data("kendoWindow");
+
+    // 查看使用者資料視窗
+    $(".checkInfo_button").kendoButton();
+    $("#checkInfo_form").kendoValidator();
+
+    // 個人資料視窗
+    $("#memberInfo_form").kendoValidator()
+    $("#memberInfo_form").kendoWindow({
+        width: "900px",
+        title: "Member Information",
+        visible: false,
+        actions: ["Minimize", "Maximize", "Close"],
+        content: "MemberInfo",
+        modal: true,
+    }).data("kendoWindow");
 });
 
 $("#manage_button").click(function () {
@@ -51,4 +66,30 @@ $("#view_participants_button").click(function () {
 $("#invite_friend_button").click(function () {
     $("#invite_form").data('kendoValidator').hideMessages();
     $("#invite_form").data('kendoWindow').center().open();
+});
+
+$(".checkInfo_button").click(function () {
+    var id = $(this).val();
+    $("#checkInfo_form").kendoWindow({
+        width: "500px",
+        title: "Member Information",
+        visible: false,
+        position: {
+            top: "5%",
+            left: "35%"
+        },
+        actions: ["Minimize", "Maximize", "Close"],
+        content: {
+            url: "OtherMemberInfo",
+            data: {
+                memberId: id
+            }
+        },
+        modal: true,
+        close: function (e) {
+            $(this.element).empty();
+        }
+    }).data("kendoWindow");
+    $("#checkInfo_form").data('kendoValidator').hideMessages();
+    $("#checkInfo_form").data('kendoWindow').open();
 });

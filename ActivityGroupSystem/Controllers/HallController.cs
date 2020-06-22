@@ -384,6 +384,21 @@ namespace ActivityGroupSystem.Controllers
             bool result = _activityHandler.IsParticipant(activityId, memberId);
             return Json(new { success = true, responseText = result.ToString() }, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> CloseActivity(string activityId, string memberId)
+        {
+            await InitializationModel();
+            int result = _activityHandler.CloseActivity(activityId, memberId);
+            if (result == 0)
+            {
+                await _databaseSystem.Delete(activityId, "Activity");
+                return Json(new { success = true, responseText = "關閉成功" }, JsonRequestBehavior.AllowGet);
+            }
+            else if (result == 1)
+                return Json(new { success = true, responseText = "關閉失敗，活動不存在" }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new { success = true, responseText = "關閉失敗，您沒有權限" }, JsonRequestBehavior.AllowGet);
+        }
         /* Ting End */
 
         /*Hsu start*/
@@ -565,10 +580,10 @@ namespace ActivityGroupSystem.Controllers
             return PartialView("MemberInfo");
         }
 
-        public async Task<ActionResult> OtherMemberInfo()
+        public async Task<ActionResult> OtherMemberInfo(string memberId)
         {
             await InitializationModel();
-            Member member = _memberHandler.GetMemberById("dsa123");
+            Member member = _memberHandler.GetMemberById(memberId);
             ViewBag.member = member;
             return PartialView("OtherMemberInfo");
         }

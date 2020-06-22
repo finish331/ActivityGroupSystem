@@ -54,12 +54,6 @@
                 @Html.ActionLink("揪團平台", "Index", "Hall", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (Request.Cookies["MemberName"] != null)
-                    {
-                        <li><button class="btn-default myButton" style="margin: 5px;" id="test">看別人資料</button></li>
-                    }
-                </ul>
                 <ul class="nav navbar-nav" style="float:right;">
                     <li style="color:white; position:absolute; top:32%; left:68%">@welcomeMessage</li>
                     <li>@Html.ActionLink(Test, Test2, "Hall")</li>
@@ -69,16 +63,12 @@
                     }
                     else
                     {
-                        <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="register_button">註冊</button></li>
+                        <li><button class="btn-default myButton" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="register_button">註冊</button></li>
                     }
                 </ul>
             </div>
         </div>
     </div>
-
-    <div style="margin: 20px;" id="register_form" method="post"></div>
-    <div style="padding: 0px;" id="memberInfo_form" method="post"></div>
-    <div style="margin:20px;" id="checkInfo_form" method="post"></div>
 
     <div class="container body-content">
         @RenderBody()
@@ -87,6 +77,9 @@
             <p>&copy; @DateTime.Now.Year - OOAD 第4組</p>
         </footer>
     </div>
+
+    <div style="margin: 20px;" id="register_form" method="post"></div>
+    <div style="padding: 0px;" id="memberInfo_form" method="post"></div>
     @Scripts.Render("~/bundles/jquery", "~/bundles/kendoUI")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

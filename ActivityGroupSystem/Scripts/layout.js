@@ -33,33 +33,10 @@ $("#memberInfo_button").click(function () {
         visible: false, //設定此介面一開始是否可看見
         actions: ["Minimize", "Maximize", "Close"],
         content: "Hall/MemberInfo",
-        position: {
-            top: "20%",
-            left: "30%"
-        },     
         modal: true, //操作kendoWindow時，其他元件無法操作
     }).data("kendoWindow");
     
     //打開window
     $("#memberInfo_form").data('kendoValidator').hideMessages();
-    $("#memberInfo_form").data('kendoWindow').open();
-});
-
-$("#test").click(function () {
-    $("#checkInfo_form").kendoValidator().data("kendoValidator");
-    $("#checkInfo_form").kendoWindow({
-        width: "500px",
-        title: "Member Information",
-        visible: false, //設定此介面一開始是否可看見
-        actions: ["Minimize", "Maximize", "Close"],
-        content: "Hall/OtherMemberInfo",
-        position: {
-            top: "20%",
-            left: "35%"
-        },
-        modal: true, //操作kendoWindow時，其他元件無法操作
-    }).data("kendoWindow");
-    //打開window
-    $("#checkInfo_form").data('kendoValidator').hideMessages();
-    $("#checkInfo_form").data('kendoWindow').open();
+    $("#memberInfo_form").data('kendoWindow').center().open();
 });
