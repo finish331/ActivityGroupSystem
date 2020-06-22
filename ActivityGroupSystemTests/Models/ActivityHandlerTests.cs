@@ -245,6 +245,43 @@ namespace ActivityGroupSystem.Models.Tests
         {
             Assert.IsTrue(_activityHandler.IsParticipant("1", "tester1"));
             Assert.IsFalse(_activityHandler.IsParticipant("2", "tester1"));
+            Assert.IsFalse(_activityHandler.IsParticipant("3", "tester2"));
+        }
+
+        [TestMethod()]
+        public void CloseActivityTest()
+        {
+            int result;
+            result = _activityHandler.CloseActivity("1", "tester2");
+            Assert.AreEqual(result, 2);
+            result = _activityHandler.CloseActivity("123", "tester2");
+            Assert.AreEqual(result, 1);
+            result = _activityHandler.CloseActivity("1", "tester1");
+            Assert.AreEqual(result, 0);
+        }
+
+        [TestMethod()]
+        public void CreateActivityhandlerTest()
+        {
+            ActivityHandler activityHandler = new ActivityHandler(null);
+
+            Assert.AreEqual(activityHandler.ActivityList.Count, 0);
+            
+        }
+
+        [TestMethod()]
+        public void GetChatDataTest()
+        {
+            Assert.AreEqual(_activityHandler.GetChatData("5"), null);
+        }
+
+        [TestMethod()]
+        public void InitializeChatroomTest()
+        {
+            List<Message> messages = new List<Message>();
+            _activityHandler.InitializeChatroom("1", messages);
+
+            Assert.AreEqual(_activityHandler.GetChatData("1").Count, 0);
         }
     }
 }
