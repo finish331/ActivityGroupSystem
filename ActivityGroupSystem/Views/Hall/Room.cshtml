@@ -28,10 +28,10 @@
         margin-bottom: 15px;
     }
 
-    #info p {
-        display: inline;
-        margin-right: 30px;
-    }
+        #info p {
+            display: inline;
+            margin-right: 30px;
+        }
 
     #menu {
         vertical-align: top;
@@ -137,6 +137,19 @@
     #invite_form .user_name {
         width: 80%;
     }
+
+    .checkInfo_button {
+        padding: 2px !important;
+        background-color: transparent !important;
+        border: none !important;
+        -webkit-box-shadow: none !important;
+        margin-bottom: 10px;
+        text-decoration: underline;
+    }
+
+    .checkInfo_button:hover {
+        color: #9d9d9d;
+    }
 </style>
 
 <div id="content">
@@ -206,6 +219,7 @@
         <span class="k-invalid-msg" data-for="activity_date"></span>
     </div>
     <button id="update_button" type="submit">更新</button>
+    <button id="close_button" type="submit">關閉活動</button>
 </div>
 
 <!-- 查看與管理參加者名單視窗 -->
@@ -216,7 +230,14 @@
             <li>
                 <table>
                     <tr>
-                        <td class="user_name"><p>@participants[i].MemberName</p></td>
+                        @if (participants[i].MemberId != userId)
+                        {
+                            <td class="user_name"><button class="checkInfo_button" value="@participants[i].MemberId">@participants[i].MemberName</button></td>
+                        }
+                        else
+                        {
+                            <td class="user_name"><p>@participants[i].MemberName</p></td>
+                        }
                         @if (isOwner && participants[i].MemberId != userId)
                         {
                             <td><button class="transfer_button" value="@participants[i].MemberId">轉移房主</button></td>
@@ -250,6 +271,9 @@
     </ul>
 </div>
 
+<!-- 查看使用者資料視窗 -->
+<div id="checkInfo_form"></div>
+
 <script src="~/Scripts/Room.js"></script>
 <script>
     // 更新活動資訊
@@ -273,6 +297,30 @@
             }).done(function (data) {
                 alert(data.responseText);
                 location.reload();
+            }).fail(function (data) {
+                alert(data.responseText);
+            });
+        }
+    });
+
+    // 關閉活動
+    $("#close_button").click(function () {
+        var result = confirm("是否確認要關閉活動?\n請注意關閉後無法回復!");
+        if (result) {
+            var data = {
+                activityId: "@activity.ActivityId",
+                memberId: "@userId",
+            };
+
+            $.ajax({
+                url: "CloseActivity",
+                dataType: "json",
+                data: data,
+                type: "post"
+            }).done(function (data) {
+                alert(data.responseText);
+                if (data.responseText == "關閉成功")
+                    window.location.href = "/";
             }).fail(function (data) {
                 alert(data.responseText);
             });
@@ -365,7 +413,8 @@
                 type: "post"
             }).done(function (data) {
                 alert(data.responseText);
-                window.location.href = "/";
+                if (data.responseText == "退出成功")
+                    window.location.href = "/";
             }).fail(function (data) {
                 alert(data.responseText);
             });

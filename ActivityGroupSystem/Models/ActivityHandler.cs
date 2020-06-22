@@ -192,6 +192,27 @@ namespace ActivityGroupSystem.Models
             if (activity != null)
                 activity.InitializeChatroom(messages);
         }
+
+        public int CloseActivity(string activityId, string memberId)
+        {
+            Activity activity = FindActivity(activityId);
+            if (activity != null)
+            {
+                if (activity.HomeOwnerId == memberId)
+                {
+                    _activityList.Remove(activity);
+                    return 0;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
+            else
+            {
+                return 1;
+            }
+        }
         /* Ting End */
 
         /*Hsu start*/

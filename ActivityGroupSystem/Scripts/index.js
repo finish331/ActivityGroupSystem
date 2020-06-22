@@ -275,8 +275,8 @@ $("#memberInfo_button").click(function () {
         actions: ["Minimize", "Maximize", "Close"],
         content: "Hall/MemberInfo",
         position: {
-            top: "20%",
-            left: "30%"
+            top: "5%",
+            left: "20%"
         },
         modal: true, //操作kendoWindow時，其他元件無法操作
     }).data("kendoWindow");
