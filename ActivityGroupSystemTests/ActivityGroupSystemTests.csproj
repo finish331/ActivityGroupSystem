@@ -64,6 +64,7 @@
     <Compile Include="Controllers\HallControllerTests.cs" />
     <Compile Include="Models\ActivityHandlerTests.cs" />
     <Compile Include="Models\ActivityTests.cs" />
+    <Compile Include="Models\ChatroomTests.cs" />
     <Compile Include="Models\DatabaseSystemTests.cs" />
     <Compile Include="Models\MemberHandlerTests.cs" />
     <Compile Include="Models\MemberTests.cs" />

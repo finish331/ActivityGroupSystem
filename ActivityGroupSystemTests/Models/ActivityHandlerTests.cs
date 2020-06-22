@@ -225,5 +225,26 @@ namespace ActivityGroupSystem.Models.Tests
             result = _activityHandler.SaveActivity("3", myDic);
             Assert.IsFalse(result);
         }
+
+        [TestMethod()]
+        public void SendMessageTest()
+        {
+            _activityHandler.SendMessage("1", "1", "willy", "mama");
+            Assert.AreEqual(_activityHandler.FindActivity("1").GetChatData().Count, 1);
+            Assert.AreEqual(_activityHandler.FindActivity("1").GetChatData()[0].MemberId, "1");
+            Assert.AreEqual(_activityHandler.FindActivity("1").GetChatData()[0].MemberName, "willy");
+            Assert.AreEqual(_activityHandler.FindActivity("1").GetChatData()[0].MessageContent, "mama");
+
+            _activityHandler.SendMessage("3", "2", "ting", "haha");
+            Assert.AreEqual(_activityHandler.FindActivity("1").GetChatData().Count, 1);
+            Assert.AreEqual(_activityHandler.FindActivity("2").GetChatData().Count, 0);
+        }
+
+        [TestMethod()]
+        public void IsParticipantTest()
+        {
+            Assert.IsTrue(_activityHandler.IsParticipant("1", "tester1"));
+            Assert.IsFalse(_activityHandler.IsParticipant("2", "tester1"));
+        }
     }
 }

@@ -46,6 +46,15 @@ namespace ActivityGroupSystem.Models.Tests
             Assert.AreEqual(member.BlackList.Count, 0);
             Assert.AreEqual(member.InvitedList.Count, 0);
             Assert.AreEqual(member.FriendInvitation.Count, 0);
+
+            member.InvitedList = new Dictionary<string, string>
+            {
+                { "0", "seth" },
+                { "1", "ting" }
+            };
+            Assert.AreEqual(member.InvitedList.Count, 2);
+            Assert.AreEqual(member.InvitedList["0"], "seth");
+            Assert.AreEqual(member.InvitedList["1"], "ting");
         }
 
         [TestMethod()]
