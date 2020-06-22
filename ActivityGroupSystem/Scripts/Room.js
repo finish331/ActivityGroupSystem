@@ -31,7 +31,7 @@
     $("#invite_form").kendoValidator();
     $("#invite_form").kendoWindow({
         width: "500px",
-        title: "查看與管理看參加者名單",
+        title: "邀請好友",
         visible: false,
         actions: ["Pin", "Minimize", "Maximize", "Close"],
         modal: true,
@@ -42,15 +42,25 @@
     $("#checkInfo_form").kendoValidator();
 
     // 個人資料視窗
-    $("#memberInfo_form").kendoValidator()
-    $("#memberInfo_form").kendoWindow({
-        width: "900px",
-        title: "Member Information",
-        visible: false,
-        actions: ["Minimize", "Maximize", "Close"],
-        content: "MemberInfo",
-        modal: true,
-    }).data("kendoWindow");
+    $("#memberInfo_button").click(function () {
+        $("#memberInfo_form").kendoValidator().data("kendoValidator");
+        $("#memberInfo_form").kendoWindow({
+            width: "900px",
+            title: "Member Information",
+            visible: false,
+            position: {
+                top: "5%",
+                left: "20%"
+            },
+            actions: ["Minimize", "Maximize", "Close"],
+            content: "MemberInfo",
+            modal: true,
+        }).data("kendoWindow");
+
+        //打開window
+        $("#memberInfo_form").data('kendoValidator').hideMessages();
+        $("#memberInfo_form").data('kendoWindow').open();
+    });
 });
 
 $("#manage_button").click(function () {
