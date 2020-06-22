@@ -19,7 +19,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+    <title>@ViewBag.Title</title>
     <link href="~/Content/kendo/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/kendo/kendo.material.min.css" rel="stylesheet" type="text/css" />
     @Styles.Render("~/Content/css")
@@ -27,6 +27,20 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/kendo.all.min.js"></script>
+    <style type="text/css">
+        .myButton {
+            color: #9d9d9d !important;
+            background-color: transparent !important;
+            border: none !important;
+            -webkit-box-shadow: none !important;
+            margin-top: 8px !important;
+        }
+
+        .myButton:hover {
+            color: white !important;
+            background-color: transparent !important;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -41,18 +55,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("首頁", "Index", "Hall")</li>
                     @if (Request.Cookies["MemberName"] != null)
                     {
-                        <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="test">看別人資料</button></li>
+                        <li><button class="btn-default myButton" style="margin: 5px;" id="test">看別人資料</button></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav" style="float:right;">
-                    <li style="color:white; position:absolute; top:32%; left:65%">@welcomeMessage</li>
+                    <li style="color:white; position:absolute; top:32%; left:68%">@welcomeMessage</li>
                     <li>@Html.ActionLink(Test, Test2, "Hall")</li>
                     @if (Request.Cookies["MemberName"] != null)
                     {
-                        <li><button class="btn-default" style="margin: 5px; color: #d9e1e8; background-color:#282c37" id="memberInfo_button">個資</button></li>
+                        <li><button class="btn-default myButton" style="margin: 5px;" id="memberInfo_button">個資</button></li>
                     }
                     else
                     {
@@ -71,7 +84,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            <p>&copy; @DateTime.Now.Year - OOAD 第4組</p>
         </footer>
     </div>
     @Scripts.Render("~/bundles/jquery", "~/bundles/kendoUI")

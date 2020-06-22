@@ -32,6 +32,7 @@ namespace ActivityGroupSystem.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "揪團平台";
             return View();
         }
 
@@ -216,6 +217,7 @@ namespace ActivityGroupSystem.Controllers
             }
 
             ViewData["participants_count"] = activity.ParticipantList.Count;
+            ViewBag.Title = "揪團平台 " + activity.ActivityName + "的活動房間";
             ViewBag.activity = activity;
             ViewBag.participants = participantsList;
             ViewBag.friends = friendsList;
