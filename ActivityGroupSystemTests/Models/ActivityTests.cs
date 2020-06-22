@@ -124,10 +124,15 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void IsParticipantTest()
         {
-            List<Message> message = new List<Message>();
-            _activity.InitializeChatroom(message);
+            Assert.IsTrue(_activity.IsParticipant("tester1"));
+            Assert.IsFalse(_activity.IsParticipant("tester3"));
+        }
 
-            Assert.AreEqual(_activity.GetChatData().Count, message.Count());
+        [TestMethod()]
+        public void SentMessageTest()
+        {
+            _activity.SendMessage("tester1", "tester", "123456");
+            Assert.AreEqual(_activity.GetChatData().Count, 1);
         }
     }
 }
