@@ -254,7 +254,7 @@ $("#register_button").click(function () {
         title: "Register",
         visible: false,
         actions: ["Minimize", "Maximize", "Close"],
-        content: "Register",
+        content: "Hall/Register",
         position: {
             top: "5%",
             left: "35%"
@@ -273,7 +273,7 @@ $("#memberInfo_button").click(function () {
         title: "Member Information",
         visible: false, //設定此介面一開始是否可看見
         actions: ["Minimize", "Maximize", "Close"],
-        content: "MemberInfo",
+        content: "Hall/MemberInfo",
         position: {
             top: "20%",
             left: "30%"
@@ -319,7 +319,7 @@ $("#test").click(function () {
         title: "Member Information",
         visible: false, //設定此介面一開始是否可看見
         actions: ["Minimize", "Maximize", "Close"],
-        content: "OtherMemberInfo",
+        content: "Hall/OtherMemberInfo",
         position: {
             top: "20%",
             left: "35%"
