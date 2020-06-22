@@ -146,8 +146,9 @@ namespace ActivityGroupSystem.Models.Tests
         public void DeleteFriendTest()
         {
             MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
-            Assert.IsTrue(memberHandler.DeleteFriend("asd1", "asd3"));
+            Assert.IsFalse(memberHandler.DeleteFriend("asd1", "asd2"));
             Assert.IsFalse(memberHandler.DeleteFriend("zxc1", "asd3"));
+            Assert.IsTrue(memberHandler.DeleteFriend("asd1", "asd3"));
         }
 
         [TestMethod()]
@@ -203,14 +204,6 @@ namespace ActivityGroupSystem.Models.Tests
             MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
             Assert.IsTrue(memberHandler.DeleteBlack("asd1", "asd2"));
             Assert.IsFalse(memberHandler.DeleteBlack("zxc1", "asd2"));
-        }
-
-        [TestMethod()]
-        public void SearchMemberInfoTest()
-        {
-            MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
-            Assert.AreEqual("Demo1", memberHandler.SearchMemberInfo("asd")[0].MemberName);
-            Assert.AreEqual("Demo1", memberHandler.SearchMemberInfo("De")[0].MemberName);
         }
 
         [TestMethod()]

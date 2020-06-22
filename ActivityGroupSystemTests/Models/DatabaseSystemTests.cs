@@ -138,45 +138,6 @@ namespace ActivityGroupSystem.Models.Tests
         }
 
         [TestMethod]
-        public async Task CheckAccountTest()
-        {
-            DatabaseSystem databaseSystem = new DatabaseSystem();
-            Member member = new Member();
-            member.MemberId = "unitTest4";
-            member.MemberName = "zxczxc";
-            member.Password = "test123";
-            member.Phone = "0326598741";
-            member.Birthday = "10/10/1659";
-            member.Sexuality = "女";
-
-            await databaseSystem.UpdateMemberInfo(member);
-            var result1 = await databaseSystem.CheckAccount("unitTest4", "test123");
-            var result2 = await databaseSystem.CheckAccount("unitTest4", "test456");
-            await databaseSystem.Delete("unitTest4", "Member");
-
-            Assert.IsTrue(result1);
-            Assert.IsFalse(result2);
-        }
-
-        [TestMethod]
-        public async Task InsertMemberTest()
-        {
-            DatabaseSystem databaseSystem = new DatabaseSystem();
-            Dictionary<string, string> testValue = new Dictionary<string, string>();
-            testValue.Add("MemberId", "unitTest4");
-            testValue.Add("MemberName", "tom");
-            testValue.Add("Password", "test123");
-            testValue.Add("Phone", "0326598741");
-            testValue.Add("Birthday", "10/10/1659");
-            testValue.Add("Sexuality", "女");
-
-            var result = await databaseSystem.InsertMember(testValue);
-            await databaseSystem.Delete("unitTest4", "Member");
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
         public async Task UpdateMemberInfoTest()
         {
             DatabaseSystem databaseSystem = new DatabaseSystem();

@@ -51,8 +51,8 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void BlackMemberTest()
         {
-            Assert.IsTrue(member.BlackMember("test"));
-            Assert.IsFalse(member.BlackMember("test"));
+            Assert.IsTrue(fillMember.BlackMember("test"));
+            Assert.IsFalse(fillMember.BlackMember("test"));
         }
 
         [TestMethod()]

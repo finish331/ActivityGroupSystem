@@ -133,18 +133,6 @@ namespace ActivityGroupSystem.Models
                 _participantList = value;
             }
         }
-
-        public Chatroom Chatroom
-        {
-            get
-            {
-                return _chatroom;
-            }
-            set
-            {
-                _chatroom = value;
-            }
-        }
         /*Willie End*/
 
         /* Ting Start */

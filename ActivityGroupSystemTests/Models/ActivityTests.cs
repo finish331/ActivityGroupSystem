@@ -97,10 +97,37 @@ namespace ActivityGroupSystem.Models.Tests
                 { "note", "Test Test" },
                 { "date", "2020/05/12" }
             };
-            bool result;
+
+            Dictionary<string, string> errorDic = new Dictionary<string, string>()
+            {
+                { "name", "newTest" },
+                { "ownerI", "newTester" },
+                { "people", "10" }
+            };
+            bool result,result2;
             result = _activity.UpdateActivity(myDic);
+            result2= _activity.UpdateActivity(errorDic);
             Assert.IsTrue(result);
+            Assert.IsFalse(result2);
             Assert.AreEqual("newTest", _activity.ActivityName);
+        }
+
+        [TestMethod()]
+        public void InitializeChatroomTest()
+        {
+            List<Message> message = new List<Message>();
+            _activity.InitializeChatroom(message);
+
+            Assert.AreEqual(_activity.GetChatData().Count, message.Count());
+        }
+
+        [TestMethod()]
+        public void IsParticipantTest()
+        {
+            List<Message> message = new List<Message>();
+            _activity.InitializeChatroom(message);
+
+            Assert.AreEqual(_activity.GetChatData().Count, message.Count());
         }
     }
 }

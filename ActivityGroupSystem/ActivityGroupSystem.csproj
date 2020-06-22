@@ -167,7 +167,6 @@
     <Compile Include="Models\ActivityHandler.cs" />
     <Compile Include="Models\Chatroom.cs" />
     <Compile Include="Models\DatabaseSystem.cs" />
-    <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\MemberHandler.cs" />
     <Compile Include="Models\Message.cs" />

@@ -90,27 +90,6 @@ namespace ActivityGroupSystem.Models
         /* Ting End */
 
         /*Hsu start*/
-        public async Task<bool> CheckAccount(string id, string passwd)
-        {
-            _firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            var memberPassword = await _firebaseClient.Child("Member").Child(id).Child("Password").OnceSingleAsync<string>();
-            if (memberPassword != null)
-            {
-                if(memberPassword == passwd)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public async Task<bool> InsertMember(Dictionary<string, string> newData)
-        {
-            _firebaseClient = new FirebaseClient("https://activitygroup-74f7f.firebaseio.com/");
-            await _firebaseClient.Child("Member").Child(newData["MemberId"]).PatchAsync(newData);
-            return true;
-        }
-
         public async Task<bool> UpdateMemberInfo(Member member)
         {
             await _firebaseClient.Child("Member").Child(member.MemberId).PatchAsync(member);

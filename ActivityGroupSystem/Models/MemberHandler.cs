@@ -36,19 +36,6 @@ namespace ActivityGroupSystem.Models
             return result;
         }
 
-        public List<Member> SearchMemberInfo(string keyWord)
-        {
-            List<Member> relatedMember = new List<Member>();
-            foreach (Member member in _memberList)
-            {
-                if (member.MemberId.Contains(keyWord) || member.MemberName.Contains(keyWord))
-                {
-                    relatedMember.Add(member);
-                }
-            }
-            return relatedMember;
-        }
-
         public bool BlackMember(string memberId, string blackMemberId)
         {
             if (memberId != blackMemberId)
