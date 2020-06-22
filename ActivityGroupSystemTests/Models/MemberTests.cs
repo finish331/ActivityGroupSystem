@@ -145,7 +145,8 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void IsBlackTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(fillMember.IsBlack("2"));
+            Assert.IsFalse(fillMember.IsBlack("3"));
         }
 
         [TestMethod()]

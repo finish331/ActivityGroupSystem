@@ -216,7 +216,18 @@ namespace ActivityGroupSystem.Models.Tests
         [TestMethod()]
         public void IsBlackTest()
         {
-            Assert.Fail();
+            MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
+            Assert.IsTrue(memberHandler.IsBlack("asd1","asd2"));
+            Assert.IsFalse(memberHandler.IsBlack("asd1","asd3"));
+        }
+
+        [TestMethod()]
+        public void CheckLoginAccountTest()
+        {
+            MemberHandler memberHandler = new MemberHandler(GetTestMemberList());
+            Assert.AreEqual(memberHandler.CheckLoginAccount("asd1","asd123"),"");
+            Assert.AreEqual(memberHandler.CheckLoginAccount("asd1", "asd1"), "密碼輸入錯誤");
+            Assert.AreEqual(memberHandler.CheckLoginAccount("asd6", "asd1"), "帳號尚未註冊");
         }
     }
 }

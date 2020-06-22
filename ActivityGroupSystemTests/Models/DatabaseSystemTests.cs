@@ -193,5 +193,48 @@ namespace ActivityGroupSystem.Models.Tests
 
             Assert.IsTrue(result);
         }
+
+        [TestMethod]
+        public async Task UpdateParticipantListTest()
+        {
+            DatabaseSystem databaseSystem = new DatabaseSystem();
+            Dictionary<string, string> testValue = new Dictionary<string, string>();
+
+            testValue.Add("ActivityId", "99");
+            testValue.Add("ActivityName", "unitTest2");
+            testValue.Add("HomeOwnerId", "unitTest1");
+            testValue.Add("ActivityDate", "1998/02/11");
+            testValue.Add("ActivityNote", "unitTest");
+            testValue.Add("NumberOfPeople", "3");
+            testValue.Add("ParticipantList", "asd123");
+
+            await databaseSystem.UpdateActivity("99", testValue);
+            var result = await databaseSystem.UpdateParticipantList("99", new List<string> { "asd123", "qwe123" });
+            await databaseSystem.Delete("99", "Activity");
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public async Task UpdateInvitedListTest()
+        {
+            DatabaseSystem databaseSystem = new DatabaseSystem();
+            Member member = new Member();
+            member.MemberId = "unitTest4";
+            member.MemberName = "zxczxc";
+            member.Password = "test123";
+            member.Phone = "0326598741";
+            member.Birthday = "10/10/1659";
+            member.Sexuality = "女";
+
+            Dictionary<string, string> newInvitedList = new Dictionary<string, string>();
+            newInvitedList.Add("1","asd123");
+
+            await databaseSystem.UpdateMemberInfo(member);
+            var result = await databaseSystem.UpdateInvitedList("unitTest4", newInvitedList);
+            await databaseSystem.Delete("unitTest4", "Member");
+
+            Assert.IsTrue(result);
+        }
     }
 }

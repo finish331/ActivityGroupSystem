@@ -109,18 +109,6 @@ namespace ActivityGroupSystem.Models
         /*Willie End*/
 
         /* Ting Start */
-        public Dictionary<string, string> GetData()
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add("MemberId", _memberId);
-            data.Add("MemberName", _memberName);
-            data.Add("Password", _memberPassword);
-            data.Add("Sexuality", _memberSexuality);
-            data.Add("Birthday", _memberBirthday);
-            data.Add("Phone", _memberPhone);
-            
-            return data;
-        }
 
         public void UpdataData(Dictionary<string, string> newData)
         {
@@ -196,15 +184,6 @@ namespace ActivityGroupSystem.Models
             _blackList = new List<string>();
             _friendInvitation = new List<string>();
             _invitedList = new Dictionary<string, string>();
-
-            /*if (memberInfo.Keys.Contains("FriendList"))
-                _friendsList.Add(memberInfo["FriendList"]);
-            if (memberInfo.Keys.Contains("BlackList"))
-                _blackList.Add(memberInfo["BlackList"]);
-            if (memberInfo.Keys.Contains("FriendInvitation"))
-                _friendInvitation.Add(memberInfo["FriendInvitation"]);
-            if (memberInfo.Keys.Contains("InvitedList"))
-                _invitedList = new Dictionary<string, string>();*/
         }
 
         public bool IsExist(string memberId)
