@@ -51,7 +51,7 @@ $("#black_btn").click(function () {
     debugger;
     var errorNotification = $("#CheckErrorNotification").kendoNotification().data("kendoNotification");
     $.ajax({
-        url: "Hall/BlackMember",
+        url: "/Hall/BlackMember",
         dataType: "json",
         data: { MemberId: $("#CheckId").val(), },
         type: "post"

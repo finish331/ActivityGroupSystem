@@ -104,10 +104,10 @@ $("#activity_grid").on("click", ".btn-reject-button", function (e) {
             data: { "activityId": Item.ActivityId, "memberId": $("#label_memberId").text() },
             type: "post"
         }).done(function (data) {
-            alert("success");
+            alert("拒絕成功");
             $("#btn_cancel").click();
         }).fail(function (data) {
-            alert("fail");
+            alert("拒絕失敗！");
         });
     }
 });
@@ -137,13 +137,13 @@ $("#btn_add_activity").click(function () {
             data: { "activityInfo": insertActivityData, "memberId": $("#label_memberId").text()},
             type: "post"
         }).done(function (data) {
-            alert("success");
+            alert("添加活動成功！");
             $("#add_activity_name").val("");
             $("#add_activity_number").val("");
             $("#add_activity_note").val("");
             $("#activity_grid").data("kendoGrid").dataSource.read();
         }).fail(function (data) {
-            alert("fail");
+            alert("添加活動失敗！");
         });
     }
 });
